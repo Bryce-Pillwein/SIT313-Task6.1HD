@@ -1,0 +1,190 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Style Reset*/
+@import '../styles/reset';
+
+/* Body Styles */
+.body {
+  background-color: theme('colors.hsl.l98');
+  color: theme('colors.hsl.l5');
+}
+
+.dark body {
+  background-color: theme('colors.hsl.l13');
+  color: theme('colors.hsl.l95');
+}
+
+/* 
+  || Utilities - Integration with tailwind
+*/
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-sub-12 {
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    color: theme('colors.hsl.l50');
+  }
+
+  .text-sub-14 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: theme('colors.hsl.l50');
+  }
+
+
+  /*
+    || Container (Screen layout)
+  */
+  .app-container {
+    --max-width: 1100px;
+    --padding: 2rem;
+    width: min(var(--max-width), 100% - (var(--padding) * 2));
+    margin-inline: auto;
+  }
+
+  @media screen and (max-width: 425px) {
+    .app-container {
+      width: 95%;
+    }
+  }
+
+  /*
+    || Default Button
+  */
+  .btn {
+    outline: none;
+    border: none;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+    background-color: theme('colors.hsl.l90');
+    color: theme('colors.hsl.l15');
+
+  }
+
+  .btn:hover {
+    background-color: theme('colors.hsl.l85');
+    color: theme('colors.hsl.l15');
+  }
+
+  .dark .btn {
+    background-color: theme('colors.hsl.l20');
+    color: theme('colors.hsl.l95');
+  }
+
+  .dark .btn:hover {
+    background-color: theme('colors.hsl.l25');
+    color: theme('colors.hsl.l95');
+  }
+
+  /*
+    || Call to arm button (colorised)
+  */
+  .cta-btn {
+    background-color: theme('colors.mb.pink');
+    color: theme('colors.hsl.l95');
+  }
+
+  .cta-btn:hover {
+    background-color: theme('colors.mb.pink-active');
+    color: theme('colors.hsl.l95');
+  }
+
+  .dark .cta-btn {
+    background-color: theme('colors.mb.yellow');
+    color: theme('colors.hsl.l5');
+  }
+
+  .dark .cta-btn:hover {
+    background-color: theme('colors.mb.yellow-active');
+    color: theme('colors.hsl.l5');
+  }
+
+  /*
+    || Input Text Field
+  */
+  .inputField {
+    border: none;
+    outline: none;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+    background-color: theme('colors.hsl.l90');
+  }
+
+  .inputField::placeholder {
+    color: var(--hsl-l30);
+  }
+
+  .dark .inputField {
+    background-color: theme('colors.hsl.l25');
+  }
+
+  .dark .inputField::placeholder {
+    color: var(--hsl-l70);
+  }
+
+
+  /*
+  ||  Error Message container  
+  */
+  .error-box {
+    background-color: rgb(254 226 226);
+    border: 1px solid rgb(248 113 113);
+    color: rgb(185 28 28);
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    margin: 1rem 0rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  .dark .error-box {
+    background-color: rgb(99, 67, 67);
+    border: 1px solid rgb(206, 117, 117);
+    color: rgb(255, 204, 204);
+  }
+
+  /*
+  ||  Notification  
+  */
+  .notification {
+    position: fixed;
+    right: -300px;
+    top: 2rem;
+    min-width: 250px;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: 1s ease;
+    z-index: 1000;
+
+    background-color: rgba(50, 50, 50, 0.7);
+    color: white;
+  }
+
+  .dark .notification {
+    background-color: rgba(200, 200, 200, 0.7);
+    color: black;
+  }
+
+  .notification.show {
+    right: 2rem;
+  }
+}
+
+
+
+/*
+  || Responsesive Font Size based on Screen Dimensions. Uses custom breakpoint for mobile 420px (mb)
+*/
+@layer base {
+
+  html,
+  body {
+    @apply md:text-base mb:text-sm text-xs;
+  }
+}
