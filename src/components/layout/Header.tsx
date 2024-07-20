@@ -20,6 +20,7 @@ const Header = () => {
         <input type="text" placeholder="Search"
           className="hidden md:block inputField w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-sm" />
         <Link href="/post" >Post</Link>
+        <Link href="/questions">Questions</Link>
         <Link href="/login" >Login</Link>
         <div className="cursor-pointer flex flex-shrink-0" onClick={toggleTheme}>
           <IconGeneral type='dark-light-mode' />

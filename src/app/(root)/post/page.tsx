@@ -64,8 +64,10 @@ export default function PostPage() {
 
     setIsUploading(true);
 
+    const postType = isQuestion ? 'POST_QUESTION' : 'POST_ARTICLE'
+
     try {
-      const status = await setPost(content);
+      const status = await setPost(content, postType);
 
       if (!status.success) {
         addNotification(status.message!);
