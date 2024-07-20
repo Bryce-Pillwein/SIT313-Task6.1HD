@@ -6,7 +6,7 @@ import IconSocial from "../icons/IconSocial";
 const Footer = () => {
 
   return (
-    <footer className="bg-hsl-l90 dark:bg-hsl-l15 py-4 sm:app-container w-full text-hsl-l20 dark:text-hsl-l80">
+    <footer className="bg-hsl-l90 dark:bg-hsl-l15 py-4 sm:app-container w-full text-hsl-l20 dark:text-hsl-l80 mt-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-4">
         <div className="flex flex-col items-center">
           <h3 className="text-lg">Explore</h3>

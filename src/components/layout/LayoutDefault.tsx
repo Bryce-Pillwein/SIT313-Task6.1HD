@@ -9,7 +9,7 @@ interface LayoutProps {
 
 export default function LayoutDefault({ children }: LayoutProps) {
   return (
-    <div>
+    <div className="min-h-[100%] flex flex-col">
       <Header />
       <div className="app-container">
         {children}
