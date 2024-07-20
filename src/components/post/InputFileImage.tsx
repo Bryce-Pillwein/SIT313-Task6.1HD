@@ -12,7 +12,6 @@ const InputFileImage: React.FC<InputFileImageProps> = ({ handleImage }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("ADDED", event.target.files?.[0].name);
     const selectedFile = event.target.files?.[0] || null;
     setFile(selectedFile);
     handleImage(selectedFile);

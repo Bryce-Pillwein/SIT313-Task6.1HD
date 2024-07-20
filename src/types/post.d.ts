@@ -6,6 +6,6 @@ export interface Post {
   title: string;
   abstract?: string;
   text: string;
-  tags?: string[];
+  tags: string[];
   image: File | null
 }
