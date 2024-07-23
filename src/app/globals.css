@@ -4,6 +4,7 @@
 
 /* Style Reset*/
 @import '../styles/reset';
+@import '../styles/markdown';
 
 
 /*
@@ -187,6 +188,23 @@
 
   .notification.show {
     right: 2rem;
+  }
+
+  .input-resize-content {
+    field-sizing: content;
+  }
+
+  .df-input {
+    border: none;
+    outline: none;
+    resize: none;
+    background-color: theme('colors.hsl.l100');
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .dark.df-input {
+    background-color: theme('colors.hsl.l15');
   }
 
 }

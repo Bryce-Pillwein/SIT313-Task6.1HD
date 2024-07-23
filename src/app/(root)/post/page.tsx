@@ -2,19 +2,20 @@
 
 "use client";
 
-import { useState } from "react";
+import { KeyboardEvent, useState } from "react";
 // Components
 import LayoutDefault from "@/components/layout/LayoutDefault";
 import InputFileImage from "@/components/post/InputFileImage";
 import AddTags from "@/components/post/AddTags";
 import PaddingBlock from "@/components/ui/PaddingBlock";
+import InputMarkdown from "@/components/post/InputMarkdown";
 // Types
 import { PostUpload } from "@/types/PostUpload";
 // Provider
 import { useNotification } from "@/components/providers/NotificationProvider";
 // Scripts
 import { setPost } from "@/services";
-import { serverTimestamp, Timestamp } from "firebase/firestore";
+
 
 export default function PostPage() {
   const { addNotification } = useNotification();
@@ -96,6 +97,21 @@ export default function PostPage() {
 
   };
 
+  /**
+   * Handle Key Down. Stops Enter key submitting form and allows new lines
+   * @param event Keyboard event
+   * @returns 
+   */
+  const handleKeyDown = (event: KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      const target = event.target as HTMLTextAreaElement | HTMLInputElement;
+      if (target.tagName === 'TEXTAREA' || target.tagName === 'INPUT' && target.type === 'text') {
+        return;
+      }
+      event.preventDefault();
+    }
+  };
+
 
   return (
     <LayoutDefault>
@@ -110,8 +126,8 @@ export default function PostPage() {
             </div>
           </div>
 
-          <form onSubmit={postContent}
-            className="grid grid-cols-3 gap-x-8 gap-y-4 mt-4">
+
+          <form onSubmit={postContent} onKeyDown={handleKeyDown} className="grid grid-cols-3 gap-x-8 gap-y-4 mt-4">
 
             {/* Add Title, Abstract and Text */}
             <div className="col-span-3 sm:col-span-2">
@@ -127,9 +143,13 @@ export default function PostPage() {
               </>)}
 
               <PaddingBlock pad={0.5} />
-              <label htmlFor="text" className="text-hsl-l50 text-sm">Article Text</label>
+              <label htmlFor="text" className="text-hsl-l50 text-sm">{isQuestion ? 'Question Details' : 'Article Text'}</label>
               <textarea name="text" id="text" className='inputField w-full' rows={8} required
                 value={content.text} onChange={handleInputChange}></textarea>
+
+              <PaddingBlock pad={2} />
+
+              <InputMarkdown />
             </div>
 
             {/* Upload Image & Add Tags */}
