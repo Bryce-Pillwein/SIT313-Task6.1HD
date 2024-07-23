@@ -31,8 +31,8 @@ const PostCard: React.FC<PostCardProp> = ({ pd, hideQuestion }) => {
 
         {/* IMAGE */}
         <div className="relative pb-[56.25%]"> {/* 16:9 Aspect Ratio */}
-          <Image src={pd.image} alt="Question Banner Image"
-            fill={true} style={{ objectFit: "cover" }}
+          <Image src={pd.image} alt="Question Banner Image" sizes="100%"
+            fill={true} style={{ objectFit: "cover" }} priority
             className="absolute inset-0 w-full h-full" />
         </div>
 
@@ -40,7 +40,7 @@ const PostCard: React.FC<PostCardProp> = ({ pd, hideQuestion }) => {
           <h2 className="text-lg font-bold truncate">{pd.title}</h2>
           <div className="flex justify-between items-center">
             <p className="text-sm text-hsl-l50">{pd.authorFirstName} {pd.authorLastName}</p>
-            <p className="text-sm text-hsl-l50">{pd.date.toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+            <p className="text-sm text-hsl-l50">{pd.date}</p>
           </div>
 
           <div className="flex flex-wrap justify-end items-center gap-1 mt-2">

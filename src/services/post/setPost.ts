@@ -9,6 +9,16 @@ import { PostUpload } from "@/types/PostUpload";
 import { Status } from "@/types/Status";
 
 /**
+ * Format Date as dd Month yyyy
+ * @param date Date
+ * @returns Formatted date string
+ */
+const formatDate = (date: Date): string => {
+  return date.toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' });
+};
+
+
+/**
  * Set Post
  * @param postContent 
  * @returns Status
@@ -43,6 +53,7 @@ export default async function setPost(postContent: PostUpload, postType: string)
       authorFirstName: userFN,
       authorLastName: userLN,
       createdAt: serverTimestamp() as Timestamp,
+      date: formatDate(new Date()),
       image: imageUrl,
       userId: userId,
       postId: 'NullPlaceHolder'
@@ -77,3 +88,5 @@ export default async function setPost(postContent: PostUpload, postType: string)
     throw error;
   }
 }
+
+

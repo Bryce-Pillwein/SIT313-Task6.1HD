@@ -2,22 +2,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+
 // Components
 import LayoutDefault from "@/components/layout/LayoutDefault";
-import CardQuestion from "@/components/post/PostCard";
 import ToolBar from "@/components/ToolBar";
+import PostCard from "@/components/post/PostCard";
+import PostBanner from "@/components/post/PostBanner";
+import IconGeneral from "@/components/icons/IconGeneral";
 import { useNotification } from "@/components/providers/NotificationProvider";
 // Types
 import { Post } from "@/types/Post";
 // Scripts
 import { getAllQuestions } from "@/services";
-import PostCard from "@/components/post/PostCard";
-import PostBanner from "@/components/post/PostBanner";
 
 export default function Questions() {
   const { addNotification } = useNotification();
   const [isFetchingQuestions, setIsFetchingQuestions] = useState<boolean>(true);
   const [questions, setQuestions] = useState<Post[] | null>(null);
+  const [qTrendingVisible, setQTrendingVisible] = useState<Post[] | null>(null);
   const [qLatestVisible, setQLatestVisible] = useState<Post[] | null>(null);
   const [qSearchResults, setQSearchResults] = useState<Post[] | null>(null);
 
@@ -36,12 +39,10 @@ export default function Questions() {
   const getQuestions = async () => {
     try {
       const response = await getAllQuestions();
-      console.log(response);
-      if (!response) {
-        return;
-      }
-      setQuestions(response);
+      if (!response) return;
 
+      setQuestions(response);
+      setQTrendingVisible(response);
       setQLatestVisible(response);
     } catch (error) {
       console.error(error);
@@ -56,8 +57,7 @@ export default function Questions() {
    * @param postId Post ID
    */
   const hideQTrending = (postId: string) => {
-    console.log(postId);
-
+    setQTrendingVisible(prevQuestions => prevQuestions!.filter(q => q.postId !== postId));
   };
 
   /**
@@ -82,26 +82,32 @@ export default function Questions() {
     }
 
     const filteredQuestions = questions.filter((question) => {
+      const searchTermLower = searchTerm.toLowerCase();
+
       switch (searchType) {
         case 'Title':
-          return question.title.toLowerCase().includes(searchTerm.toLowerCase());
-        case 'Description':
-          return question.text.toLowerCase().includes(searchTerm.toLowerCase());
+          return question.title.toLowerCase().includes(searchTermLower);
+        case 'Author':
+          const authorFirstName = question.authorFirstName.toLowerCase();
+          const authorLastName = question.authorLastName.toLowerCase();
+          return authorFirstName.includes(searchTermLower) || authorLastName.includes(searchTermLower);
+        case 'Text':
+          return question.text.toLowerCase().includes(searchTermLower);
         case 'Tag':
-          return question.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+          return question.tags.some(tag => tag.toLowerCase().includes(searchTermLower));
         case 'Date':
-          if (question.createdAt) {
-            const dateStr = question.date.toDateString();
-            return dateStr.includes(searchTerm);
-          }
-          return false;
+          return question.date?.toLowerCase().includes(searchTermLower) || false;
         default:
           return false;
       }
     });
-    console.log(filteredQuestions);
 
     setQSearchResults(filteredQuestions);
+  };
+
+  const handleUnhide = () => {
+    setQTrendingVisible(questions);
+    setQLatestVisible(questions);
   };
 
 
@@ -109,32 +115,43 @@ export default function Questions() {
     <LayoutDefault>
       <main className="pb-4">
 
-        <ToolBar onSearch={handleSearch} />
+        <ToolBar onSearch={handleSearch} unhide={handleUnhide} />
 
         {/* Search Result  */}
-        {qSearchResults && (qSearchResults?.length >= 1) && (
+        <AnimatePresence>
+          {qSearchResults && (qSearchResults.length >= 1) && (
+            <motion.div initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.3 }}
+              className="transition-opacity duration-500 ease-in opacity-100">
+              <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Search Results</h1>
+              <div className="flex flex-col gap-y-4">
+                <AnimatePresence>
+                  {qSearchResults.map((post, idx) => (
+                    <motion.div key={idx} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} >
+                      <PostBanner pd={post} />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Trending Post */}
+        {qTrendingVisible && (qTrendingVisible.length > 0) && (
           <div>
-            <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Search Results</h1>
-            <div className="flex flex-col gap-y-4">
-              {qSearchResults.map((post, idx) => (
-                <PostBanner key={idx} pd={post} />
+            <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Trending</h1>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {qTrendingVisible.slice(0, 3).map((post, idx) => (
+                <PostCard key={idx} pd={post} hideQuestion={() => hideQTrending(post.postId)} />
               ))}
             </div>
           </div>
         )}
 
-        {/* Post */}
-        {questions && qLatestVisible && (
+        {/* Latest Post */}
+        {qLatestVisible && (qLatestVisible.length > 0) && (
           <div>
-            {/* Trending */}
-            <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Trending</h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {questions.map((post, idx) => (
-                <PostCard key={idx} pd={post} hideQuestion={() => hideQTrending(post.postId)} />
-              ))}
-            </div>
-
-            {/* Latest */}
             <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Latest</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {qLatestVisible.map((post, idx) => (
@@ -144,23 +161,33 @@ export default function Questions() {
           </div>
         )}
 
+        {qTrendingVisible && (qTrendingVisible.length <= 0) && qLatestVisible && (qLatestVisible.length <= 0) && (
+          <div className="flex justify-center items-center my-8">
+            <button type="button" onClick={handleUnhide} title="Unhide Post"
+              className="flex items-center gap-2 px-2 py-1 rounded-lg bg-hsl-l95 hover:bg-hsl-l90 dark:bg-hsl-l15 dark:hover:bg-hsl-l20">
+              <IconGeneral type="visibility-off" />
+              <p className="font-semibold text-hsl-l50">Unhide Post</p>
+            </button>
+          </div>
+        )}
+
         {/* Retrieving Data */}
         {isFetchingQuestions && (
           <div className="min-h-[70vh] flex justify-center items-center">
-            <p>Fetching Questions...</p>
+            <p className="text-2xl text-hsl-l50 font-medium">Fetching Questions...</p>
           </div>
         )}
 
         {/* Failed Retreiving Data */}
         {!isFetchingQuestions && !questions && (
           <div className="min-h-[70vh] flex flex-col justify-center items-center">
-            <p>Error Fetching Questions.</p>
-            <p>Please try again later.</p>
+            <p className="text-2xl text-hsl-l50 font-medium">Error Fetching Questions.</p>
+            <p className="text-2xl text-hsl-l50 font-medium">Please try again later.</p>
           </div>
         )}
 
 
       </main>
-    </LayoutDefault>
+    </LayoutDefault >
   );
 }

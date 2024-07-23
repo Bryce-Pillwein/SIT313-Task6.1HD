@@ -14,6 +14,7 @@ import { PostUpload } from "@/types/PostUpload";
 import { useNotification } from "@/components/providers/NotificationProvider";
 // Scripts
 import { setPost } from "@/services";
+import { serverTimestamp, Timestamp } from "firebase/firestore";
 
 export default function PostPage() {
   const { addNotification } = useNotification();
@@ -66,13 +67,11 @@ export default function PostPage() {
 
     const postType = isQuestion ? 'POST_QUESTION' : 'POST_ARTICLE'
 
-    /**
-     * TO DO
-     * REROUTE USER
-     * 
-     * REMOVED ABSTRACT IF QUESTION
-     * 
-     */
+    // Remove the abstract field if the post type is POST_QUESTION
+    if (postType === 'POST_QUESTION') {
+      const { abstract, ...rest } = content;
+      setContent(rest);
+    }
 
     try {
       const status = await setPost(content, postType);
@@ -85,9 +84,6 @@ export default function PostPage() {
       /**
        * TO DO
        * REROUTE USER
-       * 
-       * 
-       * 
        */
       setContent({ title: '', abstract: '', text: '', tags: [], image: null });
       addNotification('Post Uploaded!')
@@ -99,9 +95,6 @@ export default function PostPage() {
     }
 
   };
-
-
-
 
 
   return (
