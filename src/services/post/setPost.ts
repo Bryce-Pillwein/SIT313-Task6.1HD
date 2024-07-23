@@ -1,18 +1,19 @@
 // Set Post ts
 
-import { addDoc, arrayUnion, collection, doc, getDoc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getDoc, serverTimestamp, setDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { db, auth, storage } from "@/firebaseConfig";
-import { Post } from "@/types/post";
-import { Status } from "@/types/status";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import getUserValue from "../user/getUserValue";
+import { Post } from "@/types/Post";
+import { PostUpload } from "@/types/PostUpload";
+import { Status } from "@/types/Status";
 
 /**
  * Set Post
  * @param postContent 
  * @returns Status
  */
-export default async function setPost(postContent: Post, postType: string): Promise<Status> {
+export default async function setPost(postContent: PostUpload, postType: string): Promise<Status> {
   try {
     // Enforced authenticated user
     if (!auth.currentUser) {
@@ -36,23 +37,23 @@ export default async function setPost(postContent: Post, postType: string): Prom
     const userFN = await getUserValue(userId, 'firstName');
     const userLN = await getUserValue(userId, 'lastName');
 
-    // Add image URL to the post
-    const postWithImageAndUser = {
+    // Create Post
+    const post: Post = {
       ...postContent,
       authorFirstName: userFN,
       authorLastName: userLN,
-      date: serverTimestamp(),
+      createdAt: serverTimestamp() as Timestamp,
       image: imageUrl,
       userId: userId,
-      type: postType
+      postId: 'NullPlaceHolder'
     };
 
     // Add the post document to the /POST collection
-    const postRef = await addDoc(collection(db, postType), postWithImageAndUser);
+    const postRef = await addDoc(collection(db, postType), post);
 
     // Update the post document with the generated postId
     await setDoc(doc(db, postType, postRef.id), {
-      ...postWithImageAndUser,
+      ...post,
       postId: postRef.id,
     });
 

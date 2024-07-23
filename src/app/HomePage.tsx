@@ -35,6 +35,9 @@ export default function HomePage({ uid }: HomePageProps) {
     <LayoutDefault>
       <img src="https://picsum.photos/1440/350?grayscale" className="mx-auto" />
 
+
+      <p>LOOK AT ADDING LANGAUGE DETECTION AND FLAGGIN POST OR COMMENTS FOR REVIEW. AKA MODERATION</p>
+
       <PaddingBlock pad={2} />
 
       {/* Featured Articles */}

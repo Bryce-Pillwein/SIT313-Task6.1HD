@@ -9,7 +9,7 @@ import InputFileImage from "@/components/post/InputFileImage";
 import AddTags from "@/components/post/AddTags";
 import PaddingBlock from "@/components/ui/PaddingBlock";
 // Types
-import { Post } from "@/types/post";
+import { PostUpload } from "@/types/PostUpload";
 // Provider
 import { useNotification } from "@/components/providers/NotificationProvider";
 // Scripts
@@ -19,7 +19,7 @@ export default function PostPage() {
   const { addNotification } = useNotification();
   const [isQuestion, setIsQuestion] = useState<boolean>(true);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [content, setContent] = useState<Post>({ title: '', abstract: '', text: '', tags: [], image: null });
+  const [content, setContent] = useState<PostUpload>({ title: '', abstract: '', text: '', tags: [], image: null });
 
   /**
    * Handle Input Change
@@ -66,6 +66,14 @@ export default function PostPage() {
 
     const postType = isQuestion ? 'POST_QUESTION' : 'POST_ARTICLE'
 
+    /**
+     * TO DO
+     * REROUTE USER
+     * 
+     * REMOVED ABSTRACT IF QUESTION
+     * 
+     */
+
     try {
       const status = await setPost(content, postType);
 
@@ -74,9 +82,13 @@ export default function PostPage() {
         return;
       }
 
-      // Reroute User
-
-      // DJSNDKJSNDKNSDJKSDNSKNDKSNJ
+      /**
+       * TO DO
+       * REROUTE USER
+       * 
+       * 
+       * 
+       */
       setContent({ title: '', abstract: '', text: '', tags: [], image: null });
       addNotification('Post Uploaded!')
     } catch (error) {
@@ -106,7 +118,7 @@ export default function PostPage() {
           </div>
 
           <form onSubmit={postContent}
-            className="grid grid-cols-3 gap-x-8 gap-y-4">
+            className="grid grid-cols-3 gap-x-8 gap-y-4 mt-4">
 
             {/* Add Title, Abstract and Text */}
             <div className="col-span-3 sm:col-span-2">

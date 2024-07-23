@@ -48,7 +48,7 @@ const AddTags: React.FC<AddTagsProps> = ({ updateContentTags }) => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <label htmlFor="tags" className="text-hsl-l50 text-sm">Tags (max limit 5)</label>
       <div className="flex gap-4">
         <input type="text" id="tags" name="tags" className='inputField w-full'
@@ -56,12 +56,12 @@ const AddTags: React.FC<AddTagsProps> = ({ updateContentTags }) => {
         <button className="btn" type="button" onClick={addTag}>Add</button>
       </div>
 
-      <div className="flex mb-4 mt-2 gap-4">
+      <div className="flex flex-wrap mb-4 mt-2 gap-x-2 gap-y-1">
         {(tags?.length || 0) > 0 && (
           <>
             {tags?.map((tag, idx) => (
               <div key={idx} onClick={() => deleteTag(idx)}
-                className="px-2 py-1 bg-hsl-l90 dark:bg-hsl-l20 rounded-xl cursor-pointer hover:bg-red-500 dark:hover:bg-red-600 hover:text-hsl-l95" >
+                className="px-2 py-1 text-sm bg-hsl-l90 dark:bg-hsl-l20 rounded-xl cursor-pointer hover:bg-red-500 dark:hover:bg-red-600 hover:text-hsl-l95" >
                 <p>{tag}</p>
               </div>
             ))}

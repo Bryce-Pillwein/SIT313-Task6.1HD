@@ -1,11 +1,16 @@
+import { Timestamp } from "firebase/firestore";
 
-/**
- * Post - For questions and articles
- */
+
 export interface Post {
+  postId: string;
+  userId: string;
+  authorFirstName: string;
+  authorLastName: string;
+  createdAt: Timestamp;
+  date?: any;
+  image: string;
   title: string;
-  abstract?: string;
-  text: string;
   tags: string[];
-  image: File | null
+  text: string;
+  abstract?: string;
 }

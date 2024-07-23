@@ -1,7 +1,42 @@
+import { collection, getDocs, orderBy, query, Timestamp } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
-import { collection, getDocs, Timestamp } from "firebase/firestore";
+
 
 /**
+ * Get All Questions
+ * @returns sorted array of questions (by date) or null
+ */
+export default async function getAllQuestions(): Promise<any[] | null> {
+  try {
+    const questionsRef = collection(db, 'POST_QUESTION');
+    const q = query(questionsRef, orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return null;
+    }
+
+    const questions = querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      // Format date if it exists
+      const formattedData = {
+        ...data,
+        date: data.createdAt ? data.createdAt.toDate() : null
+      };
+      return formattedData;
+    });
+
+    return questions;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+/**
+ *   DEPRECIATED - DELETE IF NOT USED
+ * 
+ * 
  * Format a Firestore Timestamp to dd/mm/yyyy
  * @param timestamp Firestore Timestamp
  * @returns Formatted date as string
@@ -14,33 +49,3 @@ const formatDate = (timestamp: Timestamp): string => {
 
   return `${day}/${month}/${year}`; // Format date as dd/mm/yyyy
 };
-
-/**
- * Get All Questions
- * @returns array of questions or null
- */
-export default async function getAllQuestions(): Promise<any[] | null> {
-  try {
-    const questionsRef = collection(db, 'POST_QUESTION');
-    const querySnapshot = await getDocs(questionsRef);
-
-    if (querySnapshot.empty) {
-      return null;
-    }
-
-    // Map through documents and format date
-    const questions = querySnapshot.docs.map(doc => {
-      const data = doc.data();
-      // Format date if it exists
-      const formattedData = {
-        ...data,
-        date: data.date ? formatDate(data.date as Timestamp) : null
-      };
-      return formattedData;
-    });
-
-    return questions;
-  } catch (error) {
-    throw error;
-  }
-}

@@ -5,15 +5,29 @@
 /* Style Reset*/
 @import '../styles/reset';
 
-/* Body Styles */
-.body {
-  background-color: theme('colors.hsl.l98');
-  color: theme('colors.hsl.l5');
-}
 
-.dark body {
-  background-color: theme('colors.hsl.l13');
-  color: theme('colors.hsl.l95');
+/*
+  || Responsesive Font Size based on Screen Dimensions. Uses custom breakpoint for mobile 420px (mb)
+*/
+@layer base {
+
+  html,
+  body {
+    @apply text-sm mb:text-base md:text-base;
+
+    /* Ensure footer stays down */
+    min-height: 100%;
+  }
+
+  body {
+    background-color: theme('colors.hsl.l98');
+    color: theme('colors.hsl.l5');
+  }
+
+  .dark body {
+    background-color: theme('colors.hsl.l13');
+    color: theme('colors.hsl.l95');
+  }
 }
 
 /* 
@@ -175,20 +189,4 @@
     right: 2rem;
   }
 
-}
-
-
-
-/*
-  || Responsesive Font Size based on Screen Dimensions. Uses custom breakpoint for mobile 420px (mb)
-*/
-@layer base {
-
-  html,
-  body {
-    @apply md:text-base mb:text-sm text-xs;
-
-    /* Ensure footer stays down */
-    min-height: 100%;
-  }
 }

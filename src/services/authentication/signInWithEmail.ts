@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import { auth } from '@/firebaseConfig';
-import { StatusWithCrednetial } from '@/types/statusWithCredential';
+import { StatusWithCrednetial } from '@/types/StatusWithCredential';
 
 interface SignInData {
   email: string;

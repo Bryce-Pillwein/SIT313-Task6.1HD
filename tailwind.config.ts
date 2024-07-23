@@ -12,6 +12,9 @@ const config: Config = {
       screens: {
         'mb': '425px'
       },
+      fontSize: {
+        'xxs': '0.625rem'
+      },
       colors: {
         hsl: {
           l5: 'hsl(0 0% 5%)',
@@ -27,6 +30,7 @@ const config: Config = {
           l90: 'hsl(0 0% 90%)',
           l95: 'hsl(0 0% 95%)',
           l98: 'hsl(0 0% 98%)',
+          l100: 'hsl(0 0% 100%)',
         },
         mb: {
           'pink': '#FF3EB5',
