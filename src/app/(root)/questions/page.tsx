@@ -91,8 +91,6 @@ export default function Questions() {
           const authorFirstName = question.authorFirstName.toLowerCase();
           const authorLastName = question.authorLastName.toLowerCase();
           return authorFirstName.includes(searchTermLower) || authorLastName.includes(searchTermLower);
-        case 'Text':
-          return question.text.toLowerCase().includes(searchTermLower);
         case 'Tag':
           return question.tags.some(tag => tag.toLowerCase().includes(searchTermLower));
         case 'Date':

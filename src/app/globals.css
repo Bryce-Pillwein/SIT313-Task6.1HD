@@ -195,16 +195,29 @@
   }
 
   .df-input {
-    border: none;
-    outline: none;
     resize: none;
-    background-color: theme('colors.hsl.l100');
-    border-radius: 0.5rem;
-    padding: 0.75rem 1rem;
+    border: none;
+    outline: 1px solid theme('colors.hsl.l90');
+    background-color: theme('colors.hsl.l95');
+    border-radius: 0.25rem;
+    padding: 0.25lh 0.5lh;
   }
 
-  .dark.df-input {
-    background-color: theme('colors.hsl.l15');
+  .dark .df-input {
+    background-color: theme('colors.hsl.l20');
+    outline: 1px solid theme('colors.hsl.l25');
+  }
+
+  .df-input:focus {
+    outline: 1px solid theme('colors.mb.pink');
+  }
+
+  .dark .df-input:focus {
+    outline: 1px solid theme('colors.mb.yellow');
+  }
+
+  .df-input::placeholder {
+    color: theme('colors.hsl.l50');
   }
 
 }

@@ -70,12 +70,6 @@ const ToolBar: React.FC<ToolBarProps> = ({ onSearch, unhide }) => {
           </label>
 
           <label className="flex items-center text-sm text-hsl-l50 gap-1">
-            <input type="radio" name="option" value="Text"
-              checked={selectedOption === 'Text'} onChange={handleOptionChange} />
-            Text
-          </label>
-
-          <label className="flex items-center text-sm text-hsl-l50 gap-1">
             <input type="radio" name="option" value="Tag"
               checked={selectedOption === 'Tag'} onChange={handleOptionChange} />
             Tag

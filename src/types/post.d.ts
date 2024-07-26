@@ -7,10 +7,9 @@ export interface Post {
   authorFirstName: string;
   authorLastName: string;
   createdAt: Timestamp;
-  date?: any;
-  image: string;
+  date: any;
   title: string;
+  imageURL: string;
+  markdownURL: string;
   tags: string[];
-  text: string;
-  abstract?: string;
 }

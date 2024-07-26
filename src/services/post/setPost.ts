@@ -1,5 +1,3 @@
-// Set Post ts
-
 import { addDoc, arrayUnion, collection, doc, getDoc, serverTimestamp, setDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { db, auth, storage } from "@/firebaseConfig";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -17,15 +15,15 @@ const formatDate = (date: Date): string => {
   return date.toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' });
 };
 
-
 /**
  * Set Post
  * @param postContent 
+ * @param postType 
  * @returns Status
  */
 export default async function setPost(postContent: PostUpload, postType: string): Promise<Status> {
   try {
-    // Enforced authenticated user
+    // Enforce authenticated user
     if (!auth.currentUser) {
       return { success: false, message: 'No user detected. Login to post' };
     }
@@ -42,6 +40,11 @@ export default async function setPost(postContent: PostUpload, postType: string)
       return { success: false, message: 'Please upload an Image' };
     }
 
+    // Upload Markdown Text
+    const blob = new Blob([postContent.markdownText], { type: 'text/markdown' });
+    const fileRef = ref(storage, `markdownFiles/${Date.now()}-${postContent.title}.md`);
+    await uploadBytes(fileRef, blob);
+    const markdownUrl = await getDownloadURL(fileRef);
 
     // Get User first and Last Name
     const userFN = await getUserValue(userId, 'firstName');
@@ -49,17 +52,19 @@ export default async function setPost(postContent: PostUpload, postType: string)
 
     // Create Post
     const post: Post = {
-      ...postContent,
+      postId: 'NullPlaceHolder',
+      userId: userId,
       authorFirstName: userFN,
       authorLastName: userLN,
       createdAt: serverTimestamp() as Timestamp,
       date: formatDate(new Date()),
-      image: imageUrl,
-      userId: userId,
-      postId: 'NullPlaceHolder'
+      title: postContent.title,
+      imageURL: imageUrl,
+      markdownURL: markdownUrl,
+      tags: postContent.tags
     };
 
-    // Add the post document to the /POST collection
+    // Add the post document to the collection
     const postRef = await addDoc(collection(db, postType), post);
 
     // Update the post document with the generated postId
@@ -88,5 +93,3 @@ export default async function setPost(postContent: PostUpload, postType: string)
     throw error;
   }
 }
-
-

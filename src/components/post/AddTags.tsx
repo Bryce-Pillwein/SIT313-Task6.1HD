@@ -51,7 +51,7 @@ const AddTags: React.FC<AddTagsProps> = ({ updateContentTags }) => {
     <div className="w-full">
       <label htmlFor="tags" className="text-hsl-l50 text-sm">Tags (max limit 5)</label>
       <div className="flex gap-4">
-        <input type="text" id="tags" name="tags" className='inputField w-full'
+        <input type="text" id="tags" name="tags" className='df-input w-full' autoComplete="off" autoCapitalize="words"
           value={tagsInputValue} onChange={(event) => setTagsInputValue(event.target.value)} />
         <button className="btn" type="button" onClick={addTag}>Add</button>
       </div>

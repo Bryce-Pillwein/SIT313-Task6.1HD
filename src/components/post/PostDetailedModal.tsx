@@ -2,11 +2,12 @@
 
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // Components
 import IconGeneral from '../icons/IconGeneral';
 // Types
 import { Post } from '@/types/Post';
+import Markdown from 'react-markdown';
 
 interface PostDetailedModalProps {
   pd: Post // Question Data
@@ -14,7 +15,7 @@ interface PostDetailedModalProps {
 }
 
 const PostDetailedModal: React.FC<PostDetailedModalProps> = ({ pd, onClose }) => {
-  const truncatedText = pd.text.length > 500 ? pd.text.slice(0, 500) + '...' : pd.text;
+  const [markdownText, setMarkdownText] = useState<string | null>(null);
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -27,6 +28,21 @@ const PostDetailedModal: React.FC<PostDetailedModalProps> = ({ pd, onClose }) =>
       window.removeEventListener("keydown", handleEsc);
     };
   }, [onClose]);
+
+  useEffect(() => {
+    getMarkdown();
+  }, [])
+
+  const getMarkdown = async () => {
+    try {
+      const response = await fetch(pd.markdownURL);
+      const text = await response.text();
+      setMarkdownText(text);
+    } catch (error) {
+      console.log(error);
+
+    }
+  };
 
   return createPortal(
     <div className='fixed top-0 left-0 w-[100vw] h-[100vh] bg-black bg-opacity-70 flex flex-col justify-center items-center z-50'>
@@ -49,7 +65,9 @@ const PostDetailedModal: React.FC<PostDetailedModalProps> = ({ pd, onClose }) =>
           ))}
         </div>
 
-        <p>{truncatedText}</p>
+        {markdownText && (
+          <Markdown className="mark-down">{markdownText}</Markdown>
+        )}
 
         <div className='flex justify-end gap-4 mt-auto mb-8 mr-4'>
           <Link href={`/question/${pd.postId}`} className="btn">See Post</Link>

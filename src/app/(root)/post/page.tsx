@@ -7,7 +7,6 @@ import { KeyboardEvent, useState } from "react";
 import LayoutDefault from "@/components/layout/LayoutDefault";
 import InputFileImage from "@/components/post/InputFileImage";
 import AddTags from "@/components/post/AddTags";
-import PaddingBlock from "@/components/ui/PaddingBlock";
 import InputMarkdown from "@/components/post/InputMarkdown";
 // Types
 import { PostUpload } from "@/types/PostUpload";
@@ -15,13 +14,14 @@ import { PostUpload } from "@/types/PostUpload";
 import { useNotification } from "@/components/providers/NotificationProvider";
 // Scripts
 import { setPost } from "@/services";
+import PaddingBlock from "@/components/ui/PaddingBlock";
 
 
 export default function PostPage() {
   const { addNotification } = useNotification();
   const [isQuestion, setIsQuestion] = useState<boolean>(true);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [content, setContent] = useState<PostUpload>({ title: '', abstract: '', text: '', tags: [], image: null });
+  const [content, setContent] = useState<PostUpload>({ title: '', markdownText: '', tags: [], image: null });
 
   /**
    * Handle Input Change
@@ -66,15 +66,8 @@ export default function PostPage() {
 
     setIsUploading(true);
 
-    const postType = isQuestion ? 'POST_QUESTION' : 'POST_ARTICLE'
-
-    // Remove the abstract field if the post type is POST_QUESTION
-    if (postType === 'POST_QUESTION') {
-      const { abstract, ...rest } = content;
-      setContent(rest);
-    }
-
     try {
+      const postType = isQuestion ? 'POST_QUESTION' : 'POST_ARTICLE'
       const status = await setPost(content, postType);
 
       if (!status.success) {
@@ -86,7 +79,7 @@ export default function PostPage() {
        * TO DO
        * REROUTE USER
        */
-      setContent({ title: '', abstract: '', text: '', tags: [], image: null });
+      setContent({ title: '', markdownText: '', tags: [], image: null });
       addNotification('Post Uploaded!')
     } catch (error) {
       console.error(error);
@@ -126,39 +119,29 @@ export default function PostPage() {
             </div>
           </div>
 
+          <form onSubmit={postContent} onKeyDown={handleKeyDown}
+            className="grid grid-cols-3 gap-x-8 gap-y-4 mt-4 bg-hsl-l100 dark:bg-hsl-l15 shadow py-8 px-4 md:px-8 rounded-lg">
 
-          <form onSubmit={postContent} onKeyDown={handleKeyDown} className="grid grid-cols-3 gap-x-8 gap-y-4 mt-4">
-
-            {/* Add Title, Abstract and Text */}
-            <div className="col-span-3 sm:col-span-2">
+            {/* Add Title */}
+            <div className="col-span-3">
               <label htmlFor="title" className="text-hsl-l50 text-sm">Title</label>
-              <input type="text" id="title" name="title" className='inputField w-full' required
-                value={content.title} onChange={handleInputChange} />
+              <input type="text" id="title" name="title" className='df-input w-full mb-4 md:mb-8' required
+                value={content.title} onChange={handleInputChange} autoComplete="off" />
+            </div>
 
-              {!isQuestion && (<>
-                <PaddingBlock pad={0.5} />
-                <label htmlFor="abstract" className="text-hsl-l50 text-sm">Abstract</label>
-                <textarea name="abstract" id="abstract" className='inputField w-full' rows={2} required
-                  value={content.abstract} onChange={handleInputChange}></textarea>
-              </>)}
-
-              <PaddingBlock pad={0.5} />
-              <label htmlFor="text" className="text-hsl-l50 text-sm">{isQuestion ? 'Question Details' : 'Article Text'}</label>
-              <textarea name="text" id="text" className='inputField w-full' rows={8} required
-                value={content.text} onChange={handleInputChange}></textarea>
-
-              <PaddingBlock pad={2} />
-
-              <InputMarkdown />
+            {/* Add Markdown / Question / Article */}
+            <div className="col-span-3 sm:col-span-2">
+              <InputMarkdown isQuestion={isQuestion} handleInput={handleInputChange} />
             </div>
 
             {/* Upload Image & Add Tags */}
             <div className="col-span-3 sm:col-span-1">
               <AddTags updateContentTags={updateContentTags} />
+              <PaddingBlock pad={1} />
               <InputFileImage handleImage={handleImageChange} />
             </div>
 
-            <div className=" col-span-3 flex justify-end">
+            <div className=" col-span-3 flex justify-end mt-4 md:mt-16">
               <button className="btn" type="submit">Post</button>
             </div>
           </form>

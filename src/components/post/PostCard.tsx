@@ -31,7 +31,7 @@ const PostCard: React.FC<PostCardProp> = ({ pd, hideQuestion }) => {
 
         {/* IMAGE */}
         <div className="relative pb-[56.25%]"> {/* 16:9 Aspect Ratio */}
-          <Image src={pd.image} alt="Question Banner Image" sizes="100%"
+          <Image src={pd.imageURL} alt="Question Banner Image" sizes="100%"
             fill={true} style={{ objectFit: "cover" }} priority
             className="absolute inset-0 w-full h-full" />
         </div>

@@ -4,8 +4,7 @@
  */
 export interface PostUpload {
   title: string;
-  abstract?: string;
-  text: string;
+  markdownText: string;
   tags: string[];
   image: File | null
 }

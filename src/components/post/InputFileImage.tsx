@@ -30,9 +30,9 @@ const InputFileImage: React.FC<InputFileImageProps> = ({ handleImage }) => {
 
   return (
     <div>
-      <div className="bg-hsl-l90 dark:bg-hsl-l25 pointer-events-none w-full overflow-hidden  rounded-lg p-4">
+      <div className="bg-hsl-l95 dark:bg-hsl-l25 pointer-events-none w-full overflow-hidden  rounded-lg p-4">
 
-        <div className="relative bg-hsl-l95 dark:bg-hsl-l30 border-hsl-l80 pointer-events-none border-2 border-dashed flex flex-col justify-center items-center p-4">
+        <div className="relative bg-hsl-l100 dark:bg-hsl-l30 border-hsl-l80 pointer-events-none border-2 border-dashed flex flex-col justify-center items-center p-4">
           {!file ? (
             <>
               <IconGeneral type='upload' size={30} />
