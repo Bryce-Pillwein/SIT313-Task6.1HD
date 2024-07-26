@@ -5,15 +5,14 @@ import { useEffect, useState } from "react";
 
 // Components
 import LayoutDefault from "@/components/layout/LayoutDefault";
+import IconInteraction from "@/components/icons/IconInteraction";
+import IconGeneral from "@/components/icons/IconGeneral";
 import { useNotification } from "@/components/providers/NotificationProvider";
 // Types
 import { Post } from "@/types/Post";
 // Scripts
-import { getAllQuestions } from "@/services";
-import getPost from "@/services/post/getQuestion";
+import getPost from "@/services/post/getPost";
 import Image from "next/image";
-import IconInteraction from "@/components/icons/IconInteraction";
-import IconGeneral from "@/components/icons/IconGeneral";
 
 export default function Questions({ params }: { params: { slug: string } }) {
   const { addNotification } = useNotification();
@@ -63,7 +62,7 @@ export default function Questions({ params }: { params: { slug: string } }) {
 
               {/* IMAGE */}
               <div className="relative pb-[56.25%]">
-                <Image src={question.image} alt="Question Banner Image" sizes="100%"
+                <Image src={question.imageURL} alt="Question Banner Image" sizes="100%"
                   fill={true} style={{ objectFit: "cover" }} priority
                   className="absolute inset-0 w-full h-full rounded-xl" />
               </div>
@@ -72,7 +71,7 @@ export default function Questions({ params }: { params: { slug: string } }) {
                 <h2 className="text-2xl font-semibold mt-8 mb-2">{question.title}</h2>
                 <p className="text-hsl-l50 mb-8">{question.authorFirstName} {question.authorLastName} &#x2022; {question.date}</p>
 
-                <p>{question.text}</p>
+                {/* <p>{question.text}</p> */}
               </div>
 
             </section>

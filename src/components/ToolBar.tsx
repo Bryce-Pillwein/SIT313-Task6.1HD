@@ -36,10 +36,10 @@ const ToolBar: React.FC<ToolBarProps> = ({ onSearch, unhide }) => {
     <div className="w-full bg-hsl-l98 dark:bg-hsl-l13 mb-4 rounded-lg">
       <div className="flex items-center gap-4">
         {/* Search Bar */}
-        <div className="flex items-center flex-grow gap-4 px-4 py-2 rounded-lg bg-hsl-l100 dark:bg-hsl-l15">
+        <div className="flex items-center flex-grow gap-4 px-4 py-2 rounded-lg bg-hsl-l100 dark:bg-hsl-l15 border border-solid border-hsl-l95 dark:border-hsl-l25 focus-within:border-mb-pink dark:focus-within:border-mb-yellow">
           <IconGeneral type="search" />
-          <input type="text" placeholder="Search"
-            className="outline-none border-none dark:bg-hsl-l15 placeholder:text-hsl-l50 w-full"
+          <input type="text" placeholder="Search" id="search" name="search"
+            className="outline-none border-none  dark:bg-hsl-l15 placeholder:text-hsl-l50 w-full"
             value={searchTerm} onChange={handleSearchChange} />
         </div>
 

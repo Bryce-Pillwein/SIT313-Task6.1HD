@@ -30,22 +30,6 @@ export default async function setPost(postContent: PostUpload, postType: string)
 
     const userId = auth.currentUser.uid;
 
-    // Upload the image file to Firebase Storage if it exists
-    let imageUrl = null;
-    if (postContent.image) {
-      const storageRef = ref(storage, `images/${Date.now()}-${postContent.image.name}`);
-      await uploadBytes(storageRef, postContent.image);
-      imageUrl = await getDownloadURL(storageRef);
-    } else {
-      return { success: false, message: 'Please upload an Image' };
-    }
-
-    // Upload Markdown Text
-    const blob = new Blob([postContent.markdownText], { type: 'text/markdown' });
-    const fileRef = ref(storage, `markdownFiles/${Date.now()}-${postContent.title}.md`);
-    await uploadBytes(fileRef, blob);
-    const markdownUrl = await getDownloadURL(fileRef);
-
     // Get User first and Last Name
     const userFN = await getUserValue(userId, 'firstName');
     const userLN = await getUserValue(userId, 'lastName');
@@ -59,17 +43,30 @@ export default async function setPost(postContent: PostUpload, postType: string)
       createdAt: serverTimestamp() as Timestamp,
       date: formatDate(new Date()),
       title: postContent.title,
-      imageURL: imageUrl,
-      markdownURL: markdownUrl,
+      imageURL: 'NullPlaceHolder',
+      markdownURL: 'NullPlaceHolder',
       tags: postContent.tags
     };
 
     // Add the post document to the collection
     const postRef = await addDoc(collection(db, postType), post);
 
-    // Update the post document with the generated postId
+    // Upload Image
+    const storageRef = ref(storage, `images/${postRef.id}`);
+    await uploadBytes(storageRef, postContent.image!);
+    const imageUrl = await getDownloadURL(storageRef);
+
+    // Upload Markdown Text
+    const blob = new Blob([postContent.markdownText], { type: 'text/markdown' });
+    const fileRef = ref(storage, `markdownFiles/${postRef.id}.md`);
+    await uploadBytes(fileRef, blob);
+    const markdownUrl = await getDownloadURL(fileRef);
+
+    // Update the post document with the generated postId, Image & Markdown file
     await setDoc(doc(db, postType, postRef.id), {
       ...post,
+      imageURL: imageUrl,
+      markdownURL: markdownUrl,
       postId: postRef.id,
     });
 

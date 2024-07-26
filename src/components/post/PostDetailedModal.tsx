@@ -39,8 +39,7 @@ const PostDetailedModal: React.FC<PostDetailedModalProps> = ({ pd, onClose }) =>
       const text = await response.text();
       setMarkdownText(text);
     } catch (error) {
-      console.log(error);
-
+      console.error(error);
     }
   };
 
