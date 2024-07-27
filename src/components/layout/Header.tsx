@@ -3,39 +3,44 @@
 "use client";
 
 import Link from "next/link";
+// Components
 import IconGeneral from "../icons/IconGeneral";
-import { useThemeContext } from "../providers/ThemeProvider";
 import IconDevDeakin from "../icons/IconDevDeakin";
-import { auth } from '@/firebaseConfig';
+import { useAuth } from "../providers/AuthProvider";
+import dynamic from "next/dynamic";
+import { useState } from "react";
+
+const DynamicProfileBanner = dynamic(() => import('./ProfileBanner'), {
+  loading: () => <p>Loading...</p>,
+})
 
 const Header = () => {
-  const { toggleTheme } = useThemeContext();
-
+  const { user, loading } = useAuth();
+  const [isProfileBannerVisible, setIsProfileBannerVisible] = useState<boolean>(false);
 
   return (
-    <header className="app-container py-8 flex justify-between text-xl">
+    <header className="app-container py-6 flex items-center justify-between text-xl">
       <Link href='/' className="flex items-center">
         <IconDevDeakin />
         Deakin
       </Link>
-      <div className="flex gap-4 mb:gap-10">
-        {/* <input type="text" placeholder="Search"
-          className="hidden md:block inputField w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg text-sm" /> */}
+      <div className="flex items-center gap-x-4 mb:gap-x-10">
         <Link href="/post" className="">Post</Link>
         <Link href="/questions" className="">Questions</Link>
-        <div className="cursor-pointer flex flex-shrink-0" onClick={toggleTheme}>
-          <IconGeneral type='dark-light-mode' />
-        </div>
 
-        {!auth.currentUser ? (
+        {!user ? (
           <>
             <Link href="/login" className="">Sign In</Link>
             <Link href="/login" className="">Register</Link>
           </>
         ) : (
-          <div>
-            <IconGeneral type="profile" />
+          <div className="cursor-pointer" onClick={() => setIsProfileBannerVisible(true)}>
+            <IconGeneral type="profile" fillLightMode="hsl(0 0% 40%)" fillDarkMode="hsl(0 0% 60%)" />
           </div>
+        )}
+
+        {isProfileBannerVisible && user && (
+          <DynamicProfileBanner onClose={() => setIsProfileBannerVisible(false)} uid={user.uid} />
         )}
 
 

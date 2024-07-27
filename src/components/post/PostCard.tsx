@@ -5,9 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 // Componenets
 import IconGeneral from "../icons/IconGeneral";
-import PostDetailedModal from "./PostDetailedModal";
 // Types
 import { Post } from "@/types/Post";
+import dynamic from "next/dynamic";
+
+import PostDetailedModal from "./PostDetailedModal";
+// Lazy Load Component
+// const DynamicPostDetailedModal = dynamic(() => import("./PostDetailedModal"), {
+//   loading: () => null,
+// })
 
 interface PostCardProp {
   pd: Post; // Post Data

@@ -6,11 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "analyze": "ANALYZE=true next build"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "^14.2.5",
     "@react-email/components": "^0.0.21",
     "firebase": "^10.12.4",
     "framer-motion": "^11.3.8",
