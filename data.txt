@@ -9,7 +9,7 @@ I'm working on a group project and we're using Git for version control. What are
 Any tips on workflow and communication would be helpful!
 
 
-# Hi Devs,  
+Hi Devs,  
 
 I'm working on a web application and want to ensure it looks good on all devices.  
 

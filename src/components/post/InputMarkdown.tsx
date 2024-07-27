@@ -36,6 +36,7 @@ const InputMarkdown: React.FC<InputMarkdownProps> = ({ isQuestion, handleInput, 
         }
       } as unknown as React.ChangeEvent<HTMLTextAreaElement>;
       handleInput(initDataPretendEvent);
+      setInputDisabled(false);
     } catch (error) {
       console.error(error);
     }

@@ -8,13 +8,13 @@ import LayoutDefault from "@/components/layout/LayoutDefault";
 import InputFileImage from "@/components/post/InputFileImage";
 import AddTags from "@/components/post/AddTags";
 import InputMarkdown from "@/components/post/InputMarkdown";
+import PaddingBlock from "@/components/ui/PaddingBlock";
 // Types
 import { PostUpload } from "@/types/PostUpload";
 // Provider
 import { useNotification } from "@/components/providers/NotificationProvider";
 // Scripts
 import { setPost } from "@/services";
-import PaddingBlock from "@/components/ui/PaddingBlock";
 
 
 export default function PostPage() {

@@ -43,7 +43,7 @@ const ToolBar: React.FC<ToolBarProps> = ({ onSearch, unhide }) => {
             value={searchTerm} onChange={handleSearchChange} />
         </div>
 
-        <button onClick={() => { setIsFilterVisible(!isFilterVisible) }} title="Filter Post"
+        <button type="button" onClick={() => { setIsFilterVisible(!isFilterVisible) }} title="Filter Post"
           className="flex items-center gap-2 px-2 py-1 rounded-lg bg-hsl-l95 hover:bg-hsl-l90 dark:bg-hsl-l15 dark:hover:bg-hsl-l20">
           <IconGeneral type="filter" />
           <p className="text-sm font-medium">Filter</p>
