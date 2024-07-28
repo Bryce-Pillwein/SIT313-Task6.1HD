@@ -17,7 +17,7 @@ import PostDetailedModal from "./PostDetailedModal";
 
 interface PostCardProp {
   pd: Post; // Post Data
-  hideQuestion: (postId: string) => void;
+  hideQuestion?: (postId: string) => void;
 }
 
 const PostCard: React.FC<PostCardProp> = ({ pd, hideQuestion }) => {
@@ -59,10 +59,12 @@ const PostCard: React.FC<PostCardProp> = ({ pd, hideQuestion }) => {
       </Link>
 
       <div className="absolute right-4 top-4 flex gap-2">
-        <div onClick={() => hideQuestion(pd.postId)}
-          className=" opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer bg-hsl-l5 bg-opacity-75 rounded-full p-1 hover:bg-opacity-85">
-          <IconGeneral type="visibility-off" fill='hsl(0 0% 85%)' size={26} />
-        </div>
+        {hideQuestion && (
+          <div onClick={() => hideQuestion(pd.postId)}
+            className=" opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer bg-hsl-l5 bg-opacity-75 rounded-full p-1 hover:bg-opacity-85">
+            <IconGeneral type="visibility-off" fill='hsl(0 0% 85%)' size={26} />
+          </div>
+        )}
         <div onClick={showDetailedQuestion}
           className="cursor-pointer  bg-hsl-l5 bg-opacity-75 rounded-full p-1 hover:bg-opacity-85">
           <IconGeneral type="menu-more-vert" fill='hsl(0 0% 85%)' size={26} />

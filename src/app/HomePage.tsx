@@ -3,55 +3,100 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { getAuth, signOut } from "firebase/auth";
-import { firebaseApp } from "../firebaseConfig";
-import { useState } from "react";
 import LayoutDefault from "@/components/layout/LayoutDefault";
-import PaddingBlock from "@/components/ui/PaddingBlock";
 import SubscribeBanner from "@/components/SubscribeBanner";
-import FeatureBanner from "@/components/FeatureBanner";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Post } from "@/types/Post";
+import { getAllQuestions, getFeaturedPosts } from "@/services";
+import { useNotification } from "@/components/providers/NotificationProvider";
+import PostCard from "@/components/post/PostCard";
 
-interface HomePageProps {
-  uid?: string;
-}
 
-export default function HomePage({ uid }: HomePageProps) {
-  // const [articles] = useState(featured.articles);
-  // const [tutorials] = useState(featured.tutorials);
-  const router = useRouter();
+export default function HomePage() {
+  const { addNotification } = useNotification();
+  const [qFeatured, setQFeatured] = useState<Post[]>([]);
+  const [aFeatured, setAFeatured] = useState<Post[]>([]);
+  const [isFectingFeatured, setIsFetchingFeatured] = useState<boolean>(false);
 
-  async function handleLogout() {
+
+  /**
+   * Fetch Featured Post Upon Mounting Page
+   */
+  useEffect(() => {
+    getFeatured();
+  }, []);
+
+
+  /**
+   * Get Featured Post (articles & questions)
+   * @returns error or updates posts arrays
+   */
+  const getFeatured = async () => {
+    setIsFetchingFeatured(true);
     try {
-      await signOut(getAuth(firebaseApp));
-      await fetch("/api/logout");
-      router.push("/login");
+      // Get Featured Question Posts
+      const qResponse = await getFeaturedPosts('QUESTIONS');
+      if ('success' in qResponse) {
+        if (!qResponse.success) {
+          addNotification(qResponse.message || 'Error Fetching Questions');
+        }
+        return;
+      }
+      setQFeatured(qResponse);
+
+      // Get Featured Article Posts
+      const aResponse = await getFeaturedPosts('ARTICLES');
+      if ('success' in aResponse) {
+        if (!aResponse.success) {
+          addNotification(aResponse.message || 'Error Fetching Articles');
+        }
+        return;
+      }
+      setAFeatured(aResponse);
     } catch (error) {
       console.error(error);
+      addNotification('Unexpected Error Occured. Reload Featured Posts');
+    } finally {
+      setIsFetchingFeatured(false);
     }
   }
 
   return (
     <LayoutDefault>
+      {/* 
+      TO DO
+      CHANGE THIS FOR A BETER BANNER 
+      
+      */}
       <img src="https://picsum.photos/1440/350?grayscale" className="mx-auto" />
 
 
-      <p>LOOK AT ADDING LANGAUGE DETECTION AND FLAGGIN POST OR COMMENTS FOR REVIEW. AKA MODERATION</p>
+      {qFeatured && (qFeatured.length > 0) && (
+        <div>
+          <div className="flex justify-between items-center mb-4 mt-8">
+            <h1 className="font-semibold text-3xl ml-4">Featured Questions</h1>
+            <Link href="/questions"
+              className="text-sm text-hsl-l50 bg-hsl-l95 hover:bg-hsl-l90 dark:bg-hsl-l15 dark:hover:bg-hsl-l20 rounded-lg px-2 py-1">See All Questions</Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {qFeatured.map((post, idx) => (
+              <PostCard key={idx} pd={post} />
+            ))}
+          </div>
+        </div>
+      )}
 
-      <PaddingBlock pad={2} />
+      {/* {qTrendingVisible && (qTrendingVisible.length <= 0) && qLatestVisible && (qLatestVisible.length <= 0) && (
+        <div className="flex justify-center items-center my-8">
+          <button type="button" onClick={handleUnhide} title="Unhide Post"
+            className="flex items-center gap-2 px-2 py-1 rounded-lg bg-hsl-l95 hover:bg-hsl-l90 dark:bg-hsl-l15 dark:hover:bg-hsl-l20">
+            <IconGeneral type="visibility-off" />
+            <p className="font-semibold text-hsl-l50">Unhide Post</p>
+          </button>
+        </div>
+      )} */}
 
-      {/* Featured Articles */}
-      <h2 className="text-2xl text-center mb-4 font-semibold">Feature Articles</h2>
-      {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {articles.map((art, idx) => (
-          <FeatureBanner data={art} key={idx} />
-        ))}
-      </div> */}
-      <div className="flex justify-center my-4">
-        <Link href="/" className="btn">See all Articles</Link>
-      </div>
-
-      <PaddingBlock pad={2} />
 
       {/* Featured Tutorials */}
       <h2 className="text-2xl text-center mb-4 font-semibold">Featured Tutorials</h2>
@@ -65,15 +110,7 @@ export default function HomePage({ uid }: HomePageProps) {
       </div>
 
 
-      <p className="mb-8">
-        Only <strong>{uid}</strong> holds the magic key to this kingdom!
-      </p>
-      <button onClick={handleLogout} className="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-primary-800" >
-        Logout
-      </button>
 
-
-      <PaddingBlock pad={2} />
 
       {/* Subscribe Banner */}
       <SubscribeBanner />

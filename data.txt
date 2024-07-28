@@ -1,43 +1,28 @@
-
-
-
-GitTeam
-# Hi Devs,  
-
+QUESTIONS  EXAMPLES
+Hi Devs,  
 I'm working on a group project and we're using Git for version control. What are some best practices for collaborative coding and version control to avoid conflicts and ensure smooth integration of everyone's work?  
-
 Any tips on workflow and communication would be helpful!
 
 
 Hi Devs,  
-
 I'm working on a web application and want to ensure it looks good on all devices.  
-
 What are some best practices for implementing responsive design? Can someone share tips on using CSS media queries and frameworks like Bootstrap? What should I know about tailwind before trying it out?  
-
 Also let me know which frameworks are your favourite for web applications and which are best for responsive design!
 
 
-# Hi Devs,  
-
+Hi Devs,  
 I've heard about the concept of rubber duck debugging, where programmers talk through their code problems to an inanimate object, like a rubber duck, to help them find solutions.  
-
 How exactly does this method work, and why is it effective?  
-
 Can someone share best practices or personal experiences with using rubber duck debugging to improve problem-solving skills and overall programming ability? Any tips on how to effectively 'talk' to the rubber duck would be greatly appreciated!
 
 
 
-# Hi all!  
-
+Hi all!  
 I've noticed that some of my SQL queries are running slowly, and it's affecting the performance of my application. What are some common techniques for optimizing SQL queries?  
-
 Are there specific tools or practices that can help identify and resolve performance bottlenecks?
 
 
-# Hi, 
-
+Hi, 
 I'm new to web development and looking for guidance on where to start.  
-
 Can someone recommend resources or share tips on learning HTML, CSS, and JavaScript effectively?  
 Any advice on projects or exercises to practice these skills would be appreciated!

@@ -11,7 +11,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 
 const DynamicProfileBanner = dynamic(() => import('./ProfileBanner'), {
-  loading: () => <p>Loading...</p>,
+  loading: () => <></>,
 })
 
 const Header = () => {

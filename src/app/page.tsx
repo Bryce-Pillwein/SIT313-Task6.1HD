@@ -12,11 +12,13 @@ export default async function Home() {
     cookieName: serverConfig.cookieName,
     cookieSignatureKeys: serverConfig.cookieSignatureKeys,
     serviceAccount: serverConfig.serviceAccount,
+
+    // UID in tokens.decodedToken.uid
   });
 
   if (!tokens) {
     notFound();
   }
 
-  return <HomePage uid={tokens?.decodedToken.uid} />;
+  return <HomePage />;
 }

@@ -138,7 +138,7 @@ export default function EditQuestion() {
 
               <div className="col-span-5 md:col-span-2">
                 <p className="text-hsl-l50 text-sm pb-2">Choose a Question to Edit</p>
-                <div className="flex flex-col gap-4 max-h-[60vh]overflow-y-scroll">
+                <div className="flex flex-col gap-4 max-h-[60vh] overflow-y-scroll">
                   {questions.map((qd, idx) => (
                     <div key={idx} onClick={() => updateActiveQuestion(qd)}
                       className="cursor-pointer rounded-lg bg-hsl-l100 dark:bg-hsl-l15 hover:bg-hsl-l95 dark:hover:bg-hsl-l20 px-4 py-2 border border-solid border-hsl-l90 dark:border-hsl-l20">

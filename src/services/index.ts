@@ -12,5 +12,6 @@ export { default as getPost } from '@/services/post/getPost';
 export { default as updatePost } from '@/services/post/updatePost';
 export { default as getAllQuestions } from '@/services/post/getAllQuestions';
 export { default as getUserQuestions } from '@/services/post/getUserQuestions';
+export { default as getFeaturedPosts } from '@/services/post/getFeaturedPosts';
 
 export { default as getUserValue } from '@/services/user/getUserValue';

@@ -23,13 +23,14 @@ export default function Questions() {
   const [qTrendingVisible, setQTrendingVisible] = useState<Post[] | null>(null);
   const [qLatestVisible, setQLatestVisible] = useState<Post[] | null>(null);
   const [qSearchResults, setQSearchResults] = useState<Post[] | null>(null);
+  const [gridDisplay, setGridDisplay] = useState<boolean>(true);
 
   /**
    * Fetch Questions Upon Mounting Page
    */
   useEffect(() => {
     getQuestions();
-  }, [])
+  }, []);
 
   /**
    * Get Questions
@@ -50,7 +51,7 @@ export default function Questions() {
     } finally {
       setIsFetchingQuestions(false);
     }
-  }
+  };
 
   /**
    * Hide Trending Questions
