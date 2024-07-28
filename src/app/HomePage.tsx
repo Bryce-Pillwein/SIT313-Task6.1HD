@@ -98,18 +98,6 @@ export default function HomePage() {
       )} */}
 
 
-      {/* Featured Tutorials */}
-      <h2 className="text-2xl text-center mb-4 font-semibold">Featured Tutorials</h2>
-      {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {tutorials.map((tut, idx) => (
-          <FeatureBanner data={tut} key={idx} />
-        ))}
-      </div> */}
-      <div className="flex justify-center my-4">
-        <Link href="/" className="btn ">See all Tutorials</Link>
-      </div>
-
-
 
 
       {/* Subscribe Banner */}
