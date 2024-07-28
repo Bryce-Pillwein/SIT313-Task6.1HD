@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 
 interface InputMarkdownProps {
-  isQuestion: boolean;
   handleInput: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   markdownURL?: string;
 }
 
-const InputMarkdown: React.FC<InputMarkdownProps> = ({ isQuestion, handleInput, markdownURL }) => {
+const InputMarkdown: React.FC<InputMarkdownProps> = ({ handleInput, markdownURL }) => {
   const [input, setInput] = useState<string>('');
   const [inputDisabled, setInputDisabled] = useState<boolean>(false);
 
@@ -53,9 +52,9 @@ const InputMarkdown: React.FC<InputMarkdownProps> = ({ isQuestion, handleInput, 
 
   return (
     <div>
-      <label htmlFor="markdownText" className="text-hsl-l50 text-sm">{isQuestion ? 'Question Details' : 'Article Text'} (Markdown Accepted)</label>
-      <textarea id="markdownText" name="markdownText" rows={8} autoComplete="off"
-        className="input-resize-content df-input w-full min-h-[10lh] max-h-[15lh]"
+      <label htmlFor="markdownText" className="text-hsl-l50 text-sm">Question / Article Text (Markdown Accepted)</label>
+      <textarea id="markdownText" name="markdownText" autoComplete="off"
+        className="input-resize-content df-input w-full min-h-[15lh] max-h-[15lh]"
         value={input} onChange={handleInputChange} disabled={inputDisabled} />
     </div>
   );

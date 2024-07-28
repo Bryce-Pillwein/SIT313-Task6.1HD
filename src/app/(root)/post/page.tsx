@@ -15,11 +15,12 @@ import { PostUpload } from "@/types/PostUpload";
 import { useNotification } from "@/components/providers/NotificationProvider";
 // Scripts
 import { setPost } from "@/services";
+import PostType from "@/components/post/PostType";
 
 
 export default function PostPage() {
   const { addNotification } = useNotification();
-  const [isQuestion, setIsQuestion] = useState<boolean>(true);
+  const [isPostType, setIsPostType] = useState<-1 | 1 | 2>(-1); // Map [-1 = none; 1 = question; 2 = article]
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [content, setContent] = useState<PostUpload>({ title: '', markdownText: '', tags: [], image: null });
 
@@ -59,6 +60,11 @@ export default function PostPage() {
   const postContent = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    if (isPostType !== 1 && isPostType !== 2) {
+      addNotification('Choose Post Type (Question or Article)');
+      return;
+    }
+
     if (!content.image) {
       addNotification('Please upload an image');
       return;
@@ -67,8 +73,8 @@ export default function PostPage() {
     setIsUploading(true);
 
     try {
-      const postType = isQuestion ? 'POST_QUESTION' : 'POST_ARTICLE'
-      const status = await setPost(content, postType);
+      const type = isPostType === 1 ? 'POST_QUESTION' : 'POST_ARTICLE'
+      const status = await setPost(content, type);
 
       if (!status.success) {
         addNotification(status.message!);
@@ -112,11 +118,7 @@ export default function PostPage() {
 
         <main className="my-8">
           <div className="flex justify-between items-center">
-            <h1 className="text-xl">Post a {isQuestion ? 'Question' : 'Article'}</h1>
-            <div className="flex justify-end gap-4 items-center">
-              <button className={`btn ${isQuestion ? 'cta-btn' : ''}`} onClick={() => { setIsQuestion(true) }}>Post a Question</button>
-              <button className={`btn ${!isQuestion ? 'cta-btn' : ''}`} onClick={() => { setIsQuestion(false) }}>Post an Article</button>
-            </div>
+            <h1 className="text-xl">Post {isPostType === -1 ? '' : isPostType === 1 ? '(Question)' : '(Article)'}</h1>
           </div>
 
           <form onSubmit={postContent} onKeyDown={handleKeyDown}
@@ -131,11 +133,14 @@ export default function PostPage() {
 
             {/* Add Markdown / Question / Article */}
             <div className="col-span-3 sm:col-span-2">
-              <InputMarkdown isQuestion={isQuestion} handleInput={handleInputChange} />
+              <InputMarkdown handleInput={handleInputChange} />
             </div>
 
             {/* Upload Image & Add Tags */}
             <div className="col-span-3 sm:col-span-1">
+              <PaddingBlock pad={1} />
+              <PostType isPostType={isPostType} setPostType={(pt) => { setIsPostType(pt) }} />
+              <PaddingBlock pad={1} />
               <AddTags updateContentTags={updateContentTags} />
               <PaddingBlock pad={1} />
               <InputFileImage handleImage={handleImageChange} />
