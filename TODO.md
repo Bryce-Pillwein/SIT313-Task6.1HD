@@ -5,3 +5,4 @@
 - Add comments, likes, dislike, love interactions
 - Implement trending feature using interactions
 - Add featured flag
+- ADD all links to footer

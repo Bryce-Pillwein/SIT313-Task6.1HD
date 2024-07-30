@@ -15,6 +15,9 @@ const config: Config = {
       fontSize: {
         'xxs': '0.625rem'
       },
+      fontFamily: {
+        sdisplay: ['var(--font-display)'],
+      },
       colors: {
         hsl: {
           l5: 'hsl(0 0% 5%)',
@@ -37,7 +40,7 @@ const config: Config = {
           'yellow': '#FFE900',
           'pink-active': '#EB29A1',
           'yellow-active': '#d0bf00',
-        }
+        },
       }
     },
   },

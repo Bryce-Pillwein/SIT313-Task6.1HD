@@ -98,10 +98,6 @@ export default function HomePage() {
       )} */}
 
 
-
-
-      {/* Subscribe Banner */}
-      <SubscribeBanner />
     </LayoutDefault>
   );
 }

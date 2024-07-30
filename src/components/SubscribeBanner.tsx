@@ -4,6 +4,7 @@
 
 import { useState } from "react";
 import { useNotification } from "./providers/NotificationProvider";
+import IconGeneral from "./icons/IconGeneral";
 
 const SubscribeBanner = () => {
   const { addNotification } = useNotification();
@@ -48,16 +49,26 @@ const SubscribeBanner = () => {
   };
 
   return (
-    <form className="w-full flex flex-wrap flex-col mb:flex-row items-center justify-end my-8 gap-2" onSubmit={sendWelcomeEmail}>
-      <p className="text-hsl-l70">Sign up for our daily insider!</p>
+    <form className="w-full flex flex-wrap flex-col items-center my-8 gap-2" onSubmit={sendWelcomeEmail}>
 
-      <input type="name" name="name" className="inputField max-w-[150px]" placeholder="Name"
-        value={userName} onChange={e => setUserName(e.target.value)} />
 
-      <input type="email" name="email" className="inputField max-w-[150px]" placeholder="Email"
-        value={email} onChange={e => setEmail(e.target.value)} />
+      <div className="w-full flex justify-between py-2 px-2">
+        <input type="name" name="name" placeholder="Write Your Name"
+          className="w-full border-none outline-none bg-inherit placeholder-hsl-l70 font-mono"
+          value={userName} onChange={e => setUserName(e.target.value)}
+          required />
+      </div>
 
-      <button className="btn" type="submit">Subscribe</button>
+      <div className="w-full border-b border-solid border-mb-yellow flex justify-between py-2 px-2 font-mono">
+        <input type="email" name="email" placeholder="Write Your Email"
+          className="w-full border-none outline-none bg-inherit placeholder-hsl-l70"
+          value={email} onChange={e => setEmail(e.target.value)}
+          required />
+        <button type="submit">
+          <IconGeneral type="arrow-right" fill={"#FFE900"} />
+        </button>
+      </div>
+
     </form>
   )
 };

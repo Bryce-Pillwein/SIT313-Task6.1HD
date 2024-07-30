@@ -5,7 +5,7 @@
 /* Style Reset*/
 @import '../styles/reset';
 @import '../styles/markdown';
-
+@import '../styles/footerAnimations';
 
 /*
   || Responsesive Font Size based on Screen Dimensions. Uses custom breakpoint for mobile 420px (mb)
@@ -218,6 +218,25 @@
 
   .df-input::placeholder {
     color: theme('colors.hsl.l50');
+  }
+
+
+
+  .footer-list-links {
+    list-style: none;
+  }
+
+  .footer-list-links li {
+    margin-top: 0.5rem;
+  }
+
+  .footer-list-links li * {
+    font-family: monospace;
+    letter-spacing: 0.2rem;
+  }
+
+  .footer-list-links li *:hover {
+    text-decoration: underline;
   }
 
 }
