@@ -43,7 +43,7 @@ const Footer = () => {
                 <li><Link href="/" >MEMBERSHIP</Link></li>
               </ul>
 
-              <h3 className="text-3xl font-sdisplay text-hsl-l80 mt-8">Contact Us</h3>
+              <h3 className="text-3xl font-sdisplay text-hsl-l80 mt-16">Contact Us</h3>
               <p className="font-mono">devs@deakin.edu.au</p>
               <p className="font-mono">+61 3 9918 9188</p>
             </div>
@@ -51,7 +51,7 @@ const Footer = () => {
 
           <div className="flex md:justify-end">
             <div className="flex flex-col ">
-              <h3 className="text-3xl font-sdisplay text-hsl-l80">Support</h3>
+              <h3 className="text-3xl font-sdisplay text-hsl-l80 mt-16 md:mt-0">Support</h3>
               <ul className="footer-list-links">
                 <li><Link href="/" className="font-mono">FAQs</Link></li>
                 <li><a rel="noopener noreferrer" target="_blank" href="https://www.deakin.edu.au/help-hub"
@@ -59,7 +59,7 @@ const Footer = () => {
                 <li><Link href="/" className="font-mono">MEMBERSHIP PAYMENTS</Link></li>
               </ul>
 
-              <h3 className="text-3xl font-sdisplay text-hsl-l80 mt-8">Legal</h3>
+              <h3 className="text-3xl font-sdisplay text-hsl-l80 mt-16">Legal</h3>
               <ul className="footer-list-links">
                 <li><Link href="/" className="font-mono">TERMS & CONDITIONS</Link></li>
                 <li><Link href="/" className="font-mono">PRIVACY POLICY</Link></li>

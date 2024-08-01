@@ -48,6 +48,8 @@ const SubscribeBanner = () => {
 
   };
 
+
+
   return (
     <form className="w-full flex flex-wrap flex-col items-center my-8 gap-2" onSubmit={sendWelcomeEmail}>
 
@@ -56,14 +58,14 @@ const SubscribeBanner = () => {
         <input type="name" name="name" placeholder="Write Your Name"
           className="w-full border-none outline-none bg-inherit placeholder-hsl-l70 font-mono"
           value={userName} onChange={e => setUserName(e.target.value)}
-          required />
+          required autoComplete="name" />
       </div>
 
       <div className="w-full border-b border-solid border-mb-yellow flex justify-between py-2 px-2 font-mono">
         <input type="email" name="email" placeholder="Write Your Email"
           className="w-full border-none outline-none bg-inherit placeholder-hsl-l70"
           value={email} onChange={e => setEmail(e.target.value)}
-          required />
+          required autoComplete="email" />
         <button type="submit">
           <IconGeneral type="arrow-right" fill={"#FFE900"} />
         </button>
