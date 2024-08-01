@@ -1,26 +1,24 @@
 // Input File Image tsx
 
 import { useRef, useState } from "react";
+// Components
 import IconGeneral from "../icons/IconGeneral";
+import { usePostContext } from "../providers/PostProvider";
 
-interface InputFileImageProps {
-  handleImage: (file: File | null) => void;
-}
-
-const InputFileImage: React.FC<InputFileImageProps> = ({ handleImage }) => {
+const InputFileImage = () => {
+  const { handleImageChange } = usePostContext();
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0] || null;
     setFile(selectedFile);
-    handleImage(selectedFile);
+    handleImageChange(selectedFile);
   };
 
   const handleRemoveFile = () => {
-    console.log("REMOVED");
     setFile(null);
-    handleImage(null);
+    handleImageChange(null);
 
     // Reset the file input value
     if (fileInputRef.current) {
@@ -29,10 +27,10 @@ const InputFileImage: React.FC<InputFileImageProps> = ({ handleImage }) => {
   };
 
   return (
-    <div>
-      <div className="bg-hsl-l95 dark:bg-hsl-l25 pointer-events-none w-full overflow-hidden  rounded-lg p-4">
+    <div className="h-full">
+      <div className="bg-hsl-l95 dark:bg-hsl-l25 pointer-events-none w-full h-full overflow-hidden rounded-lg p-4">
 
-        <div className="relative bg-hsl-l100 dark:bg-hsl-l30 border-hsl-l80 pointer-events-none border-2 border-dashed flex flex-col justify-center items-center p-4">
+        <div className="h-full relative bg-hsl-l100 dark:bg-hsl-l30 border-hsl-l80 pointer-events-none border-2 border-dashed flex flex-col justify-center items-center p-4">
           {!file ? (
             <>
               <IconGeneral type='upload' size={30} />

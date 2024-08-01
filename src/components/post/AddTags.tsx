@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import { useNotification } from "../providers/NotificationProvider";
+import { usePostContext } from "../providers/PostProvider";
 
-interface AddTagsProps {
-  updateContentTags: (tags: string[]) => void; // Define the function signature
-}
 
-const AddTags: React.FC<AddTagsProps> = ({ updateContentTags }) => {
+const AddTags = () => {
+  const { updateContentTags } = usePostContext();
   const { addNotification } = useNotification();
   const [tags, setTags] = useState<string[]>([]);
   const [tagsInputValue, setTagsInputValue] = useState<string>('');
