@@ -42,13 +42,13 @@ const EditorWrapper = () => {
         <div className='flex justify-center items-center'>
           <button type="button" title='Add Markdown'
             className='rounded-sm hover:bg-mb-pink dark:hover:bg-mb-yellow py-2 px-4 border-l border-solid border-hsl-l90 dark:border-hsl-l25'
-            onClick={() => addComponent('markdown')} >
+            onClick={() => addComponent('markdown', 'markdown')} >
             <IconGeneral type='markdown' size={30} fillLightMode='hsl(0 0% 20%)' fillDarkMode='hsl(0 0% 80%)' />
           </button>
 
           <button type="button" title='Add Code'
             className='rounded-sm hover:bg-mb-pink dark:hover:bg-mb-yellow py-2 px-4 border-l border-solid border-hsl-l90 dark:border-hsl-l25'
-            onClick={() => addComponent('code')} >
+            onClick={() => addComponent('code', 'typescript')} >
             <IconGeneral type='terminal' size={30} fillLightMode='hsl(0 0% 20%)' fillDarkMode='hsl(0 0% 80%)' />
           </button>
         </div>

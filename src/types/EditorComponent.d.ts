@@ -7,4 +7,5 @@ export interface EditorComponent {
   id: string;
   type: 'markdown' | 'code';
   content: string;
+  filetype?: string;
 }

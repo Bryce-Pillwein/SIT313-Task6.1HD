@@ -1,6 +1,6 @@
 // Input Code Mirror
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CodeMirror, { ViewUpdate } from '@uiw/react-codemirror';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
@@ -32,7 +32,7 @@ interface EditorCodeMirrorProps {
 }
 
 const EditorCodeMirror: React.FC<EditorCodeMirrorProps> = ({ id, index, componentsLength }) => {
-  const { updateContent, moveComponent, removeComponent } = usePostContext();
+  const { updateContent, moveComponent, removeComponent, updateComponentFiletype } = usePostContext();
   const [input, setInput] = useState<string>('');
   const [codeLanguage, setCodeLanguage] = useState<any>(langs.typescript());
 
@@ -42,6 +42,7 @@ const EditorCodeMirror: React.FC<EditorCodeMirrorProps> = ({ id, index, componen
    */
   const handleLangChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedLang = event.target.value as keyof typeof languageOptions;
+    updateComponentFiletype(id, selectedLang);
     setCodeLanguage(languageOptions[selectedLang]());
   };
 
@@ -61,7 +62,7 @@ const EditorCodeMirror: React.FC<EditorCodeMirrorProps> = ({ id, index, componen
         <p className='text-hsl-l50 text-sm'>Code Mirror</p>
 
         <div className="flex justify-center items-center">
-          <select className="bg-inherit text-sm text-hsl-l50 mr-2"
+          <select className="bg-inherit text-sm text-hsl-l50 mr-2" id={`select-filetype-${id}`}
             onChange={handleLangChange}>
             <option value="typescript">TypeScript</option>
             <option value="c">C</option>

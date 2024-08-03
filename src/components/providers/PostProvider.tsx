@@ -4,6 +4,7 @@ import { createContext, useContext, useState } from 'react';
 import { EditorComponent } from '@/types/EditorComponent';
 import { useNotification } from './NotificationProvider';
 import { setPost } from '@/services';
+import { PostUpload } from '@/types/PostUpload';
 
 interface PostContent {
   postType: -1 | 1 | 2;
@@ -15,15 +16,16 @@ interface PostContent {
 interface PostContextType {
   components: EditorComponent[];
   content: PostContent;
-  addComponent: (type: 'markdown' | 'code') => void;
+  addComponent: (type: 'markdown' | 'code', filetype?: string) => void;
   removeComponent: (id: string) => void;
   moveComponent: (index: number, direction: 'up' | 'down') => void;
   updateContent: (id: string, content: string) => void;
+  updateComponentFiletype: (id: string, filetype: string) => void;
   updatePostType: (value: -1 | 1 | 2) => void;
   handleTitleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleImageChange: (file: File | null) => void;
   updateContentTags: (newTags: string[]) => void;
-  postContent: (event: React.FormEvent) => void;
+  postContent: () => Promise<void>;
 }
 
 
@@ -46,7 +48,6 @@ export const usePostContext = () => {
 /**
  * Provider
  */
-
 interface PostProviderProps {
   children: React.ReactNode;
 }
@@ -55,22 +56,25 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
   const { addNotification } = useNotification();
   const [components, setComponents] = useState<EditorComponent[]>([]);
   const [content, setContent] = useState<PostContent>({ postType: -1, title: '', tags: [], image: null });
-  const [isUploading, setIsUploading] = useState(false);
-  const [isPostType, setIsPostType] = useState<-1 | 1 | 2>(-1);
 
+
+  // Update Post Type (null, question, article)
   const updatePostType = (value: -1 | 1 | 2) => {
     setContent({ ...content, postType: value });
   }
 
+  // Handle Post Title Change
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setContent({ ...content, [name]: value });
   };
 
+  // Handle Post Image Change
   const handleImageChange = (file: File | null) => {
     setContent({ ...content, image: file });
   };
 
+  // Update Content Tags
   const updateContentTags = (newTags: string[]) => {
     setContent(prevContent => ({
       ...prevContent,
@@ -78,14 +82,17 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
     }));
   };
 
-  const addComponent = (type: 'markdown' | 'code') => {
-    setComponents([...components, { id: `${type}-${Date.now()}`, type, content: '' }]);
+  // Add Component (Code / Text Block)
+  const addComponent = (type: 'markdown' | 'code', filetype?: string) => {
+    setComponents([...components, { id: `${type}-${Date.now()}`, type, filetype, content: '' }]);
   };
 
+  // Remove Compoenent (Code / Text Block)
   const removeComponent = (id: string) => {
     setComponents(components.filter(component => component.id !== id));
   };
 
+  // Mode Compoenent (Code / Text Block)
   const moveComponent = (index: number, direction: 'up' | 'down') => {
     const newComponents = [...components];
     const [movedComponent] = newComponents.splice(index, 1);
@@ -93,6 +100,7 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
     setComponents(newComponents);
   };
 
+  // Update Content Inside Component (Code / Text Block)
   const updateContent = (id: string, content: string) => {
     setComponents(prevComponents =>
       prevComponents.map(component =>
@@ -101,22 +109,41 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
     );
   };
 
+  // Update File Type (extension)
+  const updateComponentFiletype = (id: string, filetype: string) => {
+    setComponents(prevComponents =>
+      prevComponents.map(component =>
+        component.id === id ? { ...component, filetype } : component
+      )
+    );
+  };
 
+  /**
+   * Post Content
+   * Intitaited within post Page. Combines provider data and calls setPost service function
+   * @returns Status as notification
+   */
   const postContent = async () => {
     try {
-      const type = isPostType === 1 ? 'POST_QUESTION' : 'POST_ARTICLE';
-      const postData = {
-        ...content,
+      // Combine Data
+      const postData: PostUpload = {
+        title: content.title,
+        tags: content.tags,
+        image: content.image,
         components,
       };
 
-      // const status = await setPost(postData, type);
+      // Determine post path in db and init setPost
+      const dbPath = content.postType === 1 ? 'POST_QUESTION' : 'POST_ARTICLE';
+      const status = await setPost(postData, dbPath);
 
-      // if (!status.success) {
-      //   addNotification(status.message!);
-      //   return;
-      // }
+      // Set Message if exists
+      if (!status.success) {
+        addNotification(status.message!);
+        return;
+      }
 
+      // Reset Data Fields
       setContent({ postType: -1, title: '', tags: [], image: null });
       setComponents([]);
     } catch (error) {
@@ -127,7 +154,7 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
 
   return (
     <PostContext.Provider value={{
-      components, content, addComponent, removeComponent, moveComponent,
+      components, content, addComponent, removeComponent, moveComponent, updateComponentFiletype,
       updateContent, updatePostType, handleTitleChange, handleImageChange, updateContentTags, postContent
     }}>
       {children}

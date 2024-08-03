@@ -6,22 +6,37 @@ import { Post } from "@/types/Post";
 import { PostUpload } from "@/types/PostUpload";
 import { Status } from "@/types/Status";
 
-/**
- * Format Date as dd Month yyyy
- * @param date Date
- * @returns Formatted date string
- */
-const formatDate = (date: Date): string => {
-  return date.toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' });
+// File Language types
+interface LanguageOption {
+  mimeType: string;
+  extension: string;
+}
+
+// Language Options for Files
+const languageOptions: Record<string, LanguageOption> = {
+  c: { mimeType: 'text/x-csrc', extension: 'c' },
+  cpp: { mimeType: 'text/x-c++src', extension: 'cpp' },
+  csharp: { mimeType: 'text/x-csharp', extension: 'cs' },
+  css: { mimeType: 'text/css', extension: 'css' },
+  html: { mimeType: 'text/html', extension: 'html' },
+  java: { mimeType: 'text/x-java', extension: 'java' },
+  javascript: { mimeType: 'application/javascript', extension: 'js' },
+  json: { mimeType: 'application/json', extension: 'json' },
+  markdown: { mimeType: 'text/markdown', extension: 'md' },
+  python: { mimeType: 'text/x-python', extension: 'py' },
+  sql: { mimeType: 'text/x-sql', extension: 'sql' },
+  typescript: { mimeType: 'application/typescript', extension: 'ts' },
+  tsx: { mimeType: 'text/tsx', extension: 'tsx' },
+  vue: { mimeType: 'text/x-vue', extension: 'vue' },
 };
 
 /**
  * Set Post
  * @param postContent 
- * @param postType 
+ * @param dbPath 
  * @returns Status
  */
-export default async function setPost(postContent: PostUpload, postType: string): Promise<Status> {
+export default async function setPost(postContent: PostUpload, dbPath: string): Promise<Status> {
   try {
     // Enforce authenticated user
     if (!auth.currentUser) {
@@ -44,34 +59,47 @@ export default async function setPost(postContent: PostUpload, postType: string)
       date: formatDate(new Date()),
       title: postContent.title,
       imageURL: 'NullPlaceHolder',
-      markdownURL: 'NullPlaceHolder',
+      contentURLs: [],
       tags: postContent.tags
     };
 
     // Add the post document to the collection
-    const postRef = await addDoc(collection(db, postType), post);
+    const postRef = await addDoc(collection(db, dbPath), post);
 
     // Upload Image
     const storageRef = ref(storage, `images/${postRef.id}`);
     await uploadBytes(storageRef, postContent.image!);
     const imageUrl = await getDownloadURL(storageRef);
 
-    // Upload Markdown Text
-    const blob = new Blob([postContent.markdownText], { type: 'text/markdown' });
-    const fileRef = ref(storage, `markdownFiles/${postRef.id}.md`);
-    await uploadBytes(fileRef, blob);
-    const markdownUrl = await getDownloadURL(fileRef);
+    // Upload Components
+    const componentUrls = await Promise.all(
+      postContent.components.map(async (component, index) => {
+        const language = languageOptions[component.filetype || 'markdown'];
+        const fileType = language.mimeType;
+        const fileExtension = language.extension;
+        const blob = new Blob([component.content], { type: fileType });
+        const fileRef = ref(storage, `${dbPath}/${postRef.id}/${postRef.id}_${index}.${fileExtension}`);
+        await uploadBytes(fileRef, blob);
+        const downloadURL = await getDownloadURL(fileRef);
 
-    // Update the post document with the generated postId, Image & Markdown file
-    await setDoc(doc(db, postType, postRef.id), {
+        // Return the URL and file type
+        return {
+          url: downloadURL,
+          type: component.filetype || fileType,
+        };
+      })
+    );
+
+    // Update the post document with the generated postId, Image & Component URLs
+    await setDoc(doc(db, dbPath, postRef.id), {
       ...post,
       imageURL: imageUrl,
-      markdownURL: markdownUrl,
+      contentURLs: componentUrls,
       postId: postRef.id,
     });
 
     // Check if the user's posts document exists
-    const userPostsRef = doc(db, `USERS_${postType}/${userId}`);
+    const userPostsRef = doc(db, `USERS_${dbPath}/${userId}`);
     const userPostsDoc = await getDoc(userPostsRef);
 
     // Update UserPost/ID Array
@@ -90,3 +118,12 @@ export default async function setPost(postContent: PostUpload, postType: string)
     throw error;
   }
 }
+
+/**
+ * Format Date as dd Month yyyy
+ * @param date Date
+ * @returns Formatted date string
+ */
+const formatDate = (date: Date): string => {
+  return date.toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' });
+};

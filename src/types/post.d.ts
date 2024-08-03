@@ -10,6 +10,6 @@ export interface Post {
   date: any;
   title: string;
   imageURL: string;
-  markdownURL: string;
+  contentURLs: string[];
   tags: string[];
 }

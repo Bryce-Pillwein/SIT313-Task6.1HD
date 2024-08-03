@@ -84,7 +84,7 @@ const EditorMarkdown: React.FC<EditorMarkdownProps> = ({ id, index, componentsLe
       </div>
 
       {/* Input Area */}
-      <textarea id="markdownText" name="markdownText" autoComplete="off" disabled={inputDisabled}
+      <textarea id={`md-textarea-${id}`} autoComplete="off" disabled={inputDisabled}
         className="input-resize-content df-input w-full min-h-[15lh] max-h-[15lh]"
         value={input} onChange={handleInputChange} />
     </div>

@@ -2,18 +2,15 @@
 
 "use client";
 
-import { KeyboardEvent, useState } from "react";
+import { useState } from "react";
 // Components
 import LayoutDefault from "@/components/layout/LayoutDefault";
 import InputFileImage from "@/components/post/InputFileImage";
 import AddTags from "@/components/post/AddTags";
 import PaddingBlock from "@/components/ui/PaddingBlock";
-// Types
-import { PostUpload } from "@/types/PostUpload";
 // Provider
 import { useNotification } from "@/components/providers/NotificationProvider";
 // Scripts
-import { setPost } from "@/services";
 import PostType from "@/components/post/PostType";
 import EditorWrapper from "@/components/Editors/EditorWrapper";
 import { PostProvider, usePostContext } from "@/components/providers/PostProvider";
@@ -44,20 +41,10 @@ function PostPage() {
       return;
     }
 
-
     setIsUploading(true);
 
     try {
-      const type = content.postType === 1 ? 'POST_QUESTION' : 'POST_ARTICLE'
-      // const status = await setPost(content, type);
-      // if (!status.success) {
-      //   addNotification(status.message!);
-      //   return;
-      // }
-      /**
-       * TO DO
-       * REROUTE USER
-       */
+      await postContent();
       addNotification('Post Uploaded!')
     } catch (error) {
       console.error(error);
