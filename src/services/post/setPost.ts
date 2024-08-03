@@ -5,6 +5,7 @@ import getUserValue from "../user/getUserValue";
 import { Post } from "@/types/Post";
 import { PostUpload } from "@/types/PostUpload";
 import { Status } from "@/types/Status";
+import formatFSDate from "../util/formatFSDate";
 
 // File Language types
 interface LanguageOption {
@@ -56,11 +57,12 @@ export default async function setPost(postContent: PostUpload, dbPath: string): 
       authorFirstName: userFN,
       authorLastName: userLN,
       createdAt: serverTimestamp() as Timestamp,
-      date: formatDate(new Date()),
+      date: formatFSDate(new Date()),
       title: postContent.title,
       imageURL: 'NullPlaceHolder',
       contentURLs: [],
-      tags: postContent.tags
+      tags: postContent.tags,
+      postType: postContent.postType
     };
 
     // Add the post document to the collection
@@ -119,11 +121,4 @@ export default async function setPost(postContent: PostUpload, dbPath: string): 
   }
 }
 
-/**
- * Format Date as dd Month yyyy
- * @param date Date
- * @returns Formatted date string
- */
-const formatDate = (date: Date): string => {
-  return date.toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' });
-};
+

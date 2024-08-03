@@ -17,31 +17,31 @@ interface PostDetailedModalProps {
 const PostDetailedModal: React.FC<PostDetailedModalProps> = ({ pd, onClose }) => {
   const [markdownText, setMarkdownText] = useState<string | null>(null);
 
-  useEffect(() => {
-    const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => {
-      window.removeEventListener("keydown", handleEsc);
-    };
-  }, [onClose]);
+  // useEffect(() => {
+  //   const handleEsc = (event: KeyboardEvent) => {
+  //     if (event.key === "Escape") {
+  //       onClose();
+  //     }
+  //   };
+  //   window.addEventListener("keydown", handleEsc);
+  //   return () => {
+  //     window.removeEventListener("keydown", handleEsc);
+  //   };
+  // }, [onClose]);
 
-  useEffect(() => {
-    getMarkdown();
-  }, [])
+  // useEffect(() => {
+  //   getMarkdown();
+  // }, [])
 
-  const getMarkdown = async () => {
-    try {
-      const response = await fetch(pd.markdownURL);
-      const text = await response.text();
-      setMarkdownText(text);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const getMarkdown = async () => {
+  //   try {
+  //     const response = await fetch(pd.markdownURL);
+  //     const text = await response.text();
+  //     setMarkdownText(text);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return createPortal(
     <div className='fixed top-0 left-0 w-[100vw] h-[100vh] bg-black bg-opacity-70 flex flex-col justify-center items-center z-50'>
@@ -63,7 +63,7 @@ const PostDetailedModal: React.FC<PostDetailedModalProps> = ({ pd, onClose }) =>
             <div className="absolute bottom-0 left-0 right-0 h-[250px] w-full pointer-events-none bg-gradient-to-t from-hsl-l98 dark:from-hsl-l13"></div>
 
             <div className='absolute bottom-8 right-0'>
-              <Link href={`/question/${pd.postId}`} className="btn">View Post</Link>
+              <Link href={`/view-post/${pd.postId}`} className="btn">View Post</Link>
             </div>
           </div>
 

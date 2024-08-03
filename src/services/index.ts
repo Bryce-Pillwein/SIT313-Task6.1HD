@@ -14,4 +14,9 @@ export { default as getAllQuestions } from '@/services/post/getAllQuestions';
 export { default as getUserQuestions } from '@/services/post/getUserQuestions';
 export { default as getFeaturedPosts } from '@/services/post/getFeaturedPosts';
 
+export { default as setPostComment } from '@/services/postInteractions/setPostComment';
+export { default as getPostComments } from '@/services/postInteractions/getPostComments';
+export { default as deletePostComment } from '@/services/postInteractions/deletePostComment';
+export { default as reportPostComment } from '@/services/postInteractions/reportPostComment';
+
 export { default as getUserValue } from '@/services/user/getUserValue';

@@ -7,7 +7,7 @@ import { setPost } from '@/services';
 import { PostUpload } from '@/types/PostUpload';
 
 interface PostContent {
-  postType: -1 | 1 | 2;
+  postType: string;
   title: string;
   tags: string[];
   image: File | null;
@@ -21,7 +21,7 @@ interface PostContextType {
   moveComponent: (index: number, direction: 'up' | 'down') => void;
   updateContent: (id: string, content: string) => void;
   updateComponentFiletype: (id: string, filetype: string) => void;
-  updatePostType: (value: -1 | 1 | 2) => void;
+  updatePostType: (value: string) => void;
   handleTitleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleImageChange: (file: File | null) => void;
   updateContentTags: (newTags: string[]) => void;
@@ -55,11 +55,11 @@ interface PostProviderProps {
 export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
   const { addNotification } = useNotification();
   const [components, setComponents] = useState<EditorComponent[]>([]);
-  const [content, setContent] = useState<PostContent>({ postType: -1, title: '', tags: [], image: null });
+  const [content, setContent] = useState<PostContent>({ postType: '', title: '', tags: [], image: null });
 
 
   // Update Post Type (null, question, article)
-  const updatePostType = (value: -1 | 1 | 2) => {
+  const updatePostType = (value: string) => {
     setContent({ ...content, postType: value });
   }
 
@@ -130,11 +130,12 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
         title: content.title,
         tags: content.tags,
         image: content.image,
+        postType: content.postType,
         components,
       };
 
       // Determine post path in db and init setPost
-      const dbPath = content.postType === 1 ? 'POST_QUESTION' : 'POST_ARTICLE';
+      const dbPath = content.postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE';
       const status = await setPost(postData, dbPath);
 
       // Set Message if exists
@@ -144,7 +145,7 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
       }
 
       // Reset Data Fields
-      setContent({ postType: -1, title: '', tags: [], image: null });
+      setContent({ postType: '', title: '', tags: [], image: null });
       setComponents([]);
     } catch (error) {
       console.error(error);

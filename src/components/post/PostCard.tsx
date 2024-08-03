@@ -33,7 +33,7 @@ const PostCard: React.FC<PostCardProp> = ({ pd, hideQuestion }) => {
 
   return (
     <div className="group bg-hsl-l100 dark:bg-hsl-l15 rounded-lg shadow-md overflow-hidden w-full max-w-full mx-auto relative">
-      <Link href={`/question/${pd.postId}`}>
+      <Link href={`/view-post/${pd.postId}?type=${pd.postType}`}>
 
         {/* IMAGE */}
         <div className="relative pb-[56.25%]"> {/* 16:9 Aspect Ratio */}

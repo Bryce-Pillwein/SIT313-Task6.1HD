@@ -5,19 +5,19 @@
 import { useState } from "react";
 // Components
 import LayoutDefault from "@/components/layout/LayoutDefault";
-import InputFileImage from "@/components/post/InputFileImage";
-import AddTags from "@/components/post/AddTags";
+import InputFileImage from "@/components/postCreation/InputFileImage";
+import AddTags from "@/components/postCreation/AddTags";
 import PaddingBlock from "@/components/ui/PaddingBlock";
 // Provider
 import { useNotification } from "@/components/providers/NotificationProvider";
 // Scripts
-import PostType from "@/components/post/PostType";
-import EditorWrapper from "@/components/Editors/EditorWrapper";
+import PostType from "@/components/postCreation/PostType";
+import EditorWrapper from "@/components/postEditors/EditorWrapper";
 import { PostProvider, usePostContext } from "@/components/providers/PostProvider";
 
 function PostPage() {
   const { addNotification } = useNotification();
-  const { content, handleTitleChange, postContent } = usePostContext();
+  const { content, components, handleTitleChange, postContent } = usePostContext();
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
 
@@ -26,7 +26,7 @@ function PostPage() {
    */
   const submitPost = async () => {
     // Error Validation
-    if (content.postType !== 1 && content.postType !== 2) {
+    if (content.postType !== 'question' && content.postType !== 'article') {
       addNotification('Choose Post Type (Question or Article)');
       return;
     }
@@ -38,6 +38,11 @@ function PostPage() {
 
     if (!content.image) {
       addNotification('Upload An Image');
+      return;
+    }
+
+    if (components.length <= 0) {
+      addNotification('Post is Empty! Add Content');
       return;
     }
 
@@ -60,7 +65,7 @@ function PostPage() {
 
         <main className="my-8">
           <div className="flex justify-between items-center">
-            <h1 className="font-semibold text-3xl ml-4">Post {content.postType === -1 ? '' : content.postType === 1 ? '(Question)' : '(Article)'}</h1>
+            <h1 className="font-semibold text-3xl ml-4">Post {content.postType === 'question' ? '(Question)' : '(Article)'}</h1>
           </div>
 
           <div className="grid grid-cols-3 gap-x-8 gap-y-4 mt-4 bg-hsl-l100 dark:bg-hsl-l15 shadow py-8 px-4 md:px-8 rounded-lg">
@@ -89,7 +94,7 @@ function PostPage() {
 
 
             <div className=" col-span-3 flex justify-end mt-4 md:mt-16">
-              <button className="btn" type="button" onClick={submitPost}>Post</button>
+              <button className="bg-hsl-l95 dark:bg-hsl-l20 text-hsl-l50 font-medium px-4 py-2 border-none outline-none rounded-md hover:bg-mb-pink hover:dark:bg-mb-yellow hover:text-hsl-l100" type="button" onClick={submitPost}>Submit</button>
             </div>
           </div>
         </main>

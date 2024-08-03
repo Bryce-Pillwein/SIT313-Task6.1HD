@@ -31,7 +31,7 @@ const Header = () => {
 
 
       <div className="flex items-center gap-x-4 mb:gap-x-10">
-        <Link href="/post" className="">Post</Link>
+        <Link href="/create-post" className="">Post</Link>
         <Link href="/questions" className="">Questions</Link>
 
         {!user ? (

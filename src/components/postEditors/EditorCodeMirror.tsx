@@ -1,6 +1,6 @@
-// Input Code Mirror
+// Editor Code Mirror tsx
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CodeMirror, { ViewUpdate } from '@uiw/react-codemirror';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';

@@ -7,5 +7,6 @@ export interface PostUpload {
   title: string;
   tags: string[];
   image: File | null;
+  postType: string;
   components: EditorComponent[];
 }

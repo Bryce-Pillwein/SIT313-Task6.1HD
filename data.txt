@@ -1,28 +1,91 @@
-QUESTIONS  EXAMPLES
-Hi Devs,  
-I'm working on a group project and we're using Git for version control. What are some best practices for collaborative coding and version control to avoid conflicts and ensure smooth integration of everyone's work?  
-Any tips on workflow and communication would be helpful!
+POSTS
+
+Hey everyone,  
+I'm not much of a morning person, and I got stuck with an 8am lecture (I'm new and stuffed up my STAR assignment lol). I desperately need some good coffee to make it through. Any recommendations for the best coffee spots on campus?
 
 
 Hi Devs,  
+
 I'm working on a web application and want to ensure it looks good on all devices.  
 What are some best practices for implementing responsive design? Can someone share tips on using CSS media queries and frameworks like Bootstrap? What should I know about tailwind before trying it out?  
 Also let me know which frameworks are your favourite for web applications and which are best for responsive design!
-
 
 Hi Devs,  
 I've heard about the concept of rubber duck debugging, where programmers talk through their code problems to an inanimate object, like a rubber duck, to help them find solutions.  
 How exactly does this method work, and why is it effective?  
 Can someone share best practices or personal experiences with using rubber duck debugging to improve problem-solving skills and overall programming ability? Any tips on how to effectively 'talk' to the rubber duck would be greatly appreciated!
 
+Hi all,  
+I'm interested in learning more about DevOps and the tools that are commonly used in the industry. Could someone explain the key concepts of DevOps and recommend some tools for continuous integration and continuous deployment?
 
+Hello,  
+I'm currently learning about asynchronous programming in JavaScript and struggling a bit. Can anyone explain the difference between callbacks, promises, and async/await? 
+In what scenarios should each be used?
+
+Hi all,  
+Quick question for my fellow food lovers: where can I find the best food on campus. I am at Burwood.
+I keep hearing good things about the hot chips near the basketball courts, however there is two restaurants near here.  
+Let me know your recommendations.
 
 Hi all!  
-I've noticed that some of my SQL queries are running slowly, and it's affecting the performance of my application. What are some common techniques for optimizing SQL queries?  
+I've noticed that some of my SQL queries are running slowly, and it's affecting the performance of my application. What are some common techniques for optimising SQL queries?  
 Are there specific tools or practices that can help identify and resolve performance bottlenecks?
 
+Hello fellow developers,  
+I've been working on a large codebase, and I'm finding it hard to keep my code clean and readable.  
+What are some techniques or practices you follow to improve code readability and maintainability? Any tips on writing self-documenting code?
 
-Hi, 
+Hello,  
+I'm fascinated by machine learning and want to start building my own models. Can someone recommend the best resources or courses for beginners in machine learning? What programming languages and tools should I focus on learning?
+
+Hey everyone,  
+I'm always running out of battery on my devices while I'm on campus. Does anyone know where the best spots are for charging stations or places to plug in and charge up? Any tips on where to find outlets or charging stations would be awesome!
+
+Hi everyone,  
+I'm looking for some quiet places to study around campus, especially with exams coming up. Besides the library, where do you go to get some serious studying done? Any hidden gems or favourite spots you recommend?
+
+
+Hi Devs,  
+I'm working on a group project and we're using Git for version control. What are some best practices for collaborative coding and version control to avoid conflicts and ensure smooth integration of everyone's work?  
+Any tips on workflow and communication would be helpful!
+
+Hi everyone,  
+I'm designing a database for my new project and want to make sure it's efficient and scalable. I want to use only free options. So far I have been looking in to Firestore (Firebase), MongoDB and potentially AWS.  
+Here are some questions I have:
+- Do you guys have experience with these?
+- What are some best practices for database design?
+- Are there specific patterns or methodologies that you follow to avoid common pitfalls?
+- Which will scale?
+
+Hi Devs,  
 I'm new to web development and looking for guidance on where to start.  
-Can someone recommend resources or share tips on learning HTML, CSS, and JavaScript effectively?  
-Any advice on projects or exercises to practice these skills would be appreciated!
+Can someone recommend resources or share tips on learning HTML, CSS, and JavaScript effectively? Any advice on projects or exercises to practice these skills would be appreciated!
+
+
+
+
+
+Embarking on your journey into web development begins with learning HTML, the foundational language that structures web pages. HTML, or HyperText Markup Language, is a markup language used to create the skeleton of a webpage. Here's a comprehensive guide to help you understand the basics of HTML development.
+
+#### Understanding HTML Structure
+
+At its core, HTML consists of a series of elements, represented by tags, that define the content and structure of a webpage. Each HTML document starts with a `<!DOCTYPE html>` declaration, followed by the `<html>` element which encompasses the entire content of the page. Inside the `<html>` element, you'll typically find two main sections: `<head>` and `<body>`.
+
+-   **`<!DOCTYPE html>`**: This declaration defines the document type and version of HTML.
+-   **`<html>`**: The root element of an HTML page.
+-   **`<head>`**: Contains meta-information about the document, such as the title, character set, and links to stylesheets.
+-   **`<body>`**: Contains the actual content of the webpage that is visible to users.
+
+#### Basic HTML Tags
+
+Here are some of the most commonly used HTML tags that form the building blocks of web development:
+
+-   **`<h1> to <h6>`**: Header tags, with `<h1>` being the highest (or most important) level and `<h6>` the lowest.
+-   **`<p>`**: Paragraph tag, used to define blocks of text.
+-   **`<a>`**: Anchor tag, used to create hyperlinks. It requires an `href` attribute to specify the URL.
+-   **`<img>`**: Image tag, used to embed images. It requires a `src` attribute to specify the image source and an `alt` attribute for alternative text.
+-   **`<ul>`, `<ol>`, `<li>`**: Used to create lists. `<ul>` is for unordered lists (bulleted), `<ol>` is for ordered lists (numbered), and `<li>` defines list items.
+-   **`<div>` and `<span>`**: Generic containers for grouping and styling purposes. `<div>` is a block-level element, while `<span>` is an inline element.
+-   **`<form>`**: Used to create forms for user input. It can contain various form elements like `<input>`, `<textarea>`, `<button>`, and `<select>`.
+
+
