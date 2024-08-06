@@ -8,7 +8,7 @@ type Props = {
   description: string;
 };
 
-const SubscribeComponent = ({ priceId, price, description }: Props) => {
+const SubscribeMembership = ({ priceId, price, description }: Props) => {
 
   /**
    * Handle Submit
@@ -50,4 +50,4 @@ const SubscribeComponent = ({ priceId, price, description }: Props) => {
   );
 };
 
-export default SubscribeComponent;
+export default SubscribeMembership;
