@@ -2,7 +2,7 @@ import { addDoc, collection, doc, getDoc, serverTimestamp, Timestamp, updateDoc 
 import { db, auth } from "@/firebaseConfig";
 import getUserValue from "../user/getUserValue";
 import formatFSDate from "../util/formatFSDate";
-import { Status } from "@/types/xStatus";
+import { Status } from "@/types/Status";
 import { PostComment } from "@/types/PostComment";
 
 export default async function setPostComment(postId: string, dbPath: string, commentValue: string): Promise<Status> {

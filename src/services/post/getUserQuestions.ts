@@ -1,6 +1,6 @@
 import { db, auth } from "@/firebaseConfig";
-import { Post } from "@/types/xPost";
-import { Status } from "@/types/xStatus";
+import { Post } from "@/types/Post";
+import { Status } from "@/types/Status";
 import { getDoc, doc } from "firebase/firestore";
 import getPost from "./getPost";
 

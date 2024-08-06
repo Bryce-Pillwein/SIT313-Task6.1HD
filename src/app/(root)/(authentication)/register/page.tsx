@@ -2,8 +2,6 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { firebaseApp } from "../../../../firebaseConfig";
 import { useRouter } from "next/navigation";
 import LayoutHeaderOnly from "@/components/layout/LayoutDefault";
 import { registerWithEmail } from "@/services";

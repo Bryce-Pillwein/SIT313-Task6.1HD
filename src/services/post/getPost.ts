@@ -1,7 +1,7 @@
 import { collection, doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
-import { Post } from "@/types/xPost";
-import { Status } from "@/types/xStatus";
+import { Post } from "@/types/Post";
+import { Status } from "@/types/Status";
 
 
 /**

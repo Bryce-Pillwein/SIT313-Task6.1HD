@@ -7,7 +7,7 @@ import LayoutDefault from "@/components/layout/LayoutDefault";
 import SubscribeBanner from "@/components/SubscribeBanner";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Post } from "@/types/xPost";
+import { Post } from "@/types/Post";
 import { getAllQuestions, getFeaturedPosts } from "@/services";
 import { useNotification } from "@/components/providers/NotificationProvider";
 import PostCard from "@/components/post/PostCard";

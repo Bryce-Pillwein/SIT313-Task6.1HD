@@ -1,6 +1,6 @@
 import { db } from "@/firebaseConfig";
 import { doc, deleteDoc } from "firebase/firestore";
-import { Status } from "@/types/xStatus";
+import { Status } from "@/types/Status";
 
 /**
  * Delete Post Comment

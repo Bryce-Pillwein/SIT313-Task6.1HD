@@ -2,9 +2,9 @@ import { addDoc, arrayUnion, collection, doc, getDoc, serverTimestamp, setDoc, T
 import { db, auth, storage } from "@/firebaseConfig";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import getUserValue from "../user/getUserValue";
-import { Post } from "@/types/xPost";
+import { Post } from "@/types/Post";
 import { PostUpload } from "@/types/PostUpload";
-import { Status } from "@/types/xStatus";
+import { Status } from "@/types/Status";
 import formatFSDate from "../util/formatFSDate";
 
 // File Language types

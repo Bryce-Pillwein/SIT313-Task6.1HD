@@ -1,6 +1,6 @@
 import { db, auth } from "@/firebaseConfig";
 import { collection, addDoc, serverTimestamp, Timestamp } from "firebase/firestore";
-import { Status } from "@/types/xStatus";
+import { Status } from "@/types/Status";
 import formatFSDate from "../util/formatFSDate";
 
 export interface ReportData {

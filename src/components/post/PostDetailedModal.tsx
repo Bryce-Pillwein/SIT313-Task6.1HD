@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 // Components
 import IconGeneral from '../icons/IconGeneral';
 // Types
-import { Post } from '@/types/xPost';
+import { Post } from '@/types/Post';
 import Markdown from 'react-markdown';
 
 interface PostDetailedModalProps {

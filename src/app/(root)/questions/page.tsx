@@ -12,7 +12,7 @@ import PostBanner from "@/components/post/PostBanner";
 import IconGeneral from "@/components/icons/IconGeneral";
 import { useNotification } from "@/components/providers/NotificationProvider";
 // Types
-import { Post } from "@/types/xPost";
+import { Post } from "@/types/Post";
 // Scripts
 import { getAllQuestions } from "@/services";
 

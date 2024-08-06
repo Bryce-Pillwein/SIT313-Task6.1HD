@@ -1,6 +1,6 @@
 import { db, storage } from "@/firebaseConfig";
-import { Post } from "@/types/xPost";
-import { Status } from "@/types/xStatus";
+import { Post } from "@/types/Post";
+import { Status } from "@/types/Status";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { ref, deleteObject, uploadBytes, getDownloadURL } from "firebase/storage";
 
