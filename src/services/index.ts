@@ -21,3 +21,6 @@ export { default as reportPostComment } from '@/services/postInteractions/report
 
 export { default as getUserValue } from '@/services/user/getUserValue';
 export { default as setSubscriber } from '@/services/user/setSubscriber';
+
+
+export { default as getStripe } from '@/services/util/getStripe';
