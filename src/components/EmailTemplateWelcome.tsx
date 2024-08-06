@@ -33,10 +33,10 @@ const EmailTemplateWelcome: React.FC<EmailTemplateWelcomeProps> = ({ name }) => 
             <Section>
               <Row>
                 <Text className="text-base">
-                  We're thrilled to have you join our growing network of passionate developers and IT enthusiasts. By subscribing to our newsletter, you've taken the first step towards staying informed and engaged with the latest trends, insights, and discussions in Deakin's world of software development.
+                  We are thrilled to have you join our growing network of passionate developers and IT enthusiasts. By subscribing to our newsletter, you have taken the first step towards staying informed and engaged with the latest trends, insights, and discussions in the world of Deakin software development.
                 </Text>
 
-                <Text className="text-base">Here's what you can expect from our newsletter:</Text>
+                <Text className="text-base">Here is what you can expect from our newsletter:</Text>
               </Row>
             </Section>
 
@@ -60,7 +60,7 @@ const EmailTemplateWelcome: React.FC<EmailTemplateWelcomeProps> = ({ name }) => 
             </ul>
 
             <Row>
-              <Text className="text-base">To get started, why not check out some of our latest posts on the Devs @ Deakin website? You'll find a variety of content that caters to different interests and skill levels.</Text>
+              <Text className="text-base">To get started, why not check out some of our latest posts on the Devs @ Deakin website? You will find a variety of content that caters to different interests and skill levels.</Text>
             </Row>
 
             <Section className="text-center">

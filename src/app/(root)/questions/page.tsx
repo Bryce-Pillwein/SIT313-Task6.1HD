@@ -1,7 +1,7 @@
 // Questions Page tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 // Components
@@ -26,18 +26,11 @@ export default function Questions() {
   const [gridDisplay, setGridDisplay] = useState<boolean>(true);
 
   /**
-   * Fetch Questions Upon Mounting Page
-   */
-  useEffect(() => {
-    getQuestions();
-  }, []);
-
-  /**
    * Get Questions
    * Set trending and latest question arrays
    * @returns 
    */
-  const getQuestions = async () => {
+  const getQuestions = useCallback(async () => {
     try {
       const response = await getAllQuestions();
       if (!response) return;
@@ -51,7 +44,14 @@ export default function Questions() {
     } finally {
       setIsFetchingQuestions(false);
     }
-  };
+  }, [addNotification]);
+
+  /**
+ * Fetch Questions Upon Mounting Page
+ */
+  useEffect(() => {
+    getQuestions();
+  }, [getQuestions]);
 
   /**
    * Hide Trending Questions

@@ -60,7 +60,7 @@ export default function Login() {
           <button type="submit" className="btn cta-btn mt-3 w-full">Login</button>
 
           <p className="text-sub-14 text-center mt-5">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/register" className="text-hsl-l5 dark:text-hsl-l85 hover:underline">Register</Link>
           </p>
 
