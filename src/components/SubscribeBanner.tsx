@@ -1,6 +1,4 @@
-// Subscribe tsx
-
-"use client";
+// Subscribe Banner tsx
 
 import { useState } from "react";
 import { useNotification } from "./providers/NotificationProvider";
@@ -69,7 +67,6 @@ const SubscribeBanner = () => {
 
   return (
     <form className="w-full flex flex-wrap flex-col items-center my-8 gap-2" onSubmit={sendWelcomeEmail}>
-
       <div className="w-full flex justify-between py-2 px-2">
         <input type="name" name="name" placeholder="Write Your Name"
           className="w-full border-none outline-none bg-inherit placeholder-hsl-l70 font-mono"
@@ -86,7 +83,6 @@ const SubscribeBanner = () => {
           <IconGeneral type="arrow-right" fill={"#FFE900"} />
         </button>
       </div>
-
     </form>
   )
 };
