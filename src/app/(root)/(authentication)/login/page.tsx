@@ -36,8 +36,6 @@ export default function Login() {
 
       const idToken = await status.credential!.user.getIdToken();
 
-      console.log("ID TOKEN:", idToken);
-
       const response = await fetch("/api/login", {
         headers: {
           Authorization: `Bearer ${idToken}`,
