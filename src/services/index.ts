@@ -20,3 +20,4 @@ export { default as deletePostComment } from '@/services/postInteractions/delete
 export { default as reportPostComment } from '@/services/postInteractions/reportPostComment';
 
 export { default as getUserValue } from '@/services/user/getUserValue';
+export { default as setSubscriber } from '@/services/user/setSubscriber';

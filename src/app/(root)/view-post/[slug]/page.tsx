@@ -120,6 +120,12 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
                 <div className="flex items-center gap-4  mb-8">
                   <ProfilePicture size="30" />
                   <p className="text-hsl-l50">{post.authorFirstName} {post.authorLastName} &#x2022; {post.date}</p>
+
+                  <div className="flex flex-wrap items-center gap-1">
+                    {post.tags?.map((tag, idx) => (
+                      <p key={idx} className="bg-hsl-l95 dark:bg-hsl-l20 px-2 py text-hsl-l50 text-xxs rounded-lg">{tag}</p>
+                    ))}
+                  </div>
                 </div>
 
                 {contentComponents.map((component: EditorComponent, index: number) => (
@@ -146,19 +152,16 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
 
 
             <section className="col-span-3 md:col-span-1 relative">
-              <div className="bg-hsl-l100 dark:bg-hsl-l15 rounded-lg shadow-md overflow-hidden w-full max-w-full p-2 sticky top-4">
-                <div className="flex flex-wrap items-center gap-1">
-                  {post.tags?.map((tag, idx) => (
-                    <p key={idx} className="bg-hsl-l95 dark:bg-hsl-l20 px-2 py text-hsl-l50 text-xxs rounded-lg">{tag}</p>
-                  ))}
-                </div>
+              <div className="bg-hsl-l100 dark:bg-hsl-l15 border border-hsl-l90 dark:border-hsl-l25 rounded-lg shadow-md overflow-hidden w-full max-w-full p-2 sticky top-4">
 
-                <IconInteraction type="like" />
-                <IconInteraction type="dislike" />
-                <IconInteraction type="heart" />
-                <IconGeneral type="comment" />
-                <p>{commentsTotal}</p>
-                <IconGeneral type="flag" />
+                <div className="flex justify-evenly">
+                  <IconInteraction type="like" size={30} />
+                  <IconInteraction type="dislike" size={30} />
+                  <IconInteraction type="heart" size={30} />
+                  <IconInteraction type="comment" size={30} />
+                  {/* <p>{commentsTotal}</p> */}
+                  <IconInteraction type="flag" size={30} />
+                </div>
 
               </div>
             </section>

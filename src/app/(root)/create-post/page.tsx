@@ -65,7 +65,7 @@ function PostPage() {
 
         <main className="my-8">
           <div className="flex justify-between items-center">
-            <h1 className="font-semibold text-3xl ml-4">Post {content.postType === 'question' ? '(Question)' : '(Article)'}</h1>
+            <h1 className="font-semibold text-3xl ml-4">Post {content.postType === 'question' ? '(Question)' : content.postType === 'article' ? '(Article)' : null}</h1>
           </div>
 
           <div className="grid grid-cols-3 gap-x-8 gap-y-4 mt-4 bg-hsl-l100 dark:bg-hsl-l15 shadow py-8 px-4 md:px-8 rounded-lg">

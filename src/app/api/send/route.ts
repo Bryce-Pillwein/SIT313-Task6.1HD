@@ -11,14 +11,14 @@ const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
  * @returns response
  */
 export async function POST(request: Request) {
-  const { userName, email } = await request.json(); // Get email from request body
+  const { name, email } = await request.json(); // Get email from request body
 
   try {
     const { data, error } = await resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
       to: [email],
       subject: 'Hello world',
-      react: EmailTemplateWelcome({ name: userName }) as React.ReactElement,
+      react: EmailTemplateWelcome({ name: name }) as React.ReactElement,
     });
 
     if (error) {

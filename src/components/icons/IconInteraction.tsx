@@ -1,12 +1,14 @@
 // Icon Interaction tsx
 
+import { useState } from "react";
+
 interface IconInteractionProps {
   type: string;
   size?: number;
-  fill?: string;
 }
 
-const IconInteraction: React.FC<IconInteractionProps> = ({ type, size = 24, fill = 'hsl(0 0% 50%)' }) => {
+const IconInteraction: React.FC<IconInteractionProps> = ({ type, size = 24 }) => {
+  const [fill, setFill] = useState('hsl(0 0% 40%)');
 
   /**
      * Get Svg Content
@@ -23,6 +25,12 @@ const IconInteraction: React.FC<IconInteractionProps> = ({ type, size = 24, fill
       // Heart
       case 'heart':
         return "M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z";
+      // Comment
+      case 'comment':
+        return "M280-240q-17 0-28.5-11.5T240-280v-80h520v-360h80q17 0 28.5 11.5T880-680v503q0 27-24.5 37.5T812-148l-92-92H280Zm-40-200-92 92q-19 19-43.5 8.5T80-377v-463q0-17 11.5-28.5T120-880h520q17 0 28.5 11.5T680-840v360q0 17-11.5 28.5T640-440H240Z";
+      // Flag
+      case 'flag':
+        return "M280-400v240q0 17-11.5 28.5T240-120q-17 0-28.5-11.5T200-160v-600q0-17 11.5-28.5T240-800h287q14 0 25 9t14 23l10 48h184q17 0 28.5 11.5T800-680v320q0 17-11.5 28.5T760-320H553q-14 0-25-9t-14-23l-10-48H280Z";
       // Placeholder
       default:
         return "M256-200h447l-84-84q-29 21-64.5 32.5T480-240q-39 0-74.5-12T341-285l-85 85Zm-56-57 84-84q-21-29-32.5-64.5T240-480q0-39 12-74.5t33-64.5l-85-85v447Zm142-142 82-81-82-81q-11 18-16.5 38t-5.5 43q0 23 5.5 43t16.5 38Zm138 79q23 0 43-5.5t38-16.5l-81-82-82 82q18 11 38.5 16.5T480-320Zm0-217 81-81q-18-11-38-16.5t-43-5.5q-23 0-43 5.5T399-618l81 81Zm138 138q11-18 16.5-38t5.5-43q0-23-5.5-43.5T618-562l-81 81 81 82Zm142 142v-447l-85 85q21 29 33 64.5t12 74.5q0 39-11.5 74.5T676-341l84 84ZM619-675l85-85H257l84 84q29-21 64.5-32.5T480-720q39 0 74.5 12t64.5 33ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Z";
@@ -32,9 +40,18 @@ const IconInteraction: React.FC<IconInteractionProps> = ({ type, size = 24, fill
   const svgContent = getSvgContent();
 
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} className="flex-shrink-0">
-      <path d={svgContent} />
-    </svg>
+    <div onMouseEnter={() => setFill('hsl(0 0% 5%)')} onMouseLeave={() => setFill('hsl(0 0% 40%)')}>
+      {(type === 'like' || type === 'dislike' || type === 'heart') ? (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} className="flex-shrink-0">
+          <path d={svgContent} />
+        </svg>
+      ) : (
+        <svg width={size} height={size} viewBox="0 -960 960 960" fill={fill} className="flex-shrink-0">
+          <path d={svgContent} />
+        </svg>
+      )}
+    </div>
+
   );
 }
 

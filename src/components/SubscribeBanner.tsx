@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { useNotification } from "./providers/NotificationProvider";
 import IconGeneral from "./icons/IconGeneral";
+import { setSubscriber } from "@/services";
 
 const SubscribeBanner = () => {
   const { addNotification } = useNotification();
@@ -18,41 +19,56 @@ const SubscribeBanner = () => {
   const sendWelcomeEmail = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    const validName: string = userName.trim();
+    const validEmail: string = email.trim();
+    // Reset Values
+    setUserName('');
+    setEmail('');
+
     // Validate input
-    if (!userName || !email) {
+    if (!validName || validName.length <= 0 || !validEmail || validEmail.length <= 0) {
       addNotification('Enter name and email');
       return;
     }
 
     try {
+      // Add Email to database
+      const status = await setSubscriber(validName, validEmail);
+      if (!status.success) {
+        addNotification(status.message!);
+        return;
+      }
+
       // Send Email API
       const response = await fetch('/api/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userName, email }),
+        body: JSON.stringify({ name: validName, email: validEmail }),
       });
 
+      // Handle Response Error
+      if (!response.ok) {
+        const errorData = await response.json();
+        addNotification('Error sending email. Try Again Later');
+        console.error(errorData.message)
+        return;
+      }
+
       const data = await response.json();
-      console.log(data);
+      console.log("Response", data);
       addNotification('Welcome! Email added');
     } catch (error) {
       addNotification('Error. Try again');
       console.error(error);
-    } finally {
-      // Reset Values
-      setUserName('');
-      setEmail('');
     }
-
   };
 
 
 
   return (
     <form className="w-full flex flex-wrap flex-col items-center my-8 gap-2" onSubmit={sendWelcomeEmail}>
-
 
       <div className="w-full flex justify-between py-2 px-2">
         <input type="name" name="name" placeholder="Write Your Name"

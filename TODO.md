@@ -6,3 +6,4 @@
 - Implement trending feature using interactions
 - Add featured flag
 - ADD all links to footer
+- Update subscribe email button
