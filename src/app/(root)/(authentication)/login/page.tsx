@@ -25,6 +25,7 @@ export default function Login() {
         messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
         appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
         measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+        privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY
       });
 
       const status = await signInWithEmail({ email, password });
