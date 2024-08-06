@@ -11,7 +11,7 @@ import IconInteraction from "@/components/icons/IconInteraction";
 import IconGeneral from "@/components/icons/IconGeneral";
 import { useNotification } from "@/components/providers/NotificationProvider";
 // Types
-import { Post } from "@/types/Post";
+import { Post } from "@/types/xPost";
 // Scripts
 import getPost from "@/services/post/getPost";
 import { EditorComponent } from "@/types/EditorComponent";

@@ -1,6 +1,6 @@
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
-import { Status } from "@/types/Status";
+import { Status } from "@/types/xStatus";
 
 /**
  * Set Subscriber

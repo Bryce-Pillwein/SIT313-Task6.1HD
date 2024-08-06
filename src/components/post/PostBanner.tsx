@@ -4,7 +4,7 @@ import Link from "next/link";
 // Componenets
 import IconGeneral from "../icons/IconGeneral";
 // Types
-import { Post } from "@/types/Post";
+import { Post } from "@/types/xPost";
 
 interface PostBannerProps {
   pd: Post; // Post Data
