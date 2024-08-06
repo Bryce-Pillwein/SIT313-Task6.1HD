@@ -7,3 +7,11 @@
 - Add featured flag
 - ADD all links to footer
 - Update subscribe email button
+
+
+Features Paid
+- Badgers
+- Love Emote
+- Messaging Features
+- Featured Post Access
+- More Code Blocks

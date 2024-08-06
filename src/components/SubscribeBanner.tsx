@@ -1,5 +1,7 @@
 // Subscribe Banner tsx
 
+"use client";
+
 import { useState } from "react";
 import { useNotification } from "./providers/NotificationProvider";
 import IconGeneral from "./icons/IconGeneral";

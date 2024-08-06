@@ -6,16 +6,18 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 
 export async function POST(request: NextRequest) {
+  console.log("RUNNING CHECKOUT POST")
   try {
-    const uid = getAuth().currentUser?.uid
+    // const uid = getAuth().currentUser?.uid
+    // console.log("UID", uid)
 
-    if (!uid) {
-      return;
-    }
+    // if (!uid) {
+    //   return;
+    // }
 
-    // you can implement some basic check here like, is user valid or not
     const data = await request.json();
     const priceId = data.priceId;
+
     const checkoutSession: Stripe.Checkout.Session =
       await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -25,14 +27,15 @@ export async function POST(request: NextRequest) {
             quantity: 1
           }
         ],
-        mode: 'payment',
-        success_url: `${process.env.NEXT_BASE_URL}/billing`,
-        cancel_url: `${process.env.NEXT_BASE_URL}/billing`,
+        mode: 'subscription',
+        success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/billing`,
+        cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
         metadata: {
-          userId: uid,
+          userId: 'nullID', //uid,
           priceId
         }
       });
+
     return NextResponse.json({ result: checkoutSession, ok: true });
   } catch (error) {
     console.log(error);

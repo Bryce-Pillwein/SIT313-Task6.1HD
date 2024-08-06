@@ -1,14 +1,12 @@
-'use client';
+"use client";
 
 import { getStripe } from '@/services';
 
-type Props = {
+interface MembershipPlanProps {
   priceId: string;
-  price: string;
-  description: string;
 };
 
-const SubscribeMembership = ({ priceId, price, description }: Props) => {
+const MembershipPlan: React.FC<MembershipPlanProps> = ({ priceId }) => {
 
   /**
    * Handle Submit
@@ -17,18 +15,22 @@ const SubscribeMembership = ({ priceId, price, description }: Props) => {
   const handleSubmit = async () => {
     const stripe = await getStripe();
 
+    console.log("STRIPE ", stripe);
+
     if (!stripe) {
       return;
     }
 
     try {
-      const response = await fetch('/api/stripe-checkout', {
+      const response = await fetch('/api/stripeCheckout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ priceId: priceId }),
       });
+
+      console.log("Response received");
 
       if (!response.ok) {
         console.log("RESPONSE ERROR")
@@ -46,27 +48,11 @@ const SubscribeMembership = ({ priceId, price, description }: Props) => {
   };
 
   return (
-    <div className="flex justify-evenly">
-
-      {/* Free Membership */}
-      <div>
-        <h1>Free Membership</h1>
-
-      </div>
-
-      {/* Premium Membership */}
-      <div>
-        <h1>Premium Membership</h1>
-
-        <p>Product: {description}</p>
-        <p>${price} AUD</p>
-
-        <button type="button" onClick={handleSubmit}
-          className='bg-hsl-l50 font-medium font-sdisplay px-4 py-2 rounded-lg'>UPGRADE</button>
-      </div>
-
+    <div className='w-full flex justify-center items-center'>
+      <button type="button" onClick={handleSubmit}
+        className='flex self-center bg-hsl-l13 text-white dark:bg-hsl-l98 dark:text-black hover:bg-mb-pink hover:dark:bg-mb-yellow text-xl font-sdisplay px-14 py-3 rounded-lg'>Get Started</button>
     </div>
   );
 };
 
-export default SubscribeMembership;
+export default MembershipPlan;
