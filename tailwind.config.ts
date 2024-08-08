@@ -17,6 +17,7 @@ const config: Config = {
       },
       fontFamily: {
         sdisplay: ['var(--font-display)'],
+        nunito: ['var(--font-nunito)'],
       },
       colors: {
         hsl: {

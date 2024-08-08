@@ -2,55 +2,63 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-// Components
 import IconGeneral from "../icons/IconGeneral";
 import IconDevDeakin from "../icons/IconDevDeakin";
 import { useAuth } from "../providers/AuthProvider";
+import NavMenu from "./NavMenu";
 
 const DynamicProfileBanner = dynamic(() => import('./ProfileBanner'), {
   loading: () => <></>,
 })
 
+interface Location {
+  center: number;
+  bottom: number;
+}
+
 const Header = () => {
   const { user, loading } = useAuth();
   const [isProfileBannerVisible, setIsProfileBannerVisible] = useState<boolean>(false);
 
+
   return (
-    <header className="app-container py-6 flex items-center justify-between text-xl">
+    <header className="app-container py-3 flex items-center justify-between">
 
       <Link href='/' className="flex justify-center items-center gap-2">
         <IconDevDeakin />
         <div>
-          <p className="font-mono font-semibold leading-5">{'<Devs />'}</p>
-          <p className="font-mono font-semibold leading-5">{'<Deakin />'}</p>
+          <p className="font-mono font-semibold leading-5 text-lg">{'<Devs />'}</p>
+          <p className="font-mono font-semibold leading-5 text-lg">{'<Deakin />'}</p>
         </div>
       </Link>
 
 
       <div className="flex items-center gap-x-4 mb:gap-x-10">
-        <Link href="/create-post" className="">Post</Link>
-        <Link href="/questions" className="">Questions</Link>
 
+        <NavMenu />
+
+
+        {/* Update to check if loading.
+        **************************************************
+        Return no options */}
         {!user ? (
-          <>
-            <Link href="/login" className="">Sign In</Link>
-            <Link href="/login" className="">Register</Link>
-          </>
+          <Link href="/login" className="">Sign In</Link>
         ) : (
           <div className="cursor-pointer flex-shrink-0" onClick={() => setIsProfileBannerVisible(true)}>
             <IconGeneral type="profile" fillLightMode="hsl(0 0% 40%)" fillDarkMode="hsl(0 0% 60%)" size={30} />
           </div>
         )}
-
-        {isProfileBannerVisible && user && (
-          <DynamicProfileBanner onClose={() => setIsProfileBannerVisible(false)} uid={user.uid} />
-        )}
-
-
       </div>
+
+      {isProfileBannerVisible && user && (
+        <DynamicProfileBanner onClose={() => setIsProfileBannerVisible(false)} uid={user.uid} />
+      )}
+
+
+
     </header>
   )
 };

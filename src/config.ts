@@ -1,3 +1,14 @@
+/**     
+ * Reference
+ * 
+ * Winogrodzki A (4 April 2024) Using Firebase Authentication with the Latest Next.js 
+ *    Features, Hackernoon, accessed 22 July 2024. 
+ *    https://hackernoon.com/using-firebase-authentication-with-the-latest-nextjs-features
+ */
+
+/**
+ * Server Configuration (with firebase Admin)
+ */
 export const serverConfig = {
   cookieName: process.env.AUTH_COOKIE_NAME!,
   cookieSignatureKeys: [process.env.AUTH_COOKIE_SIGNATURE_KEY_CURRENT!, process.env.AUTH_COOKIE_SIGNATURE_KEY_PREVIOUS!],
@@ -18,6 +29,9 @@ export const serverConfig = {
   }
 };
 
+/**
+ * Firebase Configuration
+ */
 export const clientConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,

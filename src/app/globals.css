@@ -239,4 +239,19 @@
     text-decoration: underline;
   }
 
+
+  .arrow {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 16px;
+    height: 16px;
+    background: white;
+    box-shadow: -3px -3px 5px rgba(80, 90, 120, 0.05);
+    border-radius: 2px 0 0 0;
+    z-index: 4;
+  }
+
+
 }

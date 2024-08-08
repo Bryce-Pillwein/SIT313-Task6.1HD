@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 // Components
-import IconSocial from "../icons/IconSocial";
 import SocialLinks from "../SocialLinks";
 import LogoTextRotate from "../ui/LogoTextRotate";
 import SubscribeBanner from "../SubscribeBanner";

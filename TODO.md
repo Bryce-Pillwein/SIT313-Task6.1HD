@@ -7,6 +7,7 @@
 - Add featured flag
 - ADD all links to footer
 - Update subscribe email button
+- Add a search page with has all post and questions
 
 
 Features Paid
