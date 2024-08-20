@@ -247,10 +247,14 @@
     transform: translateX(-50%) rotate(45deg);
     width: 16px;
     height: 16px;
-    background: white;
+    background: hsl(0 0% 95%);
     box-shadow: -3px -3px 5px rgba(80, 90, 120, 0.05);
     border-radius: 2px 0 0 0;
-    z-index: 4;
+    z-index: 1;
+  }
+
+  .dark .arrow {
+    background: hsl(0 0% 20%);
   }
 
 

@@ -2,34 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-
-
-
-const variants = {
-  open: {
-    y: 0, opacity: 1,
-    transition: {
-      y: { stiffness: 1000, velocity: -100 }
-    }
-  },
-  closed: {
-    y: 50,
-    opacity: 0,
-    transition: {
-      y: { stiffness: 1000 }
-    }
-  }
-};
-
-const variantsUL = {
-  open: {
-    transition: { staggerChildren: 0.07, delayChildren: 0.2 }
-  },
-  closed: {
-    transition: { staggerChildren: 0.05, staggerDirection: -1 }
-  }
-};
+import { AnimatePresence, motion } from "framer-motion";
+import IconGeneral from "../icons/IconGeneral";
 
 interface Location {
   center: number;
@@ -37,17 +11,32 @@ interface Location {
 }
 
 
-const NavMenu = () => {
-  const container = useRef<HTMLDivElement>(null);
-  const containerRefMotion = useRef(null);
+const linksView = [
+  { href: "/view-questions", type: "view-questions", label: "Questions", desc: "See what others are asking" },
+  { href: "/view-articles", type: "view-articles", label: "Articles", desc: "Read up to date articles" }
+];
 
+const linksMembership = [
+  { href: "/pricing-plans", type: "plans", label: "Pricing Plans" },
+  { href: "/manage-billing", type: "billing", label: "Manage Billing" }
+];
+
+const linksResource = [
+  { href: "/guide", type: "guide", label: "Guides" },
+  { href: "/support", type: "support", label: "Support" },
+  { href: "/contact", type: "mail", label: "Contact" },
+  { href: "/faq", type: "faq", label: "FAQs" },
+  { href: "/report", type: "report", label: "Report" },
+];
+
+
+
+const NavMenu = () => {
   const [isNavMenuOpen, setIsNavMenuOpen] = useState<boolean>(false);
   const [location, setLocation] = useState<Location>({ center: 0, bottom: 0 });
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
-
   const displayNavMenu = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>, linkName: string) => {
-    console.log(e.target);
     const tempBtn = e.currentTarget.getBoundingClientRect();
     const center = (tempBtn.left + tempBtn.right) / 2;
     const bottom = tempBtn.bottom;
@@ -65,71 +54,108 @@ const NavMenu = () => {
     setIsNavMenuOpen(false);
   };
 
-  useEffect(() => {
-    const navMenu = container.current;
-    if (navMenu && isNavMenuOpen) {
-      const { center, bottom } = location;
-      navMenu.style.left = `${center}px`;
-      navMenu.style.top = `${bottom}px`;
-    }
-  }, [location, isNavMenuOpen]);
-
-
-
-
-
   return (
     <nav onMouseLeave={closeNavMenu}>
       <div className="flex items-center">
-        <p className="nav-link px-8 py-4 font-bold font-nunito text-lg"
+        <p className="nav-link px-8 py-4 font-bold font-nunito text-lg cursor-pointer"
           onMouseOver={(e) => displayNavMenu(e, 'Post')}>Post</p>
-        <p className="nav-link px-8 py-4 font-bold font-nunito text-lg"
-          onMouseOver={(e) => displayNavMenu(e, 'Questions')}>View</p>
-        <Link href="pricing-plans" className="nav-link px-8 py-4 font-bold font-nunito text-lg">Pricing</Link>
+        <p className="nav-link px-8 py-4 font-bold font-nunito text-lg cursor-pointer"
+          onMouseOver={(e) => displayNavMenu(e, 'View')}>View</p>
+        <p className="nav-link px-8 py-4 font-bold font-nunito text-lg cursor-pointer"
+          onMouseOver={(e) => displayNavMenu(e, 'Resources')}>Resources</p>
       </div>
 
-      <section ref={container}
-        className={`nav-menu absolute left-2/4 -translate-x-2/4 z-10 top-0 mt-1 ${isNavMenuOpen ? 'opacity-100' : 'opacity-0'}`}>
+
+      <motion.section
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{
+          opacity: isNavMenuOpen ? 1 : 0,
+          scale: isNavMenuOpen ? 1 : 0.95,
+          left: location.center,
+          top: location.bottom,
+          x: '-50%',
+          width: "auto",
+          height: "auto",
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 30, scale: { duration: 0.5 } }}
+        className="nav-menu absolute z-10"
+        style={{ width: "auto", height: "auto" }}
+      >
+
         <div className="arrow"></div>
 
-        <motion.nav initial={false} animate={isNavMenuOpen ? "open" : "closed"} ref={containerRefMotion}>
-          <motion.ul variants={variantsUL} className="bg-white shadow-lg rounded-lg p-4 min-w-[100px] text-center flex flex-col gap-4">
-            {itemIds.map(i => (
-              <motion.li variants={variants} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} key={i}>
-                <p className="text-base" >Link {i}</p>
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.nav>
+        <div className="bg-hsl-l95 dark:bg-hsl-l20 p-1 rounded-lg flex flex-col gap-1">
 
-      </section>
+          {hoveredLink === 'Post' && (
+            <div className="bg-hsl-l100 dark:bg-hsl-l13 rounded-md relative z-20 px-4 py-4 flex flex-col gap-8">
+              <p className="text-hsl-l50 font-medium text-sm -mb-2">QUESTIONS & ARTICLES</p>
+            </div>
+          )}
+
+          {hoveredLink === 'View' && (
+            <>
+              <div className="bg-hsl-l100 dark:bg-hsl-l13 rounded-md relative z-20 px-4 py-4 flex flex-col gap-8">
+                <p className="text-hsl-l50 font-medium text-sm -mb-2">QUESTIONS & ARTICLES</p>
+                {linksView.map((link) => (
+                  <Link href={link.href} key={link.href} className="group flex items-center gap-4 ">
+                    <IconGeneral type={link.type} fillDarkMode="hsl(0 0% 70%)" fillLightMode="hsl(0 0% 30%)" />
+                    <div>
+                      <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">{link.label}</p>
+                      <p className="text-xs text-hsl-l50 group-hover:text-hsl-l5 group-hover:dark:text-hsl-l95">{link.desc}</p>
+                    </div>
+                    <div className="block group-hover:hidden ml-auto">
+                      <IconGeneral type="arrow-right" size={16} fillDarkMode="hsl(0 0% 13%)" fillLightMode="hsl(0 0% 100%)" />
+                    </div>
+                    <div className="hidden group-hover:inline-block ml-auto">
+                      <IconGeneral type="arrow-right" size={16} fillDarkMode="#FFE900" fillLightMode="#FF3EB5" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="bg-hsl-l100 dark:bg-hsl-l13 rounded-md relative z-20 px-4 py-4 flex flex-col gap-8">
+                <p className="text-hsl-l50 font-medium text-sm -mb-2">MEMBERSHIP</p>
+                <div className="grid grid-cols-2 gap-x-16 gap-y-4">
+                  {linksMembership.map((link) => (
+                    <Link href={link.href} key={link.href} className="group flex items-center gap-4 px-4">
+                      <IconGeneral type={link.type} fillDarkMode="hsl(0 0% 60%)" fillLightMode="hsl(0 0% 40%)" />
+                      <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">{link.label}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+
+          {hoveredLink === 'Resources' && (
+            <>
+              <div className="bg-hsl-l100 dark:bg-hsl-l13 rounded-md relative z-20 px-4 py-4 flex flex-col gap-8">
+                <p className="text-hsl-l50 font-medium text-sm -mb-2">RESOURCES</p>
+                <div className="grid grid-cols-2 gap-x-16 gap-y-4">
+                  {linksResource.map((link) => (
+                    <Link href={link.href} key={link.href} className="group flex items-center gap-4 px-4">
+                      <IconGeneral type={link.type} fillDarkMode="hsl(0 0% 60%)" fillLightMode="hsl(0 0% 40%)" />
+                      <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">{link.label}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-hsl-l100 dark:bg-hsl-l13 rounded-md relative z-20 px-4 py-4 flex flex-col gap-4">
+                <p className="text-hsl-l50 font-medium text-sm -mb-2">DEAKIN</p>
+                <div className="grid grid-cols-2 gap-x-16 gap-y-4">
+                  <a rel="noopener noreferrer" target="_blank" href="https://www.deakin.edu.au/help-hub" className="group flex items-center gap-4 px-4">
+                    <IconGeneral type="help" fillDarkMode="hsl(0 0% 60%)" fillLightMode="hsl(0 0% 40%)" />
+                    <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">Help Hub</p>
+                  </a>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </motion.section>
     </nav>
-
-
   );
 };
 
 export default NavMenu;
-
-const sidebar = {
-  open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
-    transition: {
-      type: "spring",
-      stiffness: 20,
-      restDelta: 2
-    }
-  }),
-  closed: {
-    clipPath: "circle(30px at 40px 40px)",
-    transition: {
-      delay: 0.5,
-      type: "spring",
-      stiffness: 400,
-      damping: 40
-    }
-  }
-};
-
-
-const itemIds = [0, 1, 2, 3, 4];
