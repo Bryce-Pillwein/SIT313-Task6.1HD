@@ -1,15 +1,14 @@
 // Nav Menu tsx 
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import IconGeneral from "../icons/IconGeneral";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import IconGeneral from "../../icons/IconGeneral";
 
-interface Location {
-  center: number;
-  bottom: number;
-}
-
+const linksPost = [
+  { href: "/create-post", type: "create-post", label: "Create", desc: "Create a new post" },
+  { href: "/edit-post", type: "edit", label: "Edit", desc: "Edit an existing post" },
+]
 
 const linksView = [
   { href: "/view-questions", type: "view-questions", label: "Questions", desc: "See what others are asking" },
@@ -29,7 +28,10 @@ const linksResource = [
   { href: "/report", type: "report", label: "Report" },
 ];
 
-
+interface Location {
+  center: number;
+  bottom: number;
+}
 
 const NavMenu = () => {
   const [isNavMenuOpen, setIsNavMenuOpen] = useState<boolean>(false);
@@ -54,6 +56,7 @@ const NavMenu = () => {
     setIsNavMenuOpen(false);
   };
 
+
   return (
     <nav onMouseLeave={closeNavMenu}>
       <div className="flex items-center">
@@ -74,21 +77,38 @@ const NavMenu = () => {
           left: location.center,
           top: location.bottom,
           x: '-50%',
-          width: "auto",
-          height: "auto",
         }}
-        transition={{ type: "spring", stiffness: 300, damping: 30, scale: { duration: 0.5 } }}
-        className="nav-menu absolute z-10"
-        style={{ width: "auto", height: "auto" }}
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 30,
+          scale: { duration: 0.5 },
+        }}
+        className="absolute z-10"
+        style={{ width: "auto", height: "auto", minWidth: 'max-content' }}
       >
 
         <div className="arrow"></div>
-
-        <div className="bg-hsl-l95 dark:bg-hsl-l20 p-1 rounded-lg flex flex-col gap-1">
+        <div className="bg-hsl-l95 dark:bg-hsl-l20 p-1 rounded-lg flex flex-col gap-1 min-w-min flex-shrink-0">
 
           {hoveredLink === 'Post' && (
             <div className="bg-hsl-l100 dark:bg-hsl-l13 rounded-md relative z-20 px-4 py-4 flex flex-col gap-8">
               <p className="text-hsl-l50 font-medium text-sm -mb-2">QUESTIONS & ARTICLES</p>
+              {linksPost.map((link) => (
+                <Link href={link.href} key={link.href} className="group flex items-center gap-4 ">
+                  <IconGeneral type={link.type} fillDarkMode="hsl(0 0% 70%)" fillLightMode="hsl(0 0% 30%)" />
+                  <div>
+                    <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">{link.label}</p>
+                    <p className="text-xs text-hsl-l50 group-hover:text-hsl-l5 group-hover:dark:text-hsl-l95">{link.desc}</p>
+                  </div>
+                  <div className="block group-hover:hidden ml-auto">
+                    <IconGeneral type="arrow-right" size={16} fillDarkMode="hsl(0 0% 13%)" fillLightMode="hsl(0 0% 100%)" />
+                  </div>
+                  <div className="hidden group-hover:inline-block ml-auto">
+                    <IconGeneral type="arrow-right" size={16} fillDarkMode="#FFE900" fillLightMode="#FF3EB5" />
+                  </div>
+                </Link>
+              ))}
             </div>
           )}
 

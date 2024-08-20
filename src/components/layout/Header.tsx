@@ -8,16 +8,21 @@ import dynamic from "next/dynamic";
 import IconGeneral from "../icons/IconGeneral";
 import IconDevDeakin from "../icons/IconDevDeakin";
 import { useAuth } from "../providers/AuthProvider";
-import NavMenu from "./NavMenu";
+import NavMenu from "./NavigationMenu/NavMenu";
 
 const DynamicProfileBanner = dynamic(() => import('./ProfileBanner'), {
   loading: () => <></>,
 })
 
-interface Location {
-  center: number;
-  bottom: number;
-}
+const DynamicNavMenu = dynamic(() => import('./NavigationMenu/NavMenu'), {
+  loading: () => <></>
+})
+
+const DynamicNavMenuMobile = dynamic(() => import('./NavigationMenu/NavMenuMobile'), {
+  loading: () => <></>
+})
+
+
 
 const Header = () => {
   const { user, loading } = useAuth();
@@ -38,7 +43,13 @@ const Header = () => {
 
       <div className="flex items-center gap-x-4 mb:gap-x-10">
 
-        <NavMenu />
+        <div className="block md:hidden">
+          <DynamicNavMenuMobile />
+        </div>
+
+        <div className="hidden md:block">
+          <DynamicNavMenu />
+        </div>
 
 
         {/* Update to check if loading.
