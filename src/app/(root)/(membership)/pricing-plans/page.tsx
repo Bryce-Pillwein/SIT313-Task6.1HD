@@ -31,8 +31,8 @@ const Tick: React.FC = () => {
 
 export default function MembershipPage() {
   const simple = ["Create and View Post", "1 Code Block Per Post"];
-  const starter = ["Create and View Post", "3 Code Blocks Per Post", "Access to Featured Post", "More Post Interactions"];
-  const premium = ["Create and View Post", "Unlimited Code Blocks Per Post", "Access to Featured Post", "More Post Interactions", "Badges", "Partner Program"];
+  const starter = ["Create and View Post", "3 Code Blocks Per Post", "Access to Featured Post", "More Post Interactions", "Custom Code Theme"];
+  const premium = ["Create and View Post", "Unlimited Code Blocks Per Post", "Access to Featured Post", "More Post Interactions", "Custom Code Theme", "Badges", "Partner Program"];
 
   return (
     <LayoutDefault>
@@ -121,6 +121,7 @@ export default function MembershipPage() {
                 <li><strong>Access to Featured Posts:</strong> Get exclusive access to featured posts curated by our team.</li>
                 <li><strong>More Post Interactions: </strong> Engage more with the community through additional interaction
                   options and reactions.</li>
+                <li><strong>Custom Code Theme: </strong> Choose a custom theme for code blocks in posts.</li>
               </ul>
             </div>
 
@@ -158,6 +159,7 @@ export default function MembershipPage() {
                   detailed tutorials and guides.</li>
                 <li><strong>Access to Featured Posts:</strong> Get exclusive access to featured posts curated by our team.</li>
                 <li><strong>More Post Interactions: </strong> Take full advantage of all interaction features on the platform.</li>
+                <li><strong>Custom Code Theme: </strong> Choose a custom theme for code blocks in posts.</li>
                 <li><strong>Badges: </strong> Earn special badges that highlight your contributions and expertise.</li>
                 <li><strong>Partner Program:</strong> Join our partner program to collaborate on special projects and get
                   recognition within the community.</li>

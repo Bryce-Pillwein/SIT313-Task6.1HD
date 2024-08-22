@@ -3,7 +3,7 @@
 import CodeMirror, { ViewUpdate } from '@uiw/react-codemirror';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const languageOptions = {
   c: langs.c,
@@ -25,14 +25,27 @@ const languageOptions = {
 interface DisplayCodeMirrorProps {
   id: string;
   code: string;
+  fileType: string;
 }
 
-const DisplayCodeMirror: React.FC<DisplayCodeMirrorProps> = ({ id, code }) => {
+const DisplayCodeMirror: React.FC<DisplayCodeMirrorProps> = ({ id, code, fileType }) => {
   const [codeLanguage, setCodeLanguage] = useState<any>(langs.typescript());
 
+  /**
+   * Update editor type
+   */
+  useEffect(() => {
+    if (fileType && languageOptions[fileType as keyof typeof languageOptions]) {
+      setCodeLanguage(languageOptions[fileType as keyof typeof languageOptions]);
+    } else {
+      setCodeLanguage(langs.typescript()); // Default to TypeScript
+    }
+    console.log('Type: ', fileType);
+  }, [fileType]);
+
   return (
-    <CodeMirror value={code} height="200px"
-      extensions={[codeLanguage]} theme={vscodeDark} />
+    <CodeMirror value={code} height="auto" maxHeight='800px'
+      extensions={[codeLanguage]} theme={vscodeDark} editable={false} />
   );
 };
 

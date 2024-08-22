@@ -19,7 +19,7 @@ import PostCommentSection from "@/components/post/PostCommentSection";
 import ProfilePicture from "@/components/ui/ProfilePicture";
 
 const DynDisplayMarkdown = dynamic(() => import('../../../../../components/postDisplays/DisplayMarkdown'), { loading: () => null })
-// const DynDisplayCodeMirror = dynamic(() => import('./EditorCodeMirror'), { loading: () => null })
+const DynDisplayCodeMirror = dynamic(() => import('../../../../../components/postDisplays/DisplayCodeMirror'), { loading: () => null })
 
 
 export default function ViewPostPage({ params }: { params: { slug: string } }) {
@@ -73,10 +73,11 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
             post.contentURLs.map(async (contentURL: { type: string; url: string }, index: number) => {
               const response = await fetch(contentURL.url);
               const content = await response.text();
-
+              console.log(contentURL.type);
               return {
                 id: `${index}-${contentURL.type}`,
                 type: contentURL.type as 'markdown' | 'code',
+                fileType: contentURL.type,
                 content,
               };
             })
@@ -133,10 +134,7 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
                     {component.type === 'markdown' ? (
                       <DynDisplayMarkdown id={component.id} markdown={component.content} />
                     ) : (
-                      <></>
-                      // <DynEditorCodeMirror
-                      //   id={component.id}
-                      // />
+                      <DynDisplayCodeMirror id={component.id} code={component.content} fileType={component.fileType} />
                     )}
                   </div>
                 ))}

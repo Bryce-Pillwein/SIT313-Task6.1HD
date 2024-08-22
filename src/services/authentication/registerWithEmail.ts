@@ -45,7 +45,7 @@ async function createEmailUserInDatabase(userID: string, firstName: string, last
       uid: userID,
       firstName: firstName,
       lastName: lastName,
-      premiumSubscription: false,
+      membership: 'none',
       email: email,
       photoURL: null,
       emailVerified: null

@@ -30,17 +30,14 @@ function PostPage() {
       addNotification('Choose Post Type (Question or Article)');
       return;
     }
-
     if (!content.title || content.title.length <= 0) {
       addNotification('Add A Title');
       return;
     }
-
     if (!content.image) {
       addNotification('Upload An Image');
       return;
     }
-
     if (components.length <= 0) {
       addNotification('Post is Empty! Add Content');
       return;

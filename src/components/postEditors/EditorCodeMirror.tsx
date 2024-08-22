@@ -101,7 +101,7 @@ const EditorCodeMirror: React.FC<EditorCodeMirrorProps> = ({ id, index, componen
       </div>
 
       {/* Input Area */}
-      <CodeMirror value={input} height="200px"
+      <CodeMirror value={input} height="200px" style={{ borderRadius: '5rem' }}
         extensions={[codeLanguage]} theme={vscodeDark}
         onChange={handleInputChange} />
     </div>

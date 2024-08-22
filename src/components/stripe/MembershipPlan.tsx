@@ -14,12 +14,7 @@ const MembershipPlan: React.FC<MembershipPlanProps> = ({ priceId }) => {
    */
   const handleSubmit = async () => {
     const stripe = await getStripe();
-
-    console.log("STRIPE ", stripe);
-
-    if (!stripe) {
-      return;
-    }
+    if (!stripe) return;
 
     try {
       const response = await fetch('/api/stripeCheckout', {
@@ -30,16 +25,12 @@ const MembershipPlan: React.FC<MembershipPlanProps> = ({ priceId }) => {
         body: JSON.stringify({ priceId: priceId }),
       });
 
-      console.log("Response received");
-
       if (!response.ok) {
-        console.log("RESPONSE ERROR")
-        console.log(response);
+        console.error('Response Error for Submitting Member Plan');
         throw new Error('Something went wrong');
       }
 
       const data = await response.json();
-      console.log("Data in subscirbe", data);
       await stripe.redirectToCheckout({ sessionId: data.result.id, });
 
     } catch (error) {

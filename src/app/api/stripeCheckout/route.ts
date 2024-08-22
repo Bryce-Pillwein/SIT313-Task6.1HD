@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
           }
         ],
         mode: 'subscription',
-        success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/billing`,
+        success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-success`,
         cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
         metadata: {
           userId: 'nullID', //uid,
