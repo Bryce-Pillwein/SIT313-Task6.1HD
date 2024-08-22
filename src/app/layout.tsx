@@ -7,7 +7,7 @@ import Providers from "@/components/providers/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 const dm_serif_display = DM_Serif_Display({ weight: ['400'], subsets: ["latin"], variable: '--font-display' });
-const nunito = Nunito_Sans({ subsets: ["latin"], variable: '--font-nunito' });
+const nunito = Nunito_Sans({ subsets: ["latin"], display: 'swap', variable: '--font-nunito' });
 
 export const metadata: Metadata = {
   title: "Dev@Deakin",
