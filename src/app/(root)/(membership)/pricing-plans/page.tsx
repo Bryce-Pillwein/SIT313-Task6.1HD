@@ -169,7 +169,7 @@ export default function MembershipPage() {
               <p>The Premium Plan is our most comprehensive offering, perfect for advanced users and professionals. This plan
                 includes everything in the Starter Plan, along with exclusive features:</p>
               <p className="text-hsl-l50 text-sm mt-8">Ideal For</p>
-              <p >Advanced users, professionals, and those who want to make the most out of the platform's features.</p>
+              <p>Advanced users, professionals, and those who want to make the most out of the platform&#39s features.</p>
             </div>
           </div>
         </div>
