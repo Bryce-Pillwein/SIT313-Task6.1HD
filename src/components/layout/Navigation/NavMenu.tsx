@@ -4,29 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import IconGeneral from "../../icons/IconGeneral";
-
-const linksPost = [
-  { href: "/create-post", type: "create-post", label: "Create", desc: "Create a new post" },
-  { href: "/edit-post", type: "edit", label: "Edit", desc: "Edit an existing post" },
-]
-
-const linksView = [
-  { href: "/view-questions", type: "view-questions", label: "Questions", desc: "See what others are asking" },
-  { href: "/view-articles", type: "view-articles", label: "Articles", desc: "Read up to date articles" }
-];
-
-const linksMembership = [
-  { href: "/pricing-plans", type: "plans", label: "Pricing Plans" },
-  { href: "/manage-billing", type: "billing", label: "Manage Billing" }
-];
-
-const linksResource = [
-  { href: "/guide", type: "guide", label: "Guides" },
-  { href: "/support", type: "support", label: "Support" },
-  { href: "/contact", type: "mail", label: "Contact" },
-  { href: "/faq", type: "faq", label: "FAQs" },
-  { href: "/report", type: "report", label: "Report" },
-];
+import { linksPost, linksView, linksMembership, linksResource } from "./NavigationLinks";
 
 interface Location {
   center: number;

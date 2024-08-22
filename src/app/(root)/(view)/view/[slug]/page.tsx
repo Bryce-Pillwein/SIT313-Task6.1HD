@@ -7,17 +7,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { useNotification } from "@/components/providers/NotificationProvider";
 import { Post } from "@/types/Post";
-import { getAllQuestions } from "@/services";
+import { getPostAll } from "@/services";
 import LayoutDefault from "@/components/layout/LayoutDefault";
 import ToolBar from "@/components/ToolBar";
 import PostCard from "@/components/post/PostCard";
-import PostBanner from "@/components/post/PostBanner";
+import PostSearchBanner from "@/components/post/PostSearchBanner";
 import IconGeneral from "@/components/icons/IconGeneral";
 
 export default function View({ params }: { params: { slug: string } }) {
   const { addNotification } = useNotification();
   const { slug } = params;
-  const searchParams = useSearchParams();
 
   const [isFetchingPosts, setIsFetchingPosts] = useState<boolean>(true);
   const [posts, setPosts] = useState<Post[] | null>(null);
@@ -34,9 +33,9 @@ export default function View({ params }: { params: { slug: string } }) {
     try {
       let response;
       if (slug === "questions") {
-        response = await getAllQuestions();
+        response = await getPostAll('POST_QUESTION');
       } else if (slug === "articles") {
-        // response = await getAllArticles();
+        response = await getPostAll('POST_ARTICLE');
       }
 
       if (!response) return;
@@ -135,7 +134,7 @@ export default function View({ params }: { params: { slug: string } }) {
                 <AnimatePresence>
                   {searchResults.map((post, idx) => (
                     <motion.div key={idx} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} >
-                      <PostBanner pd={post} />
+                      <PostSearchBanner pd={post} />
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -148,9 +147,9 @@ export default function View({ params }: { params: { slug: string } }) {
         {trendingVisible && (trendingVisible.length > 0) && (
           <div>
             <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Trending</h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className={`gap-4 ${isGridView ? 'grid grid-cols-1 md:grid-cols-3' : 'flex flex-col'}`}>
               {trendingVisible.slice(0, 3).map((post, idx) => (
-                <PostCard key={idx} pd={post} hideQuestion={() => hideTrending(post.postId)} />
+                <PostCard key={idx} pd={post} hideQuestion={() => hideTrending(post.postId)} isGridView={isGridView} />
               ))}
             </div>
           </div>
@@ -160,9 +159,9 @@ export default function View({ params }: { params: { slug: string } }) {
         {latestVisible && (latestVisible.length > 0) && (
           <div>
             <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Latest</h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className={`gap-4 ${isGridView ? 'grid grid-cols-1 md:grid-cols-3' : 'flex flex-col'}`}>
               {latestVisible.map((post, idx) => (
-                <PostCard key={idx} pd={post} hideQuestion={() => hideLatest(post.postId)} />
+                <PostCard key={idx} pd={post} hideQuestion={() => hideLatest(post.postId)} isGridView={isGridView} />
               ))}
             </div>
           </div>

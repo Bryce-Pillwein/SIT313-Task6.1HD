@@ -3,20 +3,17 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { Post } from "@/types/Post";
+import { EditorComponent } from "@/types/EditorComponent";
+import { useNotification } from "@/components/providers/NotificationProvider";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-// Components
 import LayoutDefault from "@/components/layout/LayoutDefault";
 import IconInteraction from "@/components/icons/IconInteraction";
-import IconGeneral from "@/components/icons/IconGeneral";
-import { useNotification } from "@/components/providers/NotificationProvider";
-// Types
-import { Post } from "@/types/Post";
-// Scripts
 import getPost from "@/services/post/getPost";
-import { EditorComponent } from "@/types/EditorComponent";
 import PostCommentSection from "@/components/post/PostCommentSection";
 import ProfilePicture from "@/components/ui/ProfilePicture";
+import Link from "next/link";
 
 const DynDisplayMarkdown = dynamic(() => import('../../../../../components/postDisplays/DisplayMarkdown'), { loading: () => null })
 const DynDisplayCodeMirror = dynamic(() => import('../../../../../components/postDisplays/DisplayCodeMirror'), { loading: () => null })
@@ -73,7 +70,6 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
             post.contentURLs.map(async (contentURL: { type: string; url: string }, index: number) => {
               const response = await fetch(contentURL.url);
               const content = await response.text();
-              console.log(contentURL.type);
               return {
                 id: `${index}-${contentURL.type}`,
                 type: contentURL.type as 'markdown' | 'code',
@@ -120,7 +116,12 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
                 <h2 className="text-2xl font-semibold mt-8 mb-2">{post.title}</h2>
                 <div className="flex items-center gap-4  mb-8">
                   <ProfilePicture size="30" />
-                  <p className="text-hsl-l50">{post.authorFirstName} {post.authorLastName} &#x2022; {post.date}</p>
+                  <p className="text-hsl-l50 ">
+                    <Link href={`/profile/${post.userId}`}
+                      className="hover:text-mb-pink hover:dark:text-mb-yellow">
+                      {post.authorFirstName} {post.authorLastName}
+                    </Link>&#x2022; {post.date}
+                  </p>
 
                   <div className="flex flex-wrap items-center gap-1">
                     {post.tags?.map((tag, idx) => (

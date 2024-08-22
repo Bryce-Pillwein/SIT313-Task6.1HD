@@ -8,7 +8,7 @@ import getPost from "./getPost";
  * Get Featured Post
  * @returns array of featured post (questions or articles)
  */
-export default async function getFeaturedPosts(type: string): Promise<Post[] | Status> {
+export default async function getPostFeatured(type: string): Promise<Post[] | Status> {
   try {
     // Get the document reference
     const docRef = doc(db, 'FEATURED', type);

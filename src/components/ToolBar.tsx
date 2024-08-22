@@ -52,8 +52,8 @@ const ToolBar: React.FC<ToolBarProps> = ({ isGridView, onSearch, toggleView, unh
         </button>
 
         <button type="button" onClick={toggleView} title="Toggle View"
-          className="flex items-center gap-2 px-2 py-1 rounded-lg bg-hsl-l95 hover:bg-hsl-l90 dark:bg-hsl-l15 dark:hover:bg-hsl-l20">
-          {isGridView ? (<IconGeneral type="grid-view" />) : (<IconGeneral type="grid-view" />)}
+          className="hidden md:flex items-center gap-2 px-2 py-1 rounded-lg bg-hsl-l95 hover:bg-hsl-l90 dark:bg-hsl-l15 dark:hover:bg-hsl-l20">
+          {isGridView ? (<IconGeneral type="list-view" />) : (<IconGeneral type="grid-view" />)}
         </button>
 
         <button type="button" onClick={unhide} title="Unhide Post"
