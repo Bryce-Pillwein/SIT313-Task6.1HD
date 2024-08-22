@@ -60,11 +60,14 @@ const NavMenu = () => {
   return (
     <nav onMouseLeave={closeNavMenu}>
       <div className="flex items-center">
-        <p className="nav-link px-8 py-4 font-bold font-nunito text-lg cursor-pointer"
+        <p className={`nav-link px-8 py-4 font-semibold text-hsl-l25 dark:text-hsl-l85 font-montserrat text-lg cursor-pointer 
+        ${hoveredLink === 'Post' && 'text-mb-pink dark:text-mb-yellow'}`}
           onMouseOver={(e) => displayNavMenu(e, 'Post')}>Post</p>
-        <p className="nav-link px-8 py-4 font-bold font-nunito text-lg cursor-pointer"
+        <p className={`nav-link px-8 py-4 font-semibold text-hsl-l25 dark:text-hsl-l85 font-montserrat text-lg cursor-pointer 
+        ${hoveredLink === 'View' && 'text-mb-pink dark:text-mb-yellow'}`}
           onMouseOver={(e) => displayNavMenu(e, 'View')}>View</p>
-        <p className="nav-link px-8 py-4 font-bold font-nunito text-lg cursor-pointer"
+        <p className={`nav-link px-8 py-4 font-semibold text-hsl-l25 dark:text-hsl-l85 font-montserrat text-lg cursor-pointer 
+        ${hoveredLink === 'Resources' && 'text-mb-pink dark:text-mb-yellow'}`}
           onMouseOver={(e) => displayNavMenu(e, 'Resources')}>Resources</p>
       </div>
 

@@ -1,13 +1,13 @@
 // Root Layout tsx
 
 import type { Metadata } from "next";
-import { Inter, DM_Serif_Display, Nunito_Sans } from "next/font/google";
+import { Inter, DM_Serif_Display, Montserrat } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/providers/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 const dm_serif_display = DM_Serif_Display({ weight: ['400'], subsets: ["latin"], variable: '--font-display' });
-const nunito = Nunito_Sans({ subsets: ["latin"], display: 'swap', variable: '--font-nunito' });
+const montserrat = Montserrat({ subsets: ["latin"], variable: '--font-montserrat' });
 
 export const metadata: Metadata = {
   title: "Dev@Deakin",
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${dm_serif_display.variable} ${nunito.variable}`}>
+      <body className={`${inter.className} ${dm_serif_display.variable} ${montserrat.variable}`}>
         <Providers>
           {children}
         </Providers>

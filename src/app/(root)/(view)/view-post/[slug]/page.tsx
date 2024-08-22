@@ -18,7 +18,7 @@ import { EditorComponent } from "@/types/EditorComponent";
 import PostCommentSection from "@/components/post/PostCommentSection";
 import ProfilePicture from "@/components/ui/ProfilePicture";
 
-const DynDisplayMarkdown = dynamic(() => import('../../../../components/postDisplays/DisplayMarkdown'), { loading: () => null })
+const DynDisplayMarkdown = dynamic(() => import('../../../../../components/postDisplays/DisplayMarkdown'), { loading: () => null })
 // const DynDisplayCodeMirror = dynamic(() => import('./EditorCodeMirror'), { loading: () => null })
 
 
