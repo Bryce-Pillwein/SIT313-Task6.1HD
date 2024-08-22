@@ -134,7 +134,7 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
                     {component.type === 'markdown' ? (
                       <DynDisplayMarkdown id={component.id} markdown={component.content} />
                     ) : (
-                      <DynDisplayCodeMirror id={component.id} code={component.content} fileType={component.fileType} />
+                      <DynDisplayCodeMirror id={component.id} code={component.content} fileType={component.fileType!} />
                     )}
                   </div>
                 ))}

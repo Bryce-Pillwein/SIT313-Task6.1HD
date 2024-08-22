@@ -16,11 +16,11 @@ interface PostContent {
 interface PostContextType {
   components: EditorComponent[];
   content: PostContent;
-  addComponent: (type: 'markdown' | 'code', filetype?: string) => void;
+  addComponent: (type: 'markdown' | 'code', fileType?: string) => void;
   removeComponent: (id: string) => void;
   moveComponent: (index: number, direction: 'up' | 'down') => void;
   updateContent: (id: string, content: string) => void;
-  updateComponentFiletype: (id: string, filetype: string) => void;
+  updateComponentFiletype: (id: string, fileType: string) => void;
   updatePostType: (value: string) => void;
   handleTitleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleImageChange: (file: File | null) => void;
@@ -83,8 +83,8 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
   };
 
   // Add Component (Code / Text Block)
-  const addComponent = (type: 'markdown' | 'code', filetype?: string) => {
-    setComponents([...components, { id: `${type}-${Date.now()}`, type, filetype, content: '' }]);
+  const addComponent = (type: 'markdown' | 'code', fileType?: string) => {
+    setComponents([...components, { id: `${type}-${Date.now()}`, type, fileType, content: '' }]);
   };
 
   // Remove Compoenent (Code / Text Block)
@@ -110,10 +110,10 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
   };
 
   // Update File Type (extension)
-  const updateComponentFiletype = (id: string, filetype: string) => {
+  const updateComponentFiletype = (id: string, fileType: string) => {
     setComponents(prevComponents =>
       prevComponents.map(component =>
-        component.id === id ? { ...component, filetype } : component
+        component.id === id ? { ...component, fileType } : component
       )
     );
   };

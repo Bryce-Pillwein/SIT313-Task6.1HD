@@ -266,6 +266,7 @@
 */
 .cm-editor {
   border-radius: 0.5rem;
+  font-size: 14px;
 }
 
 .cm-gutters {

@@ -7,5 +7,5 @@ export interface EditorComponent {
   id: string;
   type: string;
   content: string;
-  fileType: string;
+  fileType?: string;
 }
