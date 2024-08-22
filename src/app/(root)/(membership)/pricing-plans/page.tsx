@@ -45,7 +45,7 @@ export default function MembershipPage() {
             <h3 className="text-2xl font-sdisplay">Simple Plan</h3>
             <ul className="flex flex-col gap-y-4 mt-8 mb-12">
               {simple.map((item, idx) => (
-                <li className="flex items-center gap-2">
+                <li key={idx} className="flex items-center gap-2">
                   <Tick />
                   {item}
                 </li>
@@ -59,7 +59,7 @@ export default function MembershipPage() {
             <h3 className="text-2xl font-sdisplay">Starter Plan</h3>
             <ul className="flex flex-col gap-y-4 mt-8 mb-12">
               {starter.map((item, idx) => (
-                <li className="flex items-center gap-2">
+                <li key={idx} className="flex items-center gap-2">
                   <Tick />
                   {item}
                 </li>
@@ -77,7 +77,7 @@ export default function MembershipPage() {
             <h3 className="text-2xl font-sdisplay">Premium Plan</h3>
             <ul className="flex flex-col gap-y-4 mt-8 mb-12">
               {premium.map((item, idx) => (
-                <li className="flex items-center gap-2">
+                <li key={idx} className="flex items-center gap-2">
                   <Tick />
                   {item}
                 </li>
