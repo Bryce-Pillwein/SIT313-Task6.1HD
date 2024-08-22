@@ -1,112 +1,120 @@
-// Questions Page tsx
+// View Questions / Articles Page tsx
+
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
-// Components
+import { useSearchParams } from "next/navigation";
+import { useNotification } from "@/components/providers/NotificationProvider";
+import { Post } from "@/types/Post";
+import { getAllQuestions } from "@/services";
 import LayoutDefault from "@/components/layout/LayoutDefault";
 import ToolBar from "@/components/ToolBar";
 import PostCard from "@/components/post/PostCard";
 import PostBanner from "@/components/post/PostBanner";
 import IconGeneral from "@/components/icons/IconGeneral";
-import { useNotification } from "@/components/providers/NotificationProvider";
-// Types
-import { Post } from "@/types/Post";
-// Scripts
-import { getAllQuestions } from "@/services";
 
-export default function Questions() {
+export default function View({ params }: { params: { slug: string } }) {
   const { addNotification } = useNotification();
-  const [isFetchingQuestions, setIsFetchingQuestions] = useState<boolean>(true);
-  const [questions, setQuestions] = useState<Post[] | null>(null);
-  const [qTrendingVisible, setQTrendingVisible] = useState<Post[] | null>(null);
-  const [qLatestVisible, setQLatestVisible] = useState<Post[] | null>(null);
-  const [qSearchResults, setQSearchResults] = useState<Post[] | null>(null);
-  const [gridDisplay, setGridDisplay] = useState<boolean>(true);
+  const { slug } = params;
+  const searchParams = useSearchParams();
+
+  const [isFetchingPosts, setIsFetchingPosts] = useState<boolean>(true);
+  const [posts, setPosts] = useState<Post[] | null>(null);
+  const [trendingVisible, setTrendingVisible] = useState<Post[] | null>(null);
+  const [latestVisible, setLatestVisible] = useState<Post[] | null>(null);
+  const [searchResults, setSearchResults] = useState<Post[] | null>(null);
+  const [isGridView, setIsGridView] = useState<boolean>(true);
 
   /**
-   * Get Questions
-   * Set trending and latest question arrays
-   * @returns 
+   * Get Posts (Questions or Articles)
+   * Set trending and latest post arrays
    */
-  const getQuestions = useCallback(async () => {
+  const getPosts = useCallback(async () => {
     try {
-      const response = await getAllQuestions();
+      let response;
+      if (slug === "questions") {
+        response = await getAllQuestions();
+      } else if (slug === "articles") {
+        // response = await getAllArticles();
+      }
+
       if (!response) return;
 
-      setQuestions(response);
-      setQTrendingVisible(response);
-      setQLatestVisible(response);
+      setPosts(response);
+      setTrendingVisible(response);
+      setLatestVisible(response);
     } catch (error) {
       console.error(error);
-      addNotification('Error fetching questions. Reload')
+      addNotification("Error fetching posts. Please reload.");
     } finally {
-      setIsFetchingQuestions(false);
+      setIsFetchingPosts(false);
     }
-  }, [addNotification]);
+  }, [slug, addNotification]);
 
   /**
- * Fetch Questions Upon Mounting Page
- */
+   * Fetch Posts Upon Mounting Page
+   */
   useEffect(() => {
-    getQuestions();
-  }, [getQuestions]);
+    if (slug) {
+      getPosts();
+    }
+  }, [getPosts, slug]);
 
   /**
-   * Hide Trending Questions
+   * Hide Trending Posts
    * @param postId Post ID
    */
-  const hideQTrending = (postId: string) => {
-    setQTrendingVisible(prevQuestions => prevQuestions!.filter(q => q.postId !== postId));
+  const hideTrending = (postId: string) => {
+    setTrendingVisible((prevPosts) => prevPosts!.filter((p) => p.postId !== postId));
   };
 
   /**
-   * Hide Latest Questions
-   * @param postId 
+   * Hide Latest Posts
+   * @param postId Post ID
    */
-  const hideQLatest = (postId: string) => {
-    setQLatestVisible(prevQuestions => prevQuestions!.filter(q => q.postId !== postId));
+  const hideLatest = (postId: string) => {
+    setLatestVisible((prevPosts) => prevPosts!.filter((p) => p.postId !== postId));
   };
 
   /**
- * Search and Filter Questions
- * @param searchTerm Search Term
- * @param searchType Search Type
- */
+   * Search and Filter Posts
+   * @param searchTerm Search Term
+   * @param searchType Search Type
+   */
   const handleSearch = (searchTerm: string, searchType: string) => {
-    if (!questions) return;
+    if (!posts) return;
 
     if (searchTerm.length <= 0) {
-      setQSearchResults(null)
+      setSearchResults(null);
       return;
     }
 
-    const filteredQuestions = questions.filter((question) => {
+    const filteredPosts = posts.filter((post) => {
       const searchTermLower = searchTerm.toLowerCase();
 
       switch (searchType) {
-        case 'Title':
-          return question.title.toLowerCase().includes(searchTermLower);
-        case 'Author':
-          const authorFirstName = question.authorFirstName.toLowerCase();
-          const authorLastName = question.authorLastName.toLowerCase();
+        case "Title":
+          return post.title.toLowerCase().includes(searchTermLower);
+        case "Author":
+          const authorFirstName = post.authorFirstName.toLowerCase();
+          const authorLastName = post.authorLastName.toLowerCase();
           return authorFirstName.includes(searchTermLower) || authorLastName.includes(searchTermLower);
-        case 'Tag':
-          return question.tags.some(tag => tag.toLowerCase().includes(searchTermLower));
-        case 'Date':
-          return question.date?.toLowerCase().includes(searchTermLower) || false;
+        case "Tag":
+          return post.tags.some((tag) => tag.toLowerCase().includes(searchTermLower));
+        case "Date":
+          return post.date?.toLowerCase().includes(searchTermLower) || false;
         default:
           return false;
       }
     });
 
-    setQSearchResults(filteredQuestions);
+    setSearchResults(filteredPosts);
   };
 
   const handleUnhide = () => {
-    setQTrendingVisible(questions);
-    setQLatestVisible(questions);
+    setTrendingVisible(posts);
+    setLatestVisible(posts);
   };
 
 
@@ -114,18 +122,18 @@ export default function Questions() {
     <LayoutDefault>
       <main className="pb-4">
 
-        <ToolBar onSearch={handleSearch} unhide={handleUnhide} />
+        <ToolBar isGridView={isGridView} onSearch={handleSearch} unhide={handleUnhide} toggleView={() => setIsGridView(!isGridView)} />
 
         {/* Search Result  */}
         <AnimatePresence>
-          {qSearchResults && (qSearchResults.length >= 1) && (
+          {searchResults && (searchResults.length >= 1) && (
             <motion.div initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.3 }}
               className="transition-opacity duration-500 ease-in opacity-100">
               <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Search Results</h1>
               <div className="flex flex-col gap-y-4">
                 <AnimatePresence>
-                  {qSearchResults.map((post, idx) => (
+                  {searchResults.map((post, idx) => (
                     <motion.div key={idx} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} >
                       <PostBanner pd={post} />
                     </motion.div>
@@ -137,30 +145,30 @@ export default function Questions() {
         </AnimatePresence>
 
         {/* Trending Post */}
-        {qTrendingVisible && (qTrendingVisible.length > 0) && (
+        {trendingVisible && (trendingVisible.length > 0) && (
           <div>
             <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Trending</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {qTrendingVisible.slice(0, 3).map((post, idx) => (
-                <PostCard key={idx} pd={post} hideQuestion={() => hideQTrending(post.postId)} />
+              {trendingVisible.slice(0, 3).map((post, idx) => (
+                <PostCard key={idx} pd={post} hideQuestion={() => hideTrending(post.postId)} />
               ))}
             </div>
           </div>
         )}
 
         {/* Latest Post */}
-        {qLatestVisible && (qLatestVisible.length > 0) && (
+        {latestVisible && (latestVisible.length > 0) && (
           <div>
             <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Latest</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {qLatestVisible.map((post, idx) => (
-                <PostCard key={idx} pd={post} hideQuestion={() => hideQLatest(post.postId)} />
+              {latestVisible.map((post, idx) => (
+                <PostCard key={idx} pd={post} hideQuestion={() => hideLatest(post.postId)} />
               ))}
             </div>
           </div>
         )}
 
-        {qTrendingVisible && (qTrendingVisible.length <= 0) && qLatestVisible && (qLatestVisible.length <= 0) && (
+        {trendingVisible && (trendingVisible.length <= 0) && latestVisible && (latestVisible.length <= 0) && (
           <div className="flex justify-center items-center my-8">
             <button type="button" onClick={handleUnhide} title="Unhide Post"
               className="flex items-center gap-2 px-2 py-1 rounded-lg bg-hsl-l95 hover:bg-hsl-l90 dark:bg-hsl-l15 dark:hover:bg-hsl-l20">
@@ -171,14 +179,14 @@ export default function Questions() {
         )}
 
         {/* Retrieving Data */}
-        {isFetchingQuestions && (
+        {isFetchingPosts && (
           <div className="min-h-[70vh] flex justify-center items-center">
             <p className="text-2xl text-hsl-l50 font-medium">Fetching Questions...</p>
           </div>
         )}
 
         {/* Failed Retreiving Data */}
-        {!isFetchingQuestions && !questions && (
+        {!isFetchingPosts && !posts && (
           <div className="min-h-[70vh] flex flex-col justify-center items-center">
             <p className="text-2xl text-hsl-l50 font-medium">Error Fetching Questions.</p>
             <p className="text-2xl text-hsl-l50 font-medium">Please try again later.</p>

@@ -76,7 +76,7 @@ export default async function setPost(postContent: PostUpload, dbPath: string): 
     // Upload Components
     const componentUrls = await Promise.all(
       postContent.components.map(async (component, index) => {
-        const language = languageOptions[component.filetype || 'markdown'];
+        const language = languageOptions[component.fileType || 'markdown'];
         const fileType = language.mimeType;
         const fileExtension = language.extension;
         const blob = new Blob([component.content], { type: fileType });
@@ -87,7 +87,7 @@ export default async function setPost(postContent: PostUpload, dbPath: string): 
         // Return the URL and file type
         return {
           url: downloadURL,
-          type: component.filetype || fileType,
+          type: component.fileType || fileType,
         };
       })
     );

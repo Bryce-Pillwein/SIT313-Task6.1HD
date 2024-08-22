@@ -5,11 +5,13 @@ import { useState } from "react";
 import IconGeneral from "./icons/IconGeneral";
 
 interface ToolBarProps {
+  isGridView: boolean;
   onSearch: (searchTerm: string, searchType: string) => void;
-  unhide: () => void
+  toggleView: () => void;
+  unhide: () => void;
 }
 
-const ToolBar: React.FC<ToolBarProps> = ({ onSearch, unhide }) => {
+const ToolBar: React.FC<ToolBarProps> = ({ isGridView, onSearch, toggleView, unhide }) => {
   const [isFilterVisible, setIsFilterVisible] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>('Title');
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -33,7 +35,7 @@ const ToolBar: React.FC<ToolBarProps> = ({ onSearch, unhide }) => {
   };
 
   return (
-    <div className="w-full bg-hsl-l98 dark:bg-hsl-l13 mb-4 rounded-lg">
+    <div className="w-full bg-hsl-l98 dark:bg-hsl-l13 mt-4 mb-4 rounded-lg">
       <div className="flex items-center gap-4">
         {/* Search Bar */}
         <div className="flex items-center flex-grow gap-4 px-4 py-2 rounded-lg bg-hsl-l100 dark:bg-hsl-l15 border border-solid border-hsl-l95 dark:border-hsl-l25 focus-within:border-mb-pink dark:focus-within:border-mb-yellow">
@@ -47,6 +49,11 @@ const ToolBar: React.FC<ToolBarProps> = ({ onSearch, unhide }) => {
           className="flex items-center gap-2 px-2 py-1 rounded-lg bg-hsl-l95 hover:bg-hsl-l90 dark:bg-hsl-l15 dark:hover:bg-hsl-l20">
           <IconGeneral type="filter" />
           <p className="text-sm font-medium">Filter</p>
+        </button>
+
+        <button type="button" onClick={toggleView} title="Toggle View"
+          className="flex items-center gap-2 px-2 py-1 rounded-lg bg-hsl-l95 hover:bg-hsl-l90 dark:bg-hsl-l15 dark:hover:bg-hsl-l20">
+          {isGridView ? (<IconGeneral type="grid-view" />) : (<IconGeneral type="grid-view" />)}
         </button>
 
         <button type="button" onClick={unhide} title="Unhide Post"
