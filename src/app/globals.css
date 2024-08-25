@@ -78,7 +78,6 @@
     border-radius: 0.5rem;
     background-color: theme('colors.hsl.l90');
     color: theme('colors.hsl.l15');
-
   }
 
   .btn:hover {

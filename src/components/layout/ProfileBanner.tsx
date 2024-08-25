@@ -101,7 +101,7 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({ uid, onClose }) => {
           <p>Loading User</p>
         )}
         <div onClick={onClose} className="hover:bg-hsl-l90 hover:dark:bg-hsl-l20 rounded-sm cursor-pointer">
-          <IconGeneral type="close" fillLightMode="hsl(0 0% 30%)" fillDarkMode="hsl(0 0% 70%)" />
+          <IconGeneral type="close" className="fill-hsl-l30 dark:fill-hsl-l70" />
         </div>
       </div>
 
@@ -109,13 +109,13 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({ uid, onClose }) => {
 
       {linksProfile.map((link, idx) => (
         <Link href={link.href} key={idx} className=" hover:bg-hsl-l90 hover:dark:bg-hsl-l20 px-2 py-1 my-1 flex items-center gap-2 rounded-md">
-          <IconGeneral type={link.type} fillLightMode="hsl(0 0% 30%)" fillDarkMode="hsl(0 0% 70%)" />
+          <IconGeneral type={link.type} className="fill-hsl-l30 dark:fill-hsl-l70" />
           <p className="font-medium text-hsl-l30 dark:text-hsl-l70">{link.label}</p>
         </Link>
       ))}
 
       <div onClick={toggleTheme} className="cursor-pointer hover:bg-hsl-l90 hover:dark:bg-hsl-l20 px-2 py-1 my-1 flex items-center gap-2 rounded-md">
-        <IconGeneral type='dark-light-mode' fillLightMode="hsl(0 0% 30%)" fillDarkMode="hsl(0 0% 70%)" />
+        <IconGeneral type='dark-light-mode' className="fill-hsl-l30 dark:fill-hsl-l70" />
         <p className="font-medium text-hsl-l30 dark:text-hsl-l70">Toggle Darkmode</p>
       </div>
 
@@ -125,17 +125,17 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({ uid, onClose }) => {
 
       <a href="https://www.deakin.edu.au/student-life-and-services/support-services" target="_blank" rel="noopener noreferrer"
         className=" hover:bg-hsl-l90 hover:dark:bg-hsl-l20 px-2 py-1 my-1 flex items-center gap-2 rounded-md">
-        <IconGeneral type="help" fillLightMode="hsl(0 0% 30%)" fillDarkMode="hsl(0 0% 70%)" />
+        <IconGeneral type="help" className="fill-hsl-l30 dark:fill-hsl-l70" />
         <p className="font-medium text-hsl-l30 dark:text-hsl-l70">Support Services</p>
       </a>
 
       <Link href="/" className=" hover:bg-hsl-l90 hover:dark:bg-hsl-l20 px-2 py-1 my-1 flex items-center gap-2 rounded-md">
-        <IconGeneral type="report" fillLightMode="hsl(0 0% 30%)" fillDarkMode="hsl(0 0% 70%)" />
+        <IconGeneral type="report" className="fill-hsl-l30 dark:fill-hsl-l70" />
         <p className="font-medium text-hsl-l30 dark:text-hsl-l70">Report an Issue</p>
       </Link>
 
       <Link href="/" className=" hover:bg-hsl-l90 hover:dark:bg-hsl-l20 px-2 py-1 my-1 flex items-center gap-2 rounded-md">
-        <IconGeneral type="feedback" fillLightMode="hsl(0 0% 30%)" fillDarkMode="hsl(0 0% 70%)" />
+        <IconGeneral type="feedback" className="fill-hsl-l30 dark:fill-hsl-l70" />
         <p className="font-medium text-hsl-l30 dark:text-hsl-l70">Provide Feedback</p>
       </Link>
 
@@ -143,7 +143,7 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({ uid, onClose }) => {
 
       <button type="button" onClick={handleLogout}
         className=" hover:bg-hsl-l90 hover:dark:bg-hsl-l20 px-2 py-1 my-1 flex items-center gap-2 rounded-md">
-        <IconGeneral type="logout" fillLightMode="hsl(0 0% 30%)" fillDarkMode="hsl(0 0% 70%)" />
+        <IconGeneral type="logout" className="fill-hsl-l30 dark:fill-hsl-l70" />
         <p className="font-medium text-hsl-l30 dark:text-hsl-l70">Sign Out</p>
       </button>
     </div>

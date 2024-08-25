@@ -71,7 +71,7 @@ const PostDetailedModal: React.FC<PostDetailedModalProps> = ({ pd, onClose }) =>
           <div className='flex justify-end items-start flex-shrink-0'>
             <button className='bg-hsl-l90 hover:bg-hsl-l80 dark:bg-hsl-l15 rounded-tr-md rounded-bl-md dark:hover:bg-hsl-l20 p-1'
               onClick={() => onClose()}>
-              <IconGeneral type='close' size={24} fillDarkMode='hsl(0 0% 60%)' fillLightMode='hsl(0 0% 40%)' />
+              <IconGeneral type='close' size={24} />
             </button>
           </div>
         </div>

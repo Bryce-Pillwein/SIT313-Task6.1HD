@@ -1,6 +1,6 @@
 /**
  * Services Index File
- * - Keeps imports entralised to single '@/services' path
+ * - Keeps imports centralised to single '@/services' path
  */
 
 export { default as signInWithEmail } from '@/services/authentication/signInWithEmail'
@@ -22,5 +22,6 @@ export { default as reportPostComment } from '@/services/postInteractions/report
 export { default as getUserValue } from '@/services/user/getUserValue';
 export { default as setSubscriber } from '@/services/user/setSubscriber';
 
+export { default as getSearchedUserResults } from '@/services/chats/getSearchedUserResults'
 
 export { default as getStripe } from '@/services/util/getStripe';

@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import IconGeneral from "../../icons/IconGeneral";
 import ReactDOM from 'react-dom';
 import { linksPost, linksView, linksMembership, linksResource } from "./NavigationLinks";
+import IconNavigation from "@/components/icons/IconNavigation";
 
 const NavMenuMobile = () => {
   const [isNavMenuOpen, setIsNavMenuOpen] = useState<boolean>(false);
@@ -48,7 +49,7 @@ const NavMenuMobile = () => {
               <p className="text-hsl-l50 font-medium text-sm -mb-2">QUESTIONS & ARTICLES</p>
               {linksPost.map((link) => (
                 <Link href={link.href} key={link.href} className="group flex items-center gap-4 ">
-                  <IconGeneral type={link.type} fillDarkMode="hsl(0 0% 70%)" fillLightMode="hsl(0 0% 30%)" />
+                  <IconNavigation type={link.type} className="group-hover:fill-mb-pink group-hover:dark:fill-mb-yellow" />
                   <div>
                     <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">{link.label}</p>
                     <p className="text-xs text-hsl-l50 group-hover:text-hsl-l5 group-hover:dark:text-hsl-l95">{link.desc}</p>
@@ -67,7 +68,7 @@ const NavMenuMobile = () => {
               <p className="text-hsl-l50 font-medium text-sm -mb-2">QUESTIONS & ARTICLES</p>
               {linksView.map((link) => (
                 <Link href={link.href} key={link.href} className="group flex items-center gap-4 ">
-                  <IconGeneral type={link.type} fillDarkMode="hsl(0 0% 70%)" fillLightMode="hsl(0 0% 30%)" />
+                  <IconNavigation type={link.type} className="group-hover:fill-mb-pink group-hover:dark:fill-mb-yellow" />
                   <div>
                     <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">{link.label}</p>
                     <p className="text-xs text-hsl-l50 group-hover:text-hsl-l5 group-hover:dark:text-hsl-l95">{link.desc}</p>
@@ -86,7 +87,7 @@ const NavMenuMobile = () => {
               <p className="text-hsl-l50 font-medium text-sm -mb-2">MEMBERSHIP</p>
               {linksMembership.map((link) => (
                 <Link href={link.href} key={link.href} className="group flex items-center gap-4">
-                  <IconGeneral type={link.type} fillDarkMode="hsl(0 0% 60%)" fillLightMode="hsl(0 0% 40%)" />
+                  <IconNavigation type={link.type} className="group-hover:fill-mb-pink group-hover:dark:fill-mb-yellow" />
                   <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">{link.label}</p>
                 </Link>
               ))}
@@ -97,7 +98,7 @@ const NavMenuMobile = () => {
               <div className="grid grid-cols-2 gap-x-16 gap-y-4">
                 {linksResource.map((link) => (
                   <Link href={link.href} key={link.href} className="group flex items-center gap-4">
-                    <IconGeneral type={link.type} fillDarkMode="hsl(0 0% 60%)" fillLightMode="hsl(0 0% 40%)" />
+                    <IconNavigation type={link.type} className="group-hover:fill-mb-pink group-hover:dark:fill-mb-yellow" />
                     <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">{link.label}</p>
                   </Link>
                 ))}
@@ -107,8 +108,8 @@ const NavMenuMobile = () => {
             <div className="bg-hsl-l100 dark:bg-hsl-l13 rounded-md relative z-20 px-4 py-4 flex flex-col gap-4">
               <p className="text-hsl-l50 font-medium text-sm -mb-2">DEAKIN</p>
               <div className="grid grid-cols-2 gap-x-16 gap-y-4">
-                <a rel="noopener noreferrer" target="_blank" href="https://www.deakin.edu.au/help-hub" className="group flex items-center gap-4 px-4">
-                  <IconGeneral type="help" fillDarkMode="hsl(0 0% 60%)" fillLightMode="hsl(0 0% 40%)" />
+                <a rel="noopener noreferrer" target="_blank" href="https://www.deakin.edu.au/help-hub" className="group flex items-center gap-4">
+                  <IconNavigation type="help" className="group-hover:fill-mb-pink group-hover:dark:fill-mb-yellow" />
                   <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">Help Hub</p>
                 </a>
               </div>
@@ -122,8 +123,9 @@ const NavMenuMobile = () => {
 
   return (
     <div>
-      <div onClick={() => setIsNavMenuOpen(!isNavMenuOpen)}>
-        <IconGeneral type="menu-open" />
+      <div onClick={() => setIsNavMenuOpen(!isNavMenuOpen)}
+        className="border rounded-sm border-hsl-l50">
+        <IconGeneral type="menu-open" fillLightMode="hsl(0 0% 40%)" fillDarkMode="hsl(0 0% 60%)" />
       </div>
 
       {isClient && ReactDOM.createPortal(renderMobileNav(), document.body)}

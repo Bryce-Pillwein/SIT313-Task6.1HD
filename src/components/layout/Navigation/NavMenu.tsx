@@ -5,6 +5,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import IconGeneral from "../../icons/IconGeneral";
 import { linksPost, linksView, linksMembership, linksResource } from "./NavigationLinks";
+import IconNavigation from "@/components/icons/IconNavigation";
 
 interface Location {
   center: number;
@@ -77,16 +78,16 @@ const NavMenu = () => {
               <p className="text-hsl-l50 font-medium text-sm -mb-2">QUESTIONS & ARTICLES</p>
               {linksPost.map((link) => (
                 <Link href={link.href} key={link.href} className="group flex items-center gap-4 ">
-                  <IconGeneral type={link.type} fillDarkMode="hsl(0 0% 70%)" fillLightMode="hsl(0 0% 30%)" />
+                  <IconNavigation type={link.type} className="group-hover:fill-mb-pink group-hover:dark:fill-mb-yellow" />
                   <div>
                     <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">{link.label}</p>
                     <p className="text-xs text-hsl-l50 group-hover:text-hsl-l5 group-hover:dark:text-hsl-l95">{link.desc}</p>
                   </div>
                   <div className="block group-hover:hidden ml-auto">
-                    <IconGeneral type="arrow-right" size={16} fillDarkMode="hsl(0 0% 13%)" fillLightMode="hsl(0 0% 100%)" />
+                    <IconGeneral type="arrow-right" size={16} className="fill-transparent" />
                   </div>
                   <div className="hidden group-hover:inline-block ml-auto">
-                    <IconGeneral type="arrow-right" size={16} fillDarkMode="#FFE900" fillLightMode="#FF3EB5" />
+                    <IconGeneral type="arrow-right" size={16} className="fill-mb-pink dark:fill-mb-yellow" />
                   </div>
                 </Link>
               ))}
@@ -99,16 +100,16 @@ const NavMenu = () => {
                 <p className="text-hsl-l50 font-medium text-sm -mb-2">QUESTIONS & ARTICLES</p>
                 {linksView.map((link) => (
                   <Link href={link.href} key={link.href} className="group flex items-center gap-4 ">
-                    <IconGeneral type={link.type} fillDarkMode="hsl(0 0% 70%)" fillLightMode="hsl(0 0% 30%)" />
+                    <IconNavigation type={link.type} className="group-hover:fill-mb-pink group-hover:dark:fill-mb-yellow" />
                     <div>
                       <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">{link.label}</p>
                       <p className="text-xs text-hsl-l50 group-hover:text-hsl-l5 group-hover:dark:text-hsl-l95">{link.desc}</p>
                     </div>
                     <div className="block group-hover:hidden ml-auto">
-                      <IconGeneral type="arrow-right" size={16} fillDarkMode="hsl(0 0% 13%)" fillLightMode="hsl(0 0% 100%)" />
+                      <IconGeneral type="arrow-right" size={16} className="fill-transparent" />
                     </div>
                     <div className="hidden group-hover:inline-block ml-auto">
-                      <IconGeneral type="arrow-right" size={16} fillDarkMode="#FFE900" fillLightMode="#FF3EB5" />
+                      <IconGeneral type="arrow-right" size={16} className="fill-mb-pink dark:fill-mb-yellow" />
                     </div>
                   </Link>
                 ))}
@@ -119,7 +120,7 @@ const NavMenu = () => {
                 <div className="grid grid-cols-2 gap-x-16 gap-y-4">
                   {linksMembership.map((link) => (
                     <Link href={link.href} key={link.href} className="group flex items-center gap-4 px-4">
-                      <IconGeneral type={link.type} fillDarkMode="hsl(0 0% 60%)" fillLightMode="hsl(0 0% 40%)" />
+                      <IconNavigation type={link.type} className="group-hover:fill-mb-pink group-hover:dark:fill-mb-yellow" />
                       <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">{link.label}</p>
                     </Link>
                   ))}
@@ -135,7 +136,7 @@ const NavMenu = () => {
                 <div className="grid grid-cols-2 gap-x-16 gap-y-4">
                   {linksResource.map((link) => (
                     <Link href={link.href} key={link.href} className="group flex items-center gap-4 px-4">
-                      <IconGeneral type={link.type} fillDarkMode="hsl(0 0% 60%)" fillLightMode="hsl(0 0% 40%)" />
+                      <IconNavigation type={link.type} className="group-hover:fill-mb-pink group-hover:dark:fill-mb-yellow" />
                       <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">{link.label}</p>
                     </Link>
                   ))}
@@ -146,7 +147,7 @@ const NavMenu = () => {
                 <p className="text-hsl-l50 font-medium text-sm -mb-2">DEAKIN</p>
                 <div className="grid grid-cols-2 gap-x-16 gap-y-4">
                   <a rel="noopener noreferrer" target="_blank" href="https://www.deakin.edu.au/help-hub" className="group flex items-center gap-4 px-4">
-                    <IconGeneral type="help" fillDarkMode="hsl(0 0% 60%)" fillLightMode="hsl(0 0% 40%)" />
+                    <IconNavigation type="help" className="group-hover:fill-mb-pink group-hover:dark:fill-mb-yellow" />
                     <p className="text-sm font-medium group-hover:text-mb-pink group-hover:dark:text-mb-yellow">Help Hub</p>
                   </a>
                 </div>

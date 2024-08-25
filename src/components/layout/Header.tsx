@@ -10,6 +10,7 @@ import IconGeneral from "../icons/IconGeneral";
 import IconDevDeakin from "../icons/IconDevDeakin";
 import { useAuth } from "../providers/AuthProvider";
 import { AnimatePresence, motion } from "framer-motion";
+import IconNavigation from "../icons/IconNavigation";
 
 const DynamicProfileBanner = dynamic(() => import('./ProfileBanner'), {
   loading: () => <></>,
@@ -24,7 +25,6 @@ const DynamicNavMenuMobile = dynamic(() => import('./Navigation/NavMenuMobile'),
 })
 
 
-
 const Header = () => {
   const { user, loading } = useAuth();
   const [isProfileBannerVisible, setIsProfileBannerVisible] = useState<boolean>(false);
@@ -37,6 +37,10 @@ const Header = () => {
     setIsClient(true);
   }, []);
 
+  /**
+   * Render Profile Banner (with animations)
+   * @returns 
+   */
   const renderProfileBanner = () => (
     <AnimatePresence>
       {isProfileBannerVisible && user && (
@@ -73,8 +77,6 @@ const Header = () => {
 
 
       <div className="flex items-center gap-x-4 mb:gap-x-10">
-
-
         <div className="block md:hidden">
           <DynamicNavMenuMobile />
         </div>
@@ -83,17 +85,19 @@ const Header = () => {
           <DynamicNavMenu />
         </div>
 
+        <Link href="/messages">
+          <IconNavigation type="messages" className="hover:fill-mb-pink hover:dark:fill-mb-yellow" size={28} />
+        </Link>
 
         {loading ? null : (
           !user ? (
             <Link href="/login" className="">Sign In</Link>
           ) : (
             <div className="cursor-pointer flex-shrink-0" onClick={() => setIsProfileBannerVisible(true)}>
-              <IconGeneral type="profile" fillLightMode="hsl(0 0% 40%)" fillDarkMode="hsl(0 0% 60%)" size={30} />
+              <IconGeneral type="profile" className="hover:fill-mb-pink hover:dark:fill-mb-yellow" size={28} />
             </div>
           )
         )}
-
       </div>
 
 

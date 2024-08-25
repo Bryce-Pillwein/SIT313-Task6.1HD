@@ -50,7 +50,7 @@ const PostCard: React.FC<PostCardProp> = ({ pd, hideQuestion, isGridView }) => {
           {hideQuestion && (
             <div onClick={() => hideQuestion(pd.postId)}
               className=" opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer bg-hsl-l5 bg-opacity-75 rounded-full p-1 hover:bg-opacity-85">
-              <IconGeneral type="visibility-off" fill='hsl(0 0% 85%)' size={26} />
+              <IconGeneral type="visibility-off" className='fill-hsl-85' size={26} />
             </div>
           )}
           {/* <div onClick={showDetailedQuestion}

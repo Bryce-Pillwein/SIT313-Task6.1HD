@@ -41,10 +41,13 @@ export default async function registerWithEmail({ firstName, lastName, email, pa
  */
 async function createEmailUserInDatabase(userID: string, firstName: string, lastName: string, email: string) {
   try {
+    const fullName = `${firstName} ${lastName}`.toLowerCase();
+
     await setDoc(doc(db, `USERS/${userID}`), {
       uid: userID,
       firstName: firstName,
       lastName: lastName,
+      fullName: fullName,
       membership: 'none',
       email: email,
       photoURL: null,
