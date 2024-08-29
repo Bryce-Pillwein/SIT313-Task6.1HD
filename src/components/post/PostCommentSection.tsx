@@ -142,7 +142,7 @@ const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId, dbPath,
         <button type="button" onClick={handlePostComment}
           className="flex items-center gap-1 py-1 px-2 text-sm bg-[#1da1f2] hover:bg-[#119bf0] dark:bg-[#283f4d] dark:hover:bg-[#2e4959] rounded-lg text-white">
           Send
-          <IconGeneral type="send" fill="#FFF" />
+          <IconGeneral type="send" className="fill-white" />
         </button>
       </div>
 
@@ -158,7 +158,7 @@ const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId, dbPath,
               <div className="relative">
                 <button type="button" className="hover:bg-hsl-l95 hover:dark:bg-hsl-l20 rounded-full"
                   onClick={() => toggleDropdown(idx)} >
-                  <IconGeneral type="menu-more-horiz" size={28} fillLightMode="hsl(0 0% 60%)" fillDarkMode="hsl(0 0% 40%)" />
+                  <IconGeneral type="menu-more-horiz" size={28} className="fill-hsl-l70 dark:fill-hsl-l30" />
                 </button>
 
                 {/* Dropdown Menu */}

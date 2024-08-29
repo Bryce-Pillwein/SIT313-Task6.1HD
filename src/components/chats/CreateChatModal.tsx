@@ -5,24 +5,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { User } from '@/types/User';
-import { getSearchedUserResults } from '@/services';
+import { setNewChat, getSearchedUserResults } from '@/services';
 import IconGeneral from '../icons/IconGeneral';
-
-// const createChatWithSelectedUsers = async (selectedUsers: User[]) => {
-//   const participantIds = selectedUsers.map(user => user.uid);
-//   // Call your addNewChat function here with the participant IDs
-//   await addNewChat(participantIds);
-// };
+import { useNotification } from '../providers/NotificationProvider';
 
 interface CreateChatModalProps {
   onClose: () => void;
+  refresh: () => void;
 }
 
-const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose }) => {
+const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose, refresh }) => {
+  const { addNotification } = useNotification();
   const innerDivRef = useRef<HTMLDivElement>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+  const [initialMessage, setInitialMessage] = useState<string>('');
 
   /**
    * Create event listerner for mouse clicks in modal menu
@@ -56,10 +54,15 @@ const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose }) => {
     const fetchUsers = async () => {
       if (searchTerm.length > 0) {
         try {
-          const users = await getSearchedUserResults(searchTerm);
-          setUsers(users);
+          const allUsers = await getSearchedUserResults(searchTerm);
+          // Filter out selected users from the list of all users
+          const filteredUsers = allUsers.filter(user =>
+            !selectedUsers.some(selectedUser => selectedUser.uid === user.uid));
+          setUsers(filteredUsers);
         } catch (error) {
           console.error('Error fetching users:', error);
+          addNotification('An Error occured. Refresh');
+
           setUsers([]);
         }
       } else {
@@ -70,16 +73,45 @@ const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose }) => {
     fetchUsers();
   }, [searchTerm]);
 
-  // Function to select a user
+  /**
+   * Select User
+   * @param user 
+   */
   const selectUser = (user: User) => {
     setSelectedUsers(prev => [...prev, user]);
     setSearchTerm('');
     setUsers([]); // Clear search results after selection
   };
 
-  // Function to remove a selected user
+  /**
+   * Remove Selected User
+   * @param userId User id
+   */
   const removeSelectedUser = (userId: string) => {
     setSelectedUsers(prev => prev.filter(user => user.uid !== userId));
+  };
+
+  /**
+   * Create Chat With Selected Users
+   * @returns 
+   */
+  const createChatWithSelectedUsers = async () => {
+    try {
+      const validMessage = initialMessage.trim();
+      if (selectedUsers.length <= 0 || validMessage.length <= 0) return;
+
+      const response = await setNewChat(selectedUsers, validMessage);
+      if (!response.success) {
+        addNotification(response.message!);
+        return;
+      }
+      addNotification('Message Sent!');
+      refresh();
+      onClose();
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      addNotification('Error creating chat');
+    }
   };
 
   return createPortal(
@@ -95,52 +127,58 @@ const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose }) => {
           </button>
         </div>
 
-        {/* Selected Users */}
-        {selectedUsers.length > 0 && (
-          <>
-            <p className='text-hsl-l50 text-sm mt-4'>Selected Users</p>
-            <div className='flex items-center gap-4 mb-4'>
-              {selectedUsers.map((user, idx) => (
-                <div key={idx} onClick={() => removeSelectedUser(user.uid)}
-                  className="group bg-hsl-l95 dark:bg-hsl-l15 rounded-md px-2 py-1" >
-                  <p className='group-hover:text-red-600'>{user.firstName} {user.lastName}</p>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-
 
         {/* Search and Results */}
         <div className='mt-4'>
-          <p className='text-hsl-l50 text-sm'>Search New User</p>
-
-          <input type="text" value={searchTerm} placeholder="User Name..."
-            className="df-input w-full bg-hsl-l100"
+          <input type="text" value={searchTerm} placeholder="Search User Name..."
+            className="df-input w-full !bg-hsl-l100"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
           {users.length > 0 && (
             <div className="bg-hsl-l100 dark:bg-hsl-l15 border dark:border-mb-yellow mt-2 rounded">
               {users.map((user, idx) => (
-                <p key={idx} onClick={() => selectUser(user)}
-                  className="p-2 hover:bg-mb-pink dark:hover:bg-mb-yellow cursor-pointer">
-                  {user.firstName} {user.lastName}
-                </p>
+                <div key={idx} onClick={() => selectUser(user)}
+                  className=" p-2 hover:bg-mb-pink dark:hover:bg-mb-yellow cursor-pointer">
+                  <p >{user.firstName} {user.lastName} </p>
+                </div>
               ))}
             </div>
           )}
         </div>
 
-        <div className='flex flex-col justify-end items-end flex-grow flex-shrink-0 pb-8'>
-          {selectedUsers.length > 0 && (
-            <button className="btn"
-            // onClick={() => createChatWithSelectedUsers(selectedUsers)}
-            >
-              Create Chat
-            </button>
-          )}
+        {/* Selected Users */}
+        {selectedUsers.length > 0 && (
+          <>
+            <p className='text-hsl-l50 text-sm mt-8'>Selected Users</p>
+            <div className='flex items-center gap-4 mb-4'>
+              {selectedUsers.map((user, idx) => (
+                <div key={idx} onClick={() => removeSelectedUser(user.uid)}
+                  className="flex items-center bg-hsl-l95 dark:bg-hsl-l15 rounded-md px-2 py-1 cursor-pointer" >
+                  <p>{user.firstName} {user.lastName}</p>
+                  <IconGeneral type='delete' className='fill-red-600' size={20} />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
+        {/* Message Input */}
+        {selectedUsers.length > 0 && (
+          <div className='mt-4'>
+            <input type="text" value={initialMessage} placeholder="Message"
+              className="input-resize-content df-input w-full !bg-hsl-l100"
+              onChange={(e) => setInitialMessage(e.target.value)}
+            />
+          </div>
+        )}
+
+        {/* Button */}
+        <div className='flex flex-col justify-end items-end flex-grow flex-shrink-0 pb-8'>
+          {(selectedUsers.length > 0) && (initialMessage?.length > 0) && (
+            <button type="button" className="btn"
+              onClick={() => createChatWithSelectedUsers()}>Send Message</button>
+          )}
         </div>
 
       </div>
