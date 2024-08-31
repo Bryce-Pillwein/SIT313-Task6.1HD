@@ -32,6 +32,7 @@ export { default as setNewChat } from '@/services/chats/setNewChat';
 export { default as getUserChatThreads } from '@/services/chats/getUserChatThreads';
 export { default as getChatMessages } from '@/services/chats/getChatMessages';
 export { default as setNewMessage } from '@/services/chats/setNewMessage';
+export { default as deleteChatThread } from '@/services/chats/deleteChatThread';
 
 // Stripe
 export { default as getStripe } from '@/services/util/getStripe';

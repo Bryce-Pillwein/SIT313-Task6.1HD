@@ -18,6 +18,16 @@ export interface LastMessage {
   };
 }
 
+interface Message {
+  id?: string;
+  message: string;
+  senderId: string;
+  sentAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
+}
+
 export interface Chat {
   chatId: string;
   participants: Participant[];

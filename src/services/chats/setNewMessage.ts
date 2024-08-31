@@ -1,4 +1,4 @@
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, Timestamp, updateDoc, doc } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 
 interface Message {
@@ -16,6 +16,7 @@ interface Message {
  */
 export default async function setNewMessage(chatId: string, senderId: string, message: string): Promise<string> {
   try {
+    // Add the new message to the messages subcollection
     const messagesRef = collection(db, "CHATS", chatId, "messages");
 
     const newMessage: Message = {
@@ -25,6 +26,12 @@ export default async function setNewMessage(chatId: string, senderId: string, me
     };
 
     const docRef = await addDoc(messagesRef, newMessage);
+
+    // Update the lastMessage field in the parent chat document
+    const chatRef = doc(db, "CHATS", chatId);
+    await updateDoc(chatRef, {
+      lastMessage: newMessage
+    });
 
     return docRef.id;
   } catch (error) {

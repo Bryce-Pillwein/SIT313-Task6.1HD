@@ -55,10 +55,10 @@ const NavMenuMobile = () => {
                     <p className="text-xs text-hsl-l50 group-hover:text-hsl-l5 group-hover:dark:text-hsl-l95">{link.desc}</p>
                   </div>
                   <div className="block group-hover:hidden ml-auto">
-                    <IconGeneral type="arrow-right" size={16} fillDarkMode="hsl(0 0% 13%)" fillLightMode="hsl(0 0% 100%)" />
+                    <IconGeneral type="arrow-right" size={16} className="fill-hsl-l100 dark:fill-hsl-l13" />
                   </div>
                   <div className="hidden group-hover:inline-block ml-auto">
-                    <IconGeneral type="arrow-right" size={16} fillDarkMode="#FFE900" fillLightMode="#FF3EB5" />
+                    <IconGeneral type="arrow-right" size={16} className="fill-mb-pink dark:fill-mb-yellow" />
                   </div>
                 </Link>
               ))}
@@ -74,10 +74,10 @@ const NavMenuMobile = () => {
                     <p className="text-xs text-hsl-l50 group-hover:text-hsl-l5 group-hover:dark:text-hsl-l95">{link.desc}</p>
                   </div>
                   <div className="block group-hover:hidden ml-auto">
-                    <IconGeneral type="arrow-right" size={16} fillDarkMode="hsl(0 0% 13%)" fillLightMode="hsl(0 0% 100%)" />
+                    <IconGeneral type="arrow-right" size={16} className="fill-hsl-l100 dark:fill-hsl-l13" />
                   </div>
                   <div className="hidden group-hover:inline-block ml-auto">
-                    <IconGeneral type="arrow-right" size={16} fillDarkMode="#FFE900" fillLightMode="#FF3EB5" />
+                    <IconGeneral type="arrow-right" size={16} className="fill-mb-pink dark:fill-mb-yellow" />
                   </div>
                 </Link>
               ))}
@@ -125,7 +125,7 @@ const NavMenuMobile = () => {
     <div>
       <div onClick={() => setIsNavMenuOpen(!isNavMenuOpen)}
         className="border rounded-sm border-hsl-l50">
-        <IconGeneral type="menu-open" fillLightMode="hsl(0 0% 40%)" fillDarkMode="hsl(0 0% 60%)" />
+        <IconGeneral type="menu-open" className="fill-hsl-l30 dark:fill-hsl-l70" />
       </div>
 
       {isClient && ReactDOM.createPortal(renderMobileNav(), document.body)}
