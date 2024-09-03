@@ -82,7 +82,7 @@ const SubscribeBanner = () => {
           value={email} onChange={e => setEmail(e.target.value)}
           required autoComplete="email" />
         <button type="submit">
-          <IconGeneral type="arrow-right" fill={"#FFE900"} />
+          <IconGeneral type="arrow-right" className="fill-mb-yellow dark:fill-mb-yellow" />
         </button>
       </div>
     </form>
