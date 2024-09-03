@@ -34,7 +34,7 @@ const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId, dbPath,
       }
       fetchCommentData();
     }
-  }, [postId, dbPath])
+  }, [postId, dbPath, updateCommentTotal])
 
   /**
     * Handle Click Outside Dropdown

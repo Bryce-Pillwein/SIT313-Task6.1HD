@@ -66,7 +66,7 @@ const NavMenu = () => {
           damping: 30,
           scale: { duration: 0.5 },
         }}
-        className="absolute z-10"
+        className="absolute z-50"
         style={{ width: "auto", height: "auto", minWidth: 'max-content' }}
       >
 

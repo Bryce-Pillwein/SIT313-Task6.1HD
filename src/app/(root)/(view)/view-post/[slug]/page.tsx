@@ -57,7 +57,7 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
 
       fetchPost();
     }
-  }, [slug, postType]);
+  }, [slug, postType, addNotification]);
 
   /**
    * Fetch Post Content

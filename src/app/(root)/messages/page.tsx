@@ -21,12 +21,6 @@ export default function MessagesPage() {
   const [chats, setChats] = useState<Chat[]>([]);
   const [displayedChat, setDisplayedChat] = useState<Chat | null>(null);
 
-  useEffect(() => {
-    if (user) {
-      getChats(user.uid);
-    }
-  }, [user]);
-
   /**
    * Get Chats
    * @returns chat threads
@@ -47,6 +41,12 @@ export default function MessagesPage() {
       addNotification('Error fetching chats');
     }
   }
+
+  useEffect(() => {
+    if (user) {
+      getChats(user.uid);
+    }
+  }, [user, getChats]);
 
   /**
    * Handle Chat Click

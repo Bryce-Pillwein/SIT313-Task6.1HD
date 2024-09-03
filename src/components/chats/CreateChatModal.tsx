@@ -71,7 +71,7 @@ const CreateChatModal: React.FC<CreateChatModalProps> = ({ onClose, refresh }) =
     };
 
     fetchUsers();
-  }, [searchTerm]);
+  }, [searchTerm, addNotification, selectedUsers]);
 
   /**
    * Select User

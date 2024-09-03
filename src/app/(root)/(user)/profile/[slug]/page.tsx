@@ -29,15 +29,6 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [counts, setCounts] = useState({ posts: 0, questions: 0, articles: 0 });
 
-  useEffect(() => {
-    getUserPosts();
-  }, [slug])
-
-  useEffect(() => {
-    const bg = bannerColors[profile?.bannerColor || '#FF3EB5'];
-    setBgColor(bg);
-  }, [profile?.bannerColor]);
-
   /**
    * Get Profile
    */
@@ -70,20 +61,32 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
   /**
    * Get User Posts
    */
-  const getUserPosts = async () => {
-    try {
-      const postContent = await getUserPostForProfilePage(slug);
-      setPosts(postContent);
-      const questionCount = postContent.filter(post => post.postType === 'question').length;
-      const articleCount = postContent.filter(post => post.postType === 'article').length;
-      setCounts({ posts: postContent.length, questions: questionCount, articles: articleCount });
-    } catch (error) {
-      console.error('Error fetching post data:', error);
-    }
-  }
+  useEffect(() => {
+    const getUserPosts = async () => {
+      try {
+        const postContent = await getUserPostForProfilePage(slug);
+        setPosts(postContent);
+        const questionCount = postContent.filter(post => post.postType === 'question').length;
+        const articleCount = postContent.filter(post => post.postType === 'article').length;
+        setCounts({ posts: postContent.length, questions: questionCount, articles: articleCount });
+      } catch (error) {
+        console.error('Error fetching post data:', error);
+      }
+    };
+
+    getUserPosts();
+  }, [slug])
+
+  /**
+   * Update banner color
+   */
+  useEffect(() => {
+    const bg = bannerColors[profile?.bannerColor || '#FF3EB5'];
+    setBgColor(bg);
+  }, [profile?.bannerColor]);
 
   return (
-    <>
+    <div>
       <Header />
 
       <main className="w-full">
@@ -206,6 +209,6 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
           </div>
         </div>
       </main>
-    </>
+    </div>
   );
 }

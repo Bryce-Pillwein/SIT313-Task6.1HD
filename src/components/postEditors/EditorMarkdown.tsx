@@ -17,13 +17,6 @@ const EditorMarkdown: React.FC<EditorMarkdownProps> = ({ id, index, componentsLe
   const [input, setInput] = useState<string>('');
   const [inputDisabled, setInputDisabled] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (markdownURL) {
-      setInputDisabled(true);
-      getMarkdown();
-    }
-  }, [markdownURL]);
-
   /**
    * Get Markdown Text
    */
@@ -46,6 +39,13 @@ const EditorMarkdown: React.FC<EditorMarkdownProps> = ({ id, index, componentsLe
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (markdownURL) {
+      setInputDisabled(true);
+      getMarkdown();
+    }
+  }, [markdownURL, getMarkdown]);
 
   /**
    * Handle Input Change
