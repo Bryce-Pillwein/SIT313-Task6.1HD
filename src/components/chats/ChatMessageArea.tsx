@@ -1,5 +1,7 @@
 // Chat Message Area tsx
 
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import ReactDOM from 'react-dom';
 import Link from "next/link";

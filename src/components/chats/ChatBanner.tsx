@@ -1,4 +1,7 @@
 // Chat Banner tsx
+
+"use client";
+
 import { Chat } from "@/types/Chat";
 import ProfilePicture from "../ui/ProfilePicture";
 import { useEffect, useState } from "react";

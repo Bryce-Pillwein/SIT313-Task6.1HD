@@ -15,6 +15,7 @@ export { default as getPostAll } from '@/services/post/getPostAll';
 export { default as updatePost } from '@/services/post/updatePost';
 export { default as getUserQuestions } from '@/services/post/getUserQuestions';
 export { default as getPostFeatured } from '@/services/post/getPostFeatured';
+export { default as getUserPostForProfilePage } from '@/services/post/getUserPostForProfilePage';
 
 // Post Comments
 export { default as setPostComment } from '@/services/postInteractions/setPostComment';
@@ -22,8 +23,9 @@ export { default as getPostComments } from '@/services/postInteractions/getPostC
 export { default as deletePostComment } from '@/services/postInteractions/deletePostComment';
 export { default as reportPostComment } from '@/services/postInteractions/reportPostComment';
 
-// Misc
+// User
 export { default as getUserValue } from '@/services/user/getUserValue';
+export { default as updateUserProfile } from '@/services/user/updateUserProfile';
 export { default as setSubscriber } from '@/services/user/setSubscriber';
 
 // Chats

@@ -14,7 +14,7 @@ import PostCard from "@/components/post/PostCard";
 import PostSearchBanner from "@/components/post/PostSearchBanner";
 import IconGeneral from "@/components/icons/IconGeneral";
 
-export default function View({ params }: { params: { slug: string } }) {
+export default function ViewPage({ params }: { params: { slug: string } }) {
   const { addNotification } = useNotification();
   const { slug } = params;
 

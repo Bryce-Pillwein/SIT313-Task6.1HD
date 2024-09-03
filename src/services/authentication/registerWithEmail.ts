@@ -3,7 +3,6 @@ import { doc, setDoc } from "firebase/firestore";
 import checkUserExists from "./checkUserExists";
 import { auth, db } from '@/firebaseConfig';
 
-
 interface RegistrationData {
   firstName: string;
   lastName: string;
@@ -51,7 +50,17 @@ async function createEmailUserInDatabase(userID: string, firstName: string, last
       membership: 'none',
       email: email,
       photoURL: null,
-      emailVerified: null
+      emailVerified: null,
+      profile: {
+        jobTitle: '',
+        company: '',
+        bio: '',
+        skills: '',
+        badges: [],
+        bannerColor: 'Pink',
+        location: { city: '', country: '' },
+        socials: { website: '', github: '' }
+      }
     });
   } catch (error: any) {
     throw error;
