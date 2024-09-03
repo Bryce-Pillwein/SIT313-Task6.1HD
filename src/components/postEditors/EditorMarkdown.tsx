@@ -20,32 +20,33 @@ const EditorMarkdown: React.FC<EditorMarkdownProps> = ({ id, index, componentsLe
   /**
    * Get Markdown Text
    */
-  const getMarkdown = async () => {
-    try {
-      const response = await fetch(markdownURL!);
-      const text = await response.text();
-      setInput(text);
-
-      // Use Existing change event handler to set initial text on parent component
-      const initDataPretendEvent = {
-        target: {
-          name: 'markdownText',
-          value: text
-        }
-      } as unknown as React.ChangeEvent<HTMLTextAreaElement>;
-      // handleInput(initDataPretendEvent);
-      setInputDisabled(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     if (markdownURL) {
       setInputDisabled(true);
+
+      const getMarkdown = async () => {
+        try {
+          const response = await fetch(markdownURL!);
+          const text = await response.text();
+          setInput(text);
+
+          // Use Existing change event handler to set initial text on parent component
+          const initDataPretendEvent = {
+            target: {
+              name: 'markdownText',
+              value: text
+            }
+          } as unknown as React.ChangeEvent<HTMLTextAreaElement>;
+          // handleInput(initDataPretendEvent);
+          setInputDisabled(false);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
       getMarkdown();
     }
-  }, [markdownURL, getMarkdown]);
+  }, [markdownURL]);
 
   /**
    * Handle Input Change

@@ -11,7 +11,7 @@ import { useAuth } from "@/components/providers/AuthProvider";
 import { useNotification } from "@/components/providers/NotificationProvider";
 import { deleteChatThread, getUserChatThreads } from "@/services";
 import { Chat } from "@/types/Chat";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 
 export default function MessagesPage() {
@@ -25,7 +25,7 @@ export default function MessagesPage() {
    * Get Chats
    * @returns chat threads
    */
-  const getChats = async (uid: string) => {
+  const getChats = useCallback(async (uid: string) => {
     try {
       const response = await getUserChatThreads(uid);
       if (!response) {
@@ -34,13 +34,13 @@ export default function MessagesPage() {
       }
       setChats(response);
 
-      // Set chat to first one
+      // Set chat to the first one
       response.length >= 1 ? setDisplayedChat(response[0]) : setDisplayedChat(null);
     } catch (error) {
       console.error('Error fetching users:', error);
       addNotification('Error fetching chats');
     }
-  }
+  }, []);
 
   useEffect(() => {
     if (user) {

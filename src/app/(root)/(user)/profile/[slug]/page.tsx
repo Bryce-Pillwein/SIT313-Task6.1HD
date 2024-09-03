@@ -144,7 +144,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 
             <section className="col-span-2 flex flex-col gap-y-8">
               {posts.map((pd, idx) => (
-                <Link href={`/view-post/${pd.postId}?type=${pd.postType}`}
+                <Link href={`/view-post/${pd.postId}?type=${pd.postType}`} key={idx}
                   className="bg-hsl-l100 dark:bg-hsl-l15 rounded-lg shadow-md w-full px-8 py-4">
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-x-3">
