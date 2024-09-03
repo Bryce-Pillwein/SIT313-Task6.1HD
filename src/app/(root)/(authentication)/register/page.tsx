@@ -3,8 +3,8 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import LayoutHeaderOnly from "@/components/layout/LayoutDefault";
 import { registerWithEmail } from "@/services";
+import LogoTextRotate from "@/components/ui/LogoTextRotate";
 
 export default function Register() {
   const [firstName, setFirstName] = useState<string>('');
@@ -39,40 +39,42 @@ export default function Register() {
   }
 
   return (
-    <LayoutHeaderOnly>
-      <main className="flex justify-center items-center h-[70vh] ">
-        <form className="flex flex-col shadow p-8 rounded min-w-[50%]" onSubmit={handleSubmit} action="#">
-          <h1 className="text-center text-xl">Register</h1>
+    <main className="flex min-h-[100vh] flex-col items-center justify-center px-4">
 
-          {error && (
-            <div role="alert" className="error-box">
-              <p>{error}</p>
-            </div>
-          )}
+      <LogoTextRotate />
 
-          <input type="text" name="firstName" className="inputField my-2" placeholder="First Name" required
-            value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+      <form onSubmit={handleSubmit} action="#"
+        className="flex flex-col shadow p-8 rounded w-[100%] sm:w-[80%] md:w-[50%] mt-16 bg-hsl-l100 dark:bg-hsl-l13" >
+        <h1 className="text-center text-xl">Register</h1>
 
-          <input type="text" name="lastName" className="inputField my-2" placeholder="Last Name" required
-            value={lastName} onChange={(e) => setLastName(e.target.value)} />
+        {error && (
+          <div role="alert" className="error-box">
+            <p>{error}</p>
+          </div>
+        )}
 
-          <input type="email" name="email" className="inputField my-2" placeholder="Email" required
-            value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input type="text" name="firstName" className="inputField my-2" placeholder="First Name" required
+          value={firstName} onChange={(e) => setFirstName(e.target.value)} />
 
-          <input type="password" name="password" className="inputField my-2" placeholder="Password" required
-            value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input type="text" name="lastName" className="inputField my-2" placeholder="Last Name" required
+          value={lastName} onChange={(e) => setLastName(e.target.value)} />
 
-          <input type="password" name="confirmPassword" className="inputField my-2" placeholder="Confirm Password" required
-            value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+        <input type="email" name="email" className="inputField my-2" placeholder="Email" required
+          value={email} onChange={(e) => setEmail(e.target.value)} />
 
-          <button type="submit" className="btn cta-btn mt-3">Register</button>
+        <input type="password" name="password" className="inputField my-2" placeholder="Password" required
+          value={password} onChange={(e) => setPassword(e.target.value)} />
 
-          <p className="text-sub-14 text-center mt-4">
-            Already have an account?{" "}
-            <Link href="/login" className="text-hsl-l5 dark:text-hsl-l85 hover:underline">Log In</Link>
-          </p>
-        </form>
-      </main>
-    </LayoutHeaderOnly>
+        <input type="password" name="confirmPassword" className="inputField my-2" placeholder="Confirm Password" required
+          value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+
+        <button type="submit" className="btn cta-btn mt-3">Register</button>
+
+        <p className="text-sub-14 text-center mt-4">
+          Already have an account?{" "}
+          <Link href="/login" className="text-hsl-l5 dark:text-hsl-l85 hover:underline">Log In</Link>
+        </p>
+      </form>
+    </main>
   );
 }

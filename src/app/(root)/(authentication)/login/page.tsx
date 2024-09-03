@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signInWithEmail } from "@/services";
-import LayoutHeaderOnly from "@/components/layout/LayoutDefault";
+import LogoTextRotate from "@/components/ui/LogoTextRotate";
 
 export default function Login() {
   const router = useRouter();
@@ -54,34 +54,36 @@ export default function Login() {
   }
 
   return (
-    <LayoutHeaderOnly>
-      <main className="flex min-h-[70vh] flex-col items-center justify-center">
-        <form className="flex flex-col shadow p-8 rounded min-w-[50%]" onSubmit={handleSubmit} action="#" >
-          <h1 className="text-center text-xl mb-4">Login</h1>
+    <main className="flex min-h-[100vh] flex-col items-center justify-center px-4">
 
-          {error && (
-            <div role="alert" className="error-box">
-              <p>{error}</p>
-            </div>
-          )}
+      <LogoTextRotate />
 
-          <input type="email" name="email" id="email" placeholder="Email" required
-            className="inputField w-full rounded-lg py-4"
-            value={email} onChange={(e) => setEmail(e.target.value)} />
+      <form onSubmit={handleSubmit} action="#"
+        className="flex flex-col shadow p-8 rounded w-[100%] sm:w-[80%] md:w-[50%] bg-hsl-l100 dark:bg-hsl-l13 mt-16">
+        <h1 className="text-center text-xl mb-4">Login</h1>
 
-          <input type="password" name="password" id="password" placeholder="password" required
-            className="inputField w-full rounded-lg py-4 mt-3"
-            value={password} onChange={(e) => setPassword(e.target.value)} />
+        {error && (
+          <div role="alert" className="error-box">
+            <p>{error}</p>
+          </div>
+        )}
 
-          <button type="submit" className="btn cta-btn mt-3 w-full">Login</button>
+        <input type="email" name="email" id="email" placeholder="Email" required
+          className="inputField w-full rounded-lg py-4"
+          value={email} onChange={(e) => setEmail(e.target.value)} />
 
-          <p className="text-sub-14 text-center mt-5">
-            Don&apos;t have an account?{" "}
-            <Link href="/register" className="text-hsl-l5 dark:text-hsl-l85 hover:underline">Register</Link>
-          </p>
+        <input type="password" name="password" id="password" placeholder="password" required
+          className="inputField w-full rounded-lg py-4 mt-3"
+          value={password} onChange={(e) => setPassword(e.target.value)} />
 
-        </form>
-      </main>
-    </LayoutHeaderOnly>
+        <button type="submit" className="btn cta-btn mt-3 w-full">Login</button>
+
+        <p className="text-sub-14 text-center mt-5">
+          Don&apos;t have an account?{" "}
+          <Link href="/register" className="text-hsl-l5 dark:text-hsl-l85 hover:underline">Register</Link>
+        </p>
+
+      </form>
+    </main>
   );
 }
