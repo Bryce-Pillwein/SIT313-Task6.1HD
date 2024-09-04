@@ -21,9 +21,9 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({ uid, onClose }) => {
   const router = useRouter();
 
   const linksProfile = [
-    { href: "/", type: "profile", label: "Your Profile" },
-    { href: "/", type: "book-post", label: "Your Post" },
-    { href: "/", type: "settings", label: "Settings" }
+    { href: `/profile/${uid}`, type: "profile", label: "Your Profile" },
+    { href: "/edit-post", type: "book-post", label: "Your Post" },
+    { href: "/settings", type: "settings", label: "Settings" }
   ]
 
   /**
@@ -142,7 +142,7 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({ uid, onClose }) => {
       <div className="border-b border-hsl-l50 my-4"></div>
 
       <button type="button" onClick={handleLogout}
-        className=" hover:bg-hsl-l90 hover:dark:bg-hsl-l20 px-2 py-1 my-1 flex items-center gap-2 rounded-md">
+        className=" hover:bg-hsl-l90 hover:dark:bg-hsl-l20 px-2 py-1 my-1 flex items-center gap-2 rounded-md w-full">
         <IconGeneral type="logout" className="fill-hsl-l30 dark:fill-hsl-l70" />
         <p className="font-medium text-hsl-l30 dark:text-hsl-l70">Sign Out</p>
       </button>

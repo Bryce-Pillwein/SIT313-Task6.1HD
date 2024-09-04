@@ -118,9 +118,9 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
                   <ProfilePicture size="30" />
                   <p className="text-hsl-l50 ">
                     <Link href={`/profile/${post.userId}`}
-                      className="hover:text-mb-pink hover:dark:text-mb-yellow">
+                      className="hover:text-mb-pink hover:dark:text-mb-yellow hover:underline">
                       {post.authorFirstName} {post.authorLastName}
-                    </Link>&#x2022; {post.date}
+                    </Link> &#x2022; {post.date}
                   </p>
 
                   <div className="flex flex-wrap items-center gap-1">

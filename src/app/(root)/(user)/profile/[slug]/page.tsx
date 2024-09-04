@@ -5,10 +5,12 @@
 import IconGeneral from "@/components/icons/IconGeneral";
 import Header from "@/components/layout/Header";
 import { useAuth } from "@/components/providers/AuthProvider";
+import { useThemeContext } from "@/components/providers/ThemeProvider";
 import ProfilePicture from "@/components/ui/ProfilePicture";
-import { getUserPostForProfilePage, getUserValue } from "@/services";
+import { getContributions, getUserPostForProfilePage, getUserValue } from "@/services";
 import { Post } from "@/types/Post";
 import { Profile } from "@/types/Profile";
+import HeatMap from "@uiw/react-heat-map";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -21,13 +23,21 @@ const bannerColors: { [key: string]: string } = {
   'Blue': '#6163FF',
 };
 
+interface Contributions {
+  date: string;
+  count: number;
+}
+
 export default function ProfilePage({ params }: { params: { slug: string } }) {
   const { user, loading } = useAuth();
+  const { isDarkTheme } = useThemeContext();
   const { slug } = params;
   const [profile, setProfile] = useState<Profile>();
   const [bgColor, setBgColor] = useState<string>('#FF3EB5');
   const [posts, setPosts] = useState<Post[]>([]);
   const [counts, setCounts] = useState({ posts: 0, questions: 0, articles: 0 });
+  const [contributions, setContributions] = useState<Contributions[]>([]);
+  const [graphColors, setGraphColors] = useState({ 0: '#F2F2F2', 1: '#FFCCEB', 2: '#FF99D8', 3: '#FF66C4', 4: '#FF3EB5' });
 
   /**
    * Get Profile
@@ -84,6 +94,30 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
     const bg = bannerColors[profile?.bannerColor || '#FF3EB5'];
     setBgColor(bg);
   }, [profile?.bannerColor]);
+
+  /**
+   * Contributions for Progress Chart
+   */
+  useEffect(() => {
+    const getUserContributions = async () => {
+      try {
+        const contri = await getContributions(slug);
+        setContributions(contri);
+      } catch (error) {
+        console.error('Error fetching post data:', error);
+      }
+    };
+
+    getUserContributions();
+  }, [slug]);
+
+
+  useEffect(() => {
+    if (isDarkTheme)
+      setGraphColors({ 0: '#2E2E2E', 1: '#544301', 2: '#997A00', 3: '#CCB200', 4: '#FFE900' });
+    else
+      setGraphColors({ 0: '#F2F2F2', 1: '#FFCCEB', 2: '#FF99D8', 3: '#FF66C4', 4: '#FF3EB5' });
+  }, [isDarkTheme]);
 
   return (
     <div>
@@ -143,9 +177,26 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
 
             <section className="col-span-2 flex flex-col gap-y-8">
+
+              {/* Contributions Heat Map */}
+              {contributions && (
+                <div className="bg-hsl-l100 dark:bg-hsl-l15 rounded-lg shadow-sm w-full px-8 py-4 flex flex-col justify-center items-center">
+                  <h3 className="font-medium px-4 py-2">Contributions</h3>
+                  <HeatMap value={contributions} width={900}
+                    startDate={new Date(new Date().getFullYear(), 0, 1)}
+                    endDate={new Date(new Date().getFullYear(), 11, 31)}
+                    weekLabels={false}
+                    style={{ color: isDarkTheme ? '#ffffff' : '#000000' }}
+                    rectProps={{ rx: 2 }}
+                    panelColors={graphColors}
+                  />
+                </div>
+              )}
+
+              {/* User Posts */}
               {posts.map((pd, idx) => (
                 <Link href={`/view-post/${pd.postId}?type=${pd.postType}`} key={idx}
-                  className="bg-hsl-l100 dark:bg-hsl-l15 rounded-lg shadow-md w-full px-8 py-4">
+                  className="bg-hsl-l100 dark:bg-hsl-l15 rounded-lg shadow-sm w-full px-8 py-4">
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-x-3">
                       <ProfilePicture uid={slug} size="30" />
