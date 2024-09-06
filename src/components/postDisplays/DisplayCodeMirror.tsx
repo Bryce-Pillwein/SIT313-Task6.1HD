@@ -1,6 +1,8 @@
 // Display Code Mirror tsx
 
-import CodeMirror, { ViewUpdate } from '@uiw/react-codemirror';
+"use client";
+
+import CodeMirror from '@uiw/react-codemirror';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { useEffect, useState } from 'react';
@@ -40,7 +42,6 @@ const DisplayCodeMirror: React.FC<DisplayCodeMirrorProps> = ({ id, code, fileTyp
     } else {
       setCodeLanguage(langs.typescript()); // Default to TypeScript
     }
-    console.log('Type: ', fileType);
   }, [fileType]);
 
   return (

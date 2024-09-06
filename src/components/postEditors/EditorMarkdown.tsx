@@ -1,7 +1,8 @@
 // Editor Markdown tsx
 
+"use client";
+
 import { useEffect, useState } from "react";
-// Components
 import IconGeneral from "../icons/IconGeneral";
 import { usePostContext } from "../providers/PostProvider";
 
@@ -9,44 +10,21 @@ interface EditorMarkdownProps {
   id: string;
   index: number;
   componentsLength: number;
-  markdownURL?: string;
+  content?: string;
 }
 
-const EditorMarkdown: React.FC<EditorMarkdownProps> = ({ id, index, componentsLength, markdownURL }) => {
+const EditorMarkdown: React.FC<EditorMarkdownProps> = ({ id, index, componentsLength, content }) => {
   const { updateContent, moveComponent, removeComponent } = usePostContext();
   const [input, setInput] = useState<string>('');
-  const [inputDisabled, setInputDisabled] = useState<boolean>(false);
 
   /**
-   * Get Markdown Text
+   * Set Content (if it exists: for editing existing post)
    */
   useEffect(() => {
-    if (markdownURL) {
-      setInputDisabled(true);
-
-      const getMarkdown = async () => {
-        try {
-          const response = await fetch(markdownURL!);
-          const text = await response.text();
-          setInput(text);
-
-          // Use Existing change event handler to set initial text on parent component
-          const initDataPretendEvent = {
-            target: {
-              name: 'markdownText',
-              value: text
-            }
-          } as unknown as React.ChangeEvent<HTMLTextAreaElement>;
-          // handleInput(initDataPretendEvent);
-          setInputDisabled(false);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      getMarkdown();
+    if (content) {
+      setInput(content);
     }
-  }, [markdownURL]);
+  }, [content]);
 
   /**
    * Handle Input Change
@@ -85,7 +63,7 @@ const EditorMarkdown: React.FC<EditorMarkdownProps> = ({ id, index, componentsLe
       </div>
 
       {/* Input Area */}
-      <textarea id={`md-textarea-${id}`} autoComplete="off" disabled={inputDisabled}
+      <textarea id={`md-textarea-${id}`} autoComplete="off"
         className="input-resize-content df-input w-full min-h-[15lh] max-h-[15lh]"
         value={input} onChange={handleInputChange} />
     </div>

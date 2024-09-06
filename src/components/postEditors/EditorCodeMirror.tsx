@@ -1,10 +1,11 @@
 // Editor Code Mirror tsx
 
-import { useState } from 'react';
+"use client";
+
+import { useEffect, useState } from 'react';
 import CodeMirror, { ViewUpdate } from '@uiw/react-codemirror';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
-// Components
 import IconGeneral from '../icons/IconGeneral';
 import { usePostContext } from '../providers/PostProvider';
 
@@ -29,12 +30,32 @@ interface EditorCodeMirrorProps {
   id: string;
   index: number;
   componentsLength: number;
+  content?: string;
+  fileType?: string;
 }
 
-const EditorCodeMirror: React.FC<EditorCodeMirrorProps> = ({ id, index, componentsLength }) => {
+const EditorCodeMirror: React.FC<EditorCodeMirrorProps> = ({ id, index, componentsLength, content, fileType }) => {
   const { updateContent, moveComponent, removeComponent, updateComponentFiletype } = usePostContext();
   const [input, setInput] = useState<string>('');
   const [codeLanguage, setCodeLanguage] = useState<any>(langs.typescript());
+
+  /**
+   * Set Content (if it exists: for editing existing post)
+   */
+  useEffect(() => {
+    if (content) setInput(content);
+  }, [content]);
+
+  /**
+   * Update editor type (if it exists: for editing existing post)
+   */
+  useEffect(() => {
+    if (fileType && languageOptions[fileType as keyof typeof languageOptions]) {
+      setCodeLanguage(languageOptions[fileType as keyof typeof languageOptions]);
+    } else {
+      setCodeLanguage(langs.typescript()); // Default to TypeScript
+    }
+  }, [fileType]);
 
   /**
    * Select Langauge Change

@@ -6,9 +6,8 @@ import { usePostContext } from "../providers/PostProvider";
 
 
 const AddTags = () => {
-  const { updateContentTags } = usePostContext();
+  const { content, updateContentTags } = usePostContext();
   const { addNotification } = useNotification();
-  const [tags, setTags] = useState<string[]>([]);
   const [tagsInputValue, setTagsInputValue] = useState<string>('');
 
   /**
@@ -26,24 +25,23 @@ const AddTags = () => {
       return;
     }
 
-    if (tags.length >= 5) {
+    if (content.tags.length >= 5) {
       addNotification('Reached Tag Limit');
       return;
     }
 
     // Combine with existing tags and ensure uniqueness, limit to 5
-    const combinedTags = [...tags, ...newTags];
+    const combinedTags = [...content.tags, ...newTags];
     const uniqueTags = Array.from(new Set(combinedTags)).slice(0, 5);
 
-    setTags(uniqueTags);
     updateContentTags(uniqueTags); // Update parent component
     setTagsInputValue(''); // Clear input
   };
 
   // Delete Tag
   const deleteTag = (idx: number) => {
-    setTags(prevTags => prevTags.filter((_, index) => index !== idx));
-    updateContentTags(tags.filter((_, index) => index !== idx)); // Update parent component
+    const updatedTags = content.tags.filter((_, index) => index !== idx);
+    updateContentTags(updatedTags); // Update parent component
   };
 
   return (
@@ -56,9 +54,9 @@ const AddTags = () => {
       </div>
 
       <div className="flex flex-wrap mb-4 mt-2 gap-x-2 gap-y-1">
-        {(tags?.length || 0) > 0 && (
+        {(content.tags?.length || 0) > 0 && (
           <>
-            {tags?.map((tag, idx) => (
+            {content.tags?.map((tag, idx) => (
               <div key={idx} onClick={() => deleteTag(idx)}
                 className="px-2 py-1 text-sm bg-hsl-l90 dark:bg-hsl-l20 rounded-xl cursor-pointer hover:bg-red-500 dark:hover:bg-red-600 hover:text-hsl-l95" >
                 <p>{tag}</p>

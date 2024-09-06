@@ -43,7 +43,7 @@ export default async function getContributions(uid: string) {
 
   // Convert the counts object into an array of { date, count } objects
   const result = Object.entries(counts).map(([date, count]) => ({
-    date: date.replace(/-/g, '/'), // Replace '-' with '/' to match the desired format YYYY/MM/DD
+    date: date.replace(/-/g, '/'), // Replace '-' with '/' to match the format YYYY/MM/DD
     count,
   }));
 

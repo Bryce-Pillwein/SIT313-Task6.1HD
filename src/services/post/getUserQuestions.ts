@@ -9,7 +9,6 @@ import getPost from "./getPost";
  * @returns array of user questions or a status message
  */
 export default async function getUserQuestions(): Promise<Post[] | Status> {
-  console.log(auth.currentUser)
   try {
     if (!auth.currentUser) {
       return { success: false, message: 'No user detected. Login to post' };

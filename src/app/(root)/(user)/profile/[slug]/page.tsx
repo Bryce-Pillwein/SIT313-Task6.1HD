@@ -120,7 +120,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
   }, [isDarkTheme]);
 
   return (
-    <div>
+    <div className="pb-8">
       <Header />
 
       <main className="w-full">

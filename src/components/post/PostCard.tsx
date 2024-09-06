@@ -1,12 +1,12 @@
 // Card Question tsx
 
+"use client";
+
 import { useState } from "react";
 import { Post } from "@/types/Post";
 import Image from "next/image";
 import Link from "next/link";
 import IconGeneral from "../icons/IconGeneral";
-
-// import PostDetailedModal from "./PostDetailedModal";
 
 
 interface PostCardProp {
@@ -16,7 +16,6 @@ interface PostCardProp {
 }
 
 const PostCard: React.FC<PostCardProp> = ({ pd, hideQuestion, isGridView }) => {
-  const [isDetailedQVisible, setIsDetailedQVisible] = useState<boolean>(false);
 
   if (isGridView) {
     return (
@@ -50,7 +49,7 @@ const PostCard: React.FC<PostCardProp> = ({ pd, hideQuestion, isGridView }) => {
           {hideQuestion && (
             <div onClick={() => hideQuestion(pd.postId)}
               className=" opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer bg-hsl-l5 bg-opacity-75 rounded-full p-1 hover:bg-opacity-85">
-              <IconGeneral type="visibility-off" className='fill-hsl-85' size={26} />
+              <IconGeneral type="visibility-off" className='fill-hsl-l85' size={26} />
             </div>
           )}
           {/* <div onClick={showDetailedQuestion}
@@ -59,9 +58,6 @@ const PostCard: React.FC<PostCardProp> = ({ pd, hideQuestion, isGridView }) => {
           </div> */}
         </div>
 
-        {/* {isDetailedQVisible && (
-          <PostDetailedModal pd={pd} onClose={hideDetailedQuestion} />
-        )} */}
       </div>
     );
   } else {

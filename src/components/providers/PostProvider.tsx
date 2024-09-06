@@ -1,12 +1,13 @@
 // Post Provider tsx
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
 import { EditorComponent } from '@/types/EditorComponent';
 import { useNotification } from './NotificationProvider';
-import { setPost } from '@/services';
+import { setPost, updatePost } from '@/services';
 import { PostUpload } from '@/types/PostUpload';
 
 interface PostContent {
+  postId?: string;
   postType: string;
   title: string;
   tags: string[];
@@ -16,6 +17,8 @@ interface PostContent {
 interface PostContextType {
   components: EditorComponent[];
   content: PostContent;
+  setContent: Dispatch<SetStateAction<PostContent>>;
+  setComponents: Dispatch<SetStateAction<EditorComponent[]>>;
   addComponent: (type: 'markdown' | 'code', fileType?: string) => void;
   removeComponent: (id: string) => void;
   moveComponent: (index: number, direction: 'up' | 'down') => void;
@@ -26,6 +29,7 @@ interface PostContextType {
   handleImageChange: (file: File | null) => void;
   updateContentTags: (newTags: string[]) => void;
   postContent: () => Promise<void>;
+  updatePostContent: () => Promise<void>;
 }
 
 
@@ -106,7 +110,7 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
       prevComponents.map(component =>
         component.id === id ? { ...component, content } : component
       )
-    );
+    )
   };
 
   // Update File Type (extension)
@@ -153,10 +157,41 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
     }
   };
 
+  const updatePostContent = async () => {
+    try {
+      // Combine Data
+      const postData = {
+        postId: content.postId,
+        title: content.title,
+        tags: content.tags,
+        image: content.image,
+        postType: content.postType,
+        components,
+      };
+
+      // Determine post path in db and init setPost
+      const dbPath = content.postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE';
+      const status = await updatePost(postData, dbPath);
+
+      // Set Message if exists
+      if (!status.success) {
+        addNotification(status.message!);
+        return;
+      }
+
+      // Reset Data Fields
+      setContent({ postType: '', title: '', tags: [], image: null });
+      setComponents([]);
+    } catch (error) {
+      console.error(error);
+      addNotification('Error adding post. Try again later');
+    }
+  }
+
   return (
     <PostContext.Provider value={{
-      components, content, addComponent, removeComponent, moveComponent, updateComponentFiletype,
-      updateContent, updatePostType, handleTitleChange, handleImageChange, updateContentTags, postContent
+      components, content, setContent, setComponents, addComponent, removeComponent, moveComponent, updateComponentFiletype,
+      updateContent, updatePostType, handleTitleChange, handleImageChange, updateContentTags, postContent, updatePostContent
     }}>
       {children}
     </PostContext.Provider>

@@ -91,7 +91,9 @@ function PostPage() {
 
 
             <div className=" col-span-3 flex justify-end mt-4 md:mt-16">
-              <button className="bg-hsl-l95 dark:bg-hsl-l20 text-hsl-l50 font-medium px-4 py-2 border-none outline-none rounded-md hover:bg-mb-pink hover:dark:bg-mb-yellow hover:text-hsl-l100" type="button" onClick={submitPost}>Submit</button>
+              <button type="button" onClick={submitPost}
+                className="bg-hsl-l95 dark:bg-hsl-l20 text-hsl-l50 font-medium px-4 py-2 border-none outline-none rounded-md hover:bg-mb-pink hover:dark:bg-mb-yellow hover:text-hsl-l100"
+              >Submit</button>
             </div>
           </div>
         </main>

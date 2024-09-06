@@ -4,178 +4,223 @@
 
 import { useEffect, useState } from "react";
 
-// import LayoutDefault from "@/components/layout/LayoutDefault";
-// import InputMarkdown from "@/components/post/InputMarkdown";
-// import { useNotification } from "@/components/providers/NotificationProvider";
-// import { useAuth } from "@/components/providers/AuthProvider";
-// import { Post } from "@/types/Post";
-// import { getUserQuestions, updatePost } from "@/services";
-// import { useRouter } from "next/navigation";
+import LayoutDefault from "@/components/layout/LayoutDefault";
+import { useNotification } from "@/components/providers/NotificationProvider";
+import { useAuth } from "@/components/providers/AuthProvider";
+import { Post } from "@/types/Post";
+import { getUserPosts } from "@/services";
+import { useRouter } from "next/navigation";
+import { PostProvider, usePostContext } from "@/components/providers/PostProvider";
+import AddTags from "@/components/postCreation/AddTags";
+import { EditorComponent } from "@/types/EditorComponent";
+import EditorWrapper from "@/components/postEditors/EditorWrapper";
+import PaddingBlock from "@/components/ui/PaddingBlock";
 
 
-export default function EditQuestionPage() {
-  // const router = useRouter()
-  // const { user, loading } = useAuth();
-  // const { addNotification } = useNotification();
-  // const [isFetchingQuestion, setIsFetchingQuestion] = useState<boolean>(true);
-  // const [isUploading, setIsUploading] = useState<boolean>(false);
-  // const [questions, setQuestions] = useState<Post[] | null>(null);
-  // const [activeQuestion, setActiveQuestion] = useState<Post | null>(null);
-  // const [newPostData, setNewPostData] = useState<any>({ title: '', markdownText: '' });
+function EditPostPage() {
+  const router = useRouter()
+  const { user, loading } = useAuth();
+  const { addNotification } = useNotification();
+  const [isFetchingPosts, setIsFetchingPosts] = useState<boolean>(true);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [postsQ, setPostsQ] = useState<Post[]>([]);
+  const [postsA, setPostsA] = useState<Post[]>([]);
+  const [postsVisible, setPostVisible] = useState<Post[]>([]);
+  const { content, setContent, updateContentTags, setComponents, components, handleTitleChange, updatePostContent } = usePostContext();
 
-
-  /**
-   * Fetch Questions Upon Mounting Page
-   */
-  // useEffect(() => {
-  //   if (user) {
-  //     getQuestions();
-  //   }
-  // }, [user])
-
-  /**
-   * Get User Questions
-   * @returns
-   */
-  // const getQuestions = async () => {
-  //   try {
-  //     const response = await getUserQuestions();
-  //     if ('success' in response) {
-  //       if (!response.success) {
-  //         addNotification(response.message || 'Error fetching questions');
-  //       }
-  //       return;
-  //     }
-  //     setQuestions(response);
-  //   } catch (error) {
-  //     console.error(error);
-  //     addNotification('Error fetching question. Reload')
-  //   } finally {
-  //     setIsFetchingQuestion(false);
-  //   }
-  // }
 
 
   /**
-   * Handle Input Change
-   * @param event element change
+   * Fetch All Posts
    */
-  // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  //   const { name, value } = event.target;
-  //   setNewPostData({ ...newPostData, [name]: value });
-  // };
+  useEffect(() => {
+    if (user) {
+      const getAllPosts = async () => {
+        try {
+          const responseQ = await getUserPosts('question');
+          if ('success' in responseQ) {
+            if (!responseQ.success) {
+              addNotification(responseQ.message || 'Error fetching posts');
+            }
+            return;
+          }
+
+          const responseA = await getUserPosts('article');
+          if ('success' in responseA) {
+            if (!responseA.success) {
+              addNotification(responseA.message || 'Error fetching posts');
+            }
+            return;
+          }
+
+          setPostsQ(responseQ);
+          setPostVisible(responseQ);
+          setPostsA(responseA)
+        } catch (error) {
+          console.error(error);
+          addNotification('Error fetching question. Reload')
+        } finally {
+          setIsFetchingPosts(false);
+        }
+      }
+
+      getAllPosts();
+    }
+  }, [user, addNotification])
+
+
 
   /**
-   * Update Active Question
-   * @param qd Post data
+   * Update Active Post
+   * @param post Post data
    */
-  // const updateActiveQuestion = (qd: Post) => {
-  //   setNewPostData({ ...newPostData, title: qd.title })
-  //   setActiveQuestion(qd);
-  // };
+  const updateActivePost = async (post: Post) => {
+    console.log(post);
+
+    // Update the post content
+    const postData = { postId: post.postId, postType: post.postType, title: post.title, tags: post.tags, image: null };
+    setContent(postData);
+    updateContentTags(post.tags);
+
+    // Fetch post content if contentURLs are available
+    if (post?.contentURLs) {
+      try {
+        const components: EditorComponent[] = await Promise.all(
+          post.contentURLs.map(async (contentURL: { type: string; url: string }, index: number) => {
+            const response = await fetch(contentURL.url);
+            const content = await response.text();
+            return {
+              id: `${index}-${contentURL.type}`,
+              type: contentURL.type as 'markdown' | 'code',
+              fileType: contentURL.type,
+              content,
+            };
+          })
+        );
+
+        setComponents(components); // Update the components state
+      } catch (error) {
+        console.error('Error fetching post content:', error);
+      }
+    }
+  };
+
 
   /**
    * Update Post Content
    * @param event React Form Event
    * @returns
    */
-  // const updatePostContent = async (event: React.FormEvent) => {
-  //   event.preventDefault();
+  const updatePost = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-  //   try {
-  //     setIsUploading(true);
+    try {
+      setIsUploading(true);
 
-  //     if (!activeQuestion) {
-  //       addNotification('Error - No question selected');
-  //       return;
-  //     }
+      if (!content) {
+        addNotification('Error - No question selected');
+        return;
+      }
 
-  //     if (newPostData.title.trim().length <= 0 || newPostData.markdownText.trim().length <= 0) {
-  //       addNotification('Error - Fields cannot be empty');
-  //       return;
-  //     }
+      if (content.title.trim().length <= 0) {
+        addNotification('Title cannot be empty');
+        return;
+      }
 
-  //     const status = await updatePost(activeQuestion, newPostData, 'POST_QUESTION');
-  //     if (!status.success) {
-  //       addNotification(status.message!);
-  //       return;
-  //     }
-  //     router.push(`question/${activeQuestion.postId}`);
-  //   } catch (error) {
-  //     console.error(error);
-  //     addNotification('Error adding post. Try again later')
-  //   } finally {
-  //     setIsUploading(false);
+      await updatePostContent();
+      router.push(`/view-post/${content.postId}?type=${content.postType}`);
+    } catch (error) {
+      console.error(error);
+      addNotification('Error adding post. Try again later')
+    } finally {
+      setIsUploading(false);
+    }
+  }
 
-  //   }
-  // }
+  // Failed to get posts
+  if (!isFetchingPosts && !postsQ && !postsA) {
+    return (
+      <div className="min-h-[60vh] flex flex-col justify-center items-center">
+        <p className="text-2xl text-hsl-l50 font-medium">Error Fetching Question.</p>
+        <p className="text-2xl text-hsl-l50 font-medium">Please try again later.</p>
+      </div>
+    )
+  }
 
   return (
-    <div>
-      <p>edit page</p>
-    </div>
+    <LayoutDefault>
+      {!isUploading ? (
+        <main className="pb-8">
+
+          <div className="grid grid-cols-5 gap-x-8 gap-y-4 mt-4 ">
+            {/* POST CONTENT */}
+            <div className="col-span-3 bg-hsl-l100 dark:bg-hsl-l15 rounded-lg shadow-sm w-full py-4 px-4">
+              {content && (
+                <div>
+                  <label htmlFor="title" className="text-hsl-l50 text-sm">Title</label>
+                  <input type="text" id="title" name="title" className='df-input w-full' required
+                    value={content.title} onChange={handleTitleChange} autoComplete="off" />
+                  <PaddingBlock pad={0.5} />
+                  <AddTags />
+                  <PaddingBlock pad={0.75} />
+                  <EditorWrapper />
+
+                  <div className=" col-span-3 flex justify-end mt-4 md:mt-16">
+                    <button type="button" onClick={updatePost}
+                      className="bg-hsl-l95 dark:bg-hsl-l20 text-hsl-l50 font-medium px-4 py-2 border-none outline-none rounded-md hover:bg-mb-pink hover:dark:bg-mb-yellow hover:text-hsl-l100"
+                    >Submit</button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+
+            {/* USERS POSTS LISTS */}
+            <div className="col-span-2 bg-hsl-l100 dark:bg-hsl-l15 rounded-lg shadow-sm w-full py-4 px-4">
+              {isFetchingPosts ? (
+                <p className="text-center text-hsl-l50 font-medium">Fetching Question...</p>
+              ) : (
+                <>
+                  <div className="flex justify-around items-center mt-2">
+                    <button onClick={() => setPostVisible(postsQ)}
+                      className={`px-6 py-1 rounded-sm hover:bg-mb-pink-active hover:text-hsl-l100 hover:dark:bg-mb-yellow-active hover:dark:text-hsl-l5
+                        ${postsVisible === postsQ ? 'bg-mb-pink text-hsl-l100 dark:bg-mb-yellow dark:text-hsl-l5' : 'bg-hsl-l95 dark:bg-hsl-l20'}`}
+                    >Questions</button>
+                    <button onClick={() => setPostVisible(postsA)}
+                      className={`px-6 py-1 rounded-sm  hover:bg-mb-pink-active hover:text-hsl-l100 hover:dark:bg-mb-yellow-active hover:dark:text-hsl-l5
+                    ${postsVisible === postsA ? 'bg-mb-pink text-hsl-l100 dark:bg-mb-yellow dark:text-hsl-l5' : 'bg-hsl-l95 dark:bg-hsl-l20'}`}
+                    >Articles</button>
+                  </div>
+
+                  <div className="flex flex-col mt-4 gap-y-4 min-h-[50vh] max-h-[70vh] overflow-y-auto custom-scrollbar">
+                    {postsVisible?.map((post, idx) => (
+                      <div key={idx} onClick={() => updateActivePost(post)}
+                        className="w-full py-2 px-2 rounded-md bg-hsl-l95 dark:bg-hsl-l20 hover:bg-hsl-90 hover:dark:bg-hsl-l25 cursor-pointer">
+                        <p className="text-sm">{post.title}</p>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
+            </div>
+          </div>
+
+
+        </main>
+      ) : (
+        <div className="flex justify-center items-center min-h-[50vh]">
+          <h1 className="text-hsl-l50 text-4xl font-medium">Uploading Post...</h1>
+        </div>
+      )}
+    </LayoutDefault >
   );
+}
 
-
-  // return (
-  //   <LayoutDefault>
-  //     {!isUploading ? (
-  //       <main className="pb-8">
-
-  //         <h1 className="text-xl font-medium">Edit Question</h1>
-
-  //         {questions && (
-  //           <div className="grid grid-cols-5 gap-x-8 gap-y-4 mt-4 ">
-
-  //             <form onSubmit={updatePostContent}
-  //               className="col-span-5 md:col-span-3 bg-hsl-l100 dark:bg-hsl-l15 shadow py-8 px-4 md:px-8 rounded-lg">
-  //               <label htmlFor="title" className="text-hsl-l50 text-sm">Title</label>
-  //               <input type="text" id="title" name="title" className='df-input w-full mb-4 md:mb-8' required
-  //                 value={newPostData.title} onChange={handleInputChange}
-  //                 autoComplete="off" />
-
-  //               {/* <InputMarkdown isQuestion={true} handleInput={handleInputChange} markdownURL={activeQuestion?.markdownURL} /> */}
-
-  //               <div className="w-full flex justify-end mt-4">
-  //                 <button className="btn" type="submit">Update Post</button>
-  //               </div>
-  //             </form>
-
-  //             <div className="col-span-5 md:col-span-2">
-  //               <p className="text-hsl-l50 text-sm pb-2">Choose a Question to Edit</p>
-  //               <div className="flex flex-col gap-4 max-h-[60vh] overflow-y-scroll">
-  //                 {questions.map((qd, idx) => (
-  //                   <div key={idx} onClick={() => updateActiveQuestion(qd)}
-  //                     className="cursor-pointer rounded-lg bg-hsl-l100 dark:bg-hsl-l15 hover:bg-hsl-l95 dark:hover:bg-hsl-l20 px-4 py-2 border border-solid border-hsl-l90 dark:border-hsl-l20">
-  //                     <p className="truncate">{qd.title}</p>
-  //                   </div>
-  //                 ))}
-  //               </div>
-  //             </div>
-  //           </div>
-  //         )}
-
-  //         {/* Retrieving Data */}
-  //         {isFetchingQuestion && (
-  //           <div className="min-h-[70vh] flex justify-center items-center">
-  //             <p className="text-2xl text-hsl-l50 font-medium">Fetching Question...</p>
-  //           </div>
-  //         )}
-
-  //         {/* Failed Retreiving Data */}
-  //         {!isFetchingQuestion && !questions && (
-  //           <div className="min-h-[70vh] flex flex-col justify-center items-center">
-  //             <p className="text-2xl text-hsl-l50 font-medium">Error Fetching Question.</p>
-  //             <p className="text-2xl text-hsl-l50 font-medium">Please try again later.</p>
-  //           </div>
-  //         )}
-
-  //       </main>
-  //     ) : (
-  //       <div className="flex justify-center items-center min-h-[50vh]">
-  //         <h1 className="text-hsl-l50 text-4xl font-medium">Uploading Post...</h1>
-  //       </div>
-  //     )}
-  //   </LayoutDefault >
-  // );
+export default function EditPostPageWithProvider() {
+  return (
+    <PostProvider>
+      <EditPostPage />
+    </PostProvider>
+  )
 }

@@ -24,12 +24,15 @@ const EditorWrapper = () => {
               id={component.id}
               index={index}
               componentsLength={components.length}
+              content={component.content}
             />
           ) : (
             <DynEditorCodeMirror
               id={component.id}
               index={index}
               componentsLength={components.length}
+              content={component.content}
+              fileType={component.fileType}
             />
           )}
         </div>
