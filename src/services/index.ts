@@ -38,5 +38,8 @@ export { default as getChatMessages } from '@/services/chats/getChatMessages';
 export { default as setNewMessage } from '@/services/chats/setNewMessage';
 export { default as deleteChatThread } from '@/services/chats/deleteChatThread';
 
+// Reports
+export { default as setEnquiry } from '@/services/reports/setEnquiry';
+
 // Stripe
 export { default as getStripe } from '@/services/util/getStripe';

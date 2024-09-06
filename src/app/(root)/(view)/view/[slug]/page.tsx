@@ -187,8 +187,8 @@ export default function ViewPage({ params }: { params: { slug: string } }) {
         {/* Failed Retreiving Data */}
         {!isFetchingPosts && !posts && (
           <div className="min-h-[70vh] flex flex-col justify-center items-center">
-            <p className="text-2xl text-hsl-l50 font-medium">Error Fetching Questions.</p>
-            <p className="text-2xl text-hsl-l50 font-medium">Please try again later.</p>
+            <p className="text-2xl text-hsl-l50 font-medium">Error Fetching Posts</p>
+            <p className="text-2xl text-hsl-l50 font-medium">Please try again later</p>
           </div>
         )}
 
