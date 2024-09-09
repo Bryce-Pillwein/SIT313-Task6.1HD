@@ -5,6 +5,13 @@
 
   .mark-down {
 
+    hr {
+      height: 0;
+      color: inherit;
+      border-top-width: 1px;
+      margin: 1rem 0rem;
+    }
+
     /* Headings */
     h1 {
       font-size: 1.875rem;

@@ -24,6 +24,11 @@ export { default as getPostComments } from '@/services/postInteractions/getPostC
 export { default as deletePostComment } from '@/services/postInteractions/deletePostComment';
 export { default as reportPostComment } from '@/services/postInteractions/reportPostComment';
 
+// Post Interactions / Reactions
+export { default as addReaction } from '@/services/postInteractions/addReaction';
+export { default as removeReaction } from '@/services/postInteractions/removeReaction';
+export { default as getUserReactionsToPost } from '@/services/postInteractions/getUserReactionToPost';
+
 // User
 export { default as getUserValue } from '@/services/user/getUserValue';
 export { default as updateUserProfile } from '@/services/user/updateUserProfile';

@@ -85,7 +85,7 @@ const Header = () => {
           <DynamicNavMenu />
         </div>
 
-        <Link href="/messages">
+        <Link href="/messages" title="Messages">
           <IconNavigation type="messages" className="hover:fill-mb-pink hover:dark:fill-mb-yellow" size={28} />
         </Link>
 
@@ -93,7 +93,7 @@ const Header = () => {
           !user ? (
             <Link href="/login" className="">Sign In</Link>
           ) : (
-            <div className="cursor-pointer flex-shrink-0" onClick={() => setIsProfileBannerVisible(true)}>
+            <div className="cursor-pointer flex-shrink-0" onClick={() => setIsProfileBannerVisible(true)} title="Profile">
               <IconGeneral type="profile" className="hover:fill-mb-pink hover:dark:fill-mb-yellow" size={28} />
             </div>
           )

@@ -14,6 +14,8 @@ import getPost from "@/services/post/getPost";
 import PostCommentSection from "@/components/post/PostCommentSection";
 import ProfilePicture from "@/components/ui/ProfilePicture";
 import Link from "next/link";
+import PostAutherMoreContent from "@/components/post/PostAuthorMoreContent";
+import PostInteractions from "@/components/post/PostInteractions";
 
 const DynDisplayMarkdown = dynamic(() => import('../../../../../components/postDisplays/DisplayMarkdown'), { loading: () => null })
 const DynDisplayCodeMirror = dynamic(() => import('../../../../../components/postDisplays/DisplayCodeMirror'), { loading: () => null })
@@ -101,8 +103,15 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
       <main className="pb-8">
 
         {post && (
-          <div className="grid grid-cols-3 gap-4">
-            <section className="col-span-3 md:col-span-2 border border-hsl-l90 dark:border-hsl-l25 bg-hsl-l100 dark:bg-hsl-l15 rounded-xl">
+
+          <div className="relative grid grid-cols-3 gap-4">
+
+            {/* Sticky Interactions */}
+            <div className="hidden md:block absolute left-0 transform translate-x-[-120%] top-0 h-full">
+              <PostInteractions layout="vert" postId={slug} postType={postType!} />
+            </div>
+
+            <section className="relative col-span-3 md:col-span-2 border border-hsl-l90 dark:border-hsl-l25 bg-hsl-l100 dark:bg-hsl-l15 rounded-xl">
 
               {/* Banner Image */}
               <div className="relative pb-[56.25%] border-b border-hsl-l90 dark:border-hsl-l25">
@@ -141,7 +150,11 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
                 ))}
               </div>
 
-              <div className="px-4 py-8 border-t border-hsl-l90 dark:border-hsl-l25">
+              <div className="block md:hidden px-4 py-8 border-t border-hsl-l90 dark:border-hsl-l25">
+                <PostInteractions layout="horiz" postId={slug} postType={postType!} />
+              </div>
+
+              <div className="px-4 py-4 border-t border-hsl-l90 dark:border-hsl-l25">
                 <PostCommentSection postId={slug} dbPath={postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE'}
                   updateCommentTotal={updateCommentTotal} />
               </div>
@@ -150,20 +163,11 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
 
 
 
-            <section className="col-span-3 md:col-span-1 relative">
-              <div className="bg-hsl-l100 dark:bg-hsl-l15 border border-hsl-l90 dark:border-hsl-l25 rounded-lg shadow-md overflow-hidden w-full max-w-full p-2 sticky top-4">
+            <section className="col-span-3 md:col-span-1">
 
-                <div className="flex justify-evenly">
-                  <IconInteraction type="like" size={30} />
-                  <IconInteraction type="dislike" size={30} />
-                  <IconInteraction type="heart" size={30} />
-                  <IconInteraction type="comment" size={30} />
-                  {/* <p>{commentsTotal}</p> */}
-                  <IconInteraction type="flag" size={30} />
-                </div>
-
-              </div>
+              <PostAutherMoreContent />
             </section>
+
 
           </div>
         )}

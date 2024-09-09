@@ -45,11 +45,21 @@ export default function ContactPage() {
       document.body.appendChild(script2);
     };
 
-    // Cleanup when the component is unmounted
+    // Cleanup function
     return () => {
-      const widget = document.getElementById('bp-web-widget-container');
-      if (widget) {
-        widget.remove();
+      // Query all elements with the same id or class
+      const widgetContainers = document.querySelectorAll('#bp-web-widget-container');
+      widgetContainers.forEach((widget) => widget.remove());
+
+      // Remove the injected scripts
+      const injectedScript = document.getElementById('bp-web-widget-script');
+      if (injectedScript) {
+        injectedScript.remove();
+      }
+
+      const configScript = document.getElementById('bp-web-widget-config');
+      if (configScript) {
+        configScript.remove();
       }
     };
   }, []);
