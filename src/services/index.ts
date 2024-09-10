@@ -17,6 +17,9 @@ export { default as updatePost } from '@/services/post/updatePost';
 export { default as getUserPosts } from '@/services/post/getUserPosts';
 export { default as getPostFeatured } from '@/services/post/getPostFeatured';
 export { default as getUserPostForProfilePage } from '@/services/post/getUserPostForProfilePage';
+export { default as getPostByAuthorId } from '@/services/post/getPostByAuthorId';
+export { default as getCalcTrending } from '@/services/post/getCalcTrending';
+export { default as setTrendingPostIds } from '@/services/post/setTrendingPostIds';
 
 // Post Comments
 export { default as setPostComment } from '@/services/postInteractions/setPostComment';
@@ -48,3 +51,6 @@ export { default as setEnquiry } from '@/services/reports/setEnquiry';
 
 // Stripe
 export { default as getStripe } from '@/services/util/getStripe';
+
+// Weather
+export { default as getWeather } from '@/services/util/getWeather';

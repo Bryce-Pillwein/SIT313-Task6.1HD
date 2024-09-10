@@ -11,7 +11,7 @@ import { PostComment } from "@/types/PostComment";
 export default async function getPostComments(postId: string, dbPath: string): Promise<PostComment[]> {
   try {
     const commentsCollectionRef = collection(db, `${dbPath}/${postId}/comments`);
-    const commentsQuery = query(commentsCollectionRef, orderBy('createdAt', 'desc'));
+    const commentsQuery = query(commentsCollectionRef, orderBy('createdAt', 'asc'));
     const querySnapshot = await getDocs(commentsQuery);
 
     const comments: PostComment[] = [];

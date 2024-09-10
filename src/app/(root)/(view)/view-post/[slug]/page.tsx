@@ -101,18 +101,15 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
   return (
     <LayoutDefault>
       <main className="pb-8">
-
         {post && (
-
           <div className="relative grid grid-cols-3 gap-4">
-
-            {/* Sticky Interactions */}
+            {/* Sticky Interactions for large Screen*/}
             <div className="hidden md:block absolute left-0 transform translate-x-[-120%] top-0 h-full">
               <PostInteractions layout="vert" postId={slug} postType={postType!} />
             </div>
 
+            {/* Post Area */}
             <section className="relative col-span-3 md:col-span-2 border border-hsl-l90 dark:border-hsl-l25 bg-hsl-l100 dark:bg-hsl-l15 rounded-xl">
-
               {/* Banner Image */}
               <div className="relative pb-[56.25%] border-b border-hsl-l90 dark:border-hsl-l25">
                 <Image src={post.imageURL} alt="Post Banner Image" sizes="100%"
@@ -150,25 +147,22 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
                 ))}
               </div>
 
+              {/* Small Screen Interactions / Reactions */}
               <div className="block md:hidden px-4 py-8 border-t border-hsl-l90 dark:border-hsl-l25">
                 <PostInteractions layout="horiz" postId={slug} postType={postType!} />
               </div>
 
+              {/* Comment Section */}
               <div className="px-4 py-4 border-t border-hsl-l90 dark:border-hsl-l25">
                 <PostCommentSection postId={slug} dbPath={postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE'}
                   updateCommentTotal={updateCommentTotal} />
               </div>
-
             </section>
 
-
-
-            <section className="col-span-3 md:col-span-1">
-
-              <PostAutherMoreContent />
+            {/* See More From The Author */}
+            <section className="hidden md:block md:col-span-1">
+              <PostAutherMoreContent postId={slug} postUserId={post.userId} dbPath={postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE'} />
             </section>
-
-
           </div>
         )}
 

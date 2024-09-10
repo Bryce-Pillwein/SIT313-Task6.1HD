@@ -6,6 +6,7 @@ import { addReaction, getUserReactionsToPost, removeReaction } from "@/services"
 import IconInteraction from "../icons/IconInteraction";
 import { useEffect, useState } from "react";
 import { useAuth } from "../providers/AuthProvider";
+import { useNotification } from "../providers/NotificationProvider";
 
 
 interface PostInteractionsProps {
@@ -16,6 +17,7 @@ interface PostInteractionsProps {
 
 const PostInteractions: React.FC<PostInteractionsProps> = ({ layout, postId, postType }) => {
   const { user, loading } = useAuth();
+  const { addNotification } = useNotification();
   const [reactions, setReactions] = useState({ like: false, dislike: false, heart: false })
   const size = layout === 'vert' ? 26 : 32;
 
@@ -23,7 +25,7 @@ const PostInteractions: React.FC<PostInteractionsProps> = ({ layout, postId, pos
    * Get Existing Reactions
    */
   useEffect(() => {
-    if (user) {
+    if (user?.uid) {
       const getReactions = async () => {
         try {
           const reacts = await getUserReactionsToPost(postId, postType, user.uid);
@@ -62,6 +64,10 @@ const PostInteractions: React.FC<PostInteractionsProps> = ({ layout, postId, pos
     }
   };
 
+  const handleFlag = () => {
+    addNotification('Post flagged for review');
+  }
+
   return (
     <div
       className={`flex   gap-y-4 h-min rounded-lg   
@@ -73,20 +79,20 @@ const PostInteractions: React.FC<PostInteractionsProps> = ({ layout, postId, pos
 
       <div onClick={() => handleReaction('like')}>
         <IconInteraction type="like" size={size}
-          className={`fill-hsl-l80 dark:fill-hsl-l20 hover:fill-cyan-400 hover:dark:fill-cyan-600
-        ${reactions.like && 'fill-cyan-500'}`} />
+          className={` hover:fill-cyan-400 hover:dark:fill-cyan-600
+        ${reactions.like ? 'fill-cyan-500' : 'fill-hsl-l80 dark:fill-hsl-l20'}`} />
       </div>
       <div onClick={() => handleReaction('dislike')}>
         <IconInteraction type="dislike" size={size}
-          className={`fill-hsl-l80 dark:fill-hsl-l20 hover:fill-orange-400 hover:dark:fill-orange-600
-        ${reactions.dislike && 'fill-orange-500'}`} />
+          className={` hover:fill-orange-400 hover:dark:fill-orange-600
+        ${reactions.dislike ? 'fill-orange-500' : 'fill-hsl-l80 dark:fill-hsl-l20'}`} />
       </div>
       <div onClick={() => handleReaction('heart')}>
         <IconInteraction type="heart" size={size}
-          className={`fill-hsl-l80 dark:fill-hsl-l20 hover:fill-pink-500 hover:dark:fill-pink-600
-        ${reactions.heart && 'fill-pink-500'}`} />
+          className={`hover:fill-pink-500 hover:dark:fill-pink-600
+        ${reactions.heart ? 'fill-pink-500' : 'fill-hsl-l80 dark:fill-hsl-l20'}`} />
       </div>
-      <div onClick={() => { }}>
+      <div onClick={handleFlag}>
         <IconInteraction type="flag" size={size}
           className={`fill-hsl-l80 dark:fill-hsl-l20 hover:fill-red-500 hover:dark:fill-red-700`} />
       </div>

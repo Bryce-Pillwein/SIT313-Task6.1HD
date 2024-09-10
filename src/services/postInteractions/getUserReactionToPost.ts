@@ -29,10 +29,7 @@ export default async function getUserReactionsToPost(postId: string, postType: s
       const reactionRef = doc(db, postPath, postId, 'reactions', type);
       const reactionDoc = await getDoc(reactionRef);
 
-      console.log(reactionDoc.data());
-
       if (reactionDoc.exists()) {
-        console.log("data exists");
         const data = reactionDoc.data();
         const userIds: string[] = data.userIds || [];
         // Check if userId is in the userIds array
