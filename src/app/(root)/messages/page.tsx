@@ -40,7 +40,7 @@ export default function MessagesPage() {
       console.error('Error fetching users:', error);
       addNotification('Error fetching chats');
     }
-  }, []);
+  }, [addNotification]);
 
   useEffect(() => {
     if (user) {

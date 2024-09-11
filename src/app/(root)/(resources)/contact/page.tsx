@@ -94,7 +94,7 @@ export default function ContactPage() {
 
 
           <h1 className="text-6xl font-sdisplay mb-16">Contact Us</h1>
-          <p className="text-2xl">Have a <u>question</u>? See something we can <u>improve</u>? Don't hesitate to send us a <u>message!</u> </p>
+          <p className="text-2xl">Have a <u>question</u>? See something we can <u>improve</u>? Don&#39;t hesitate to send us a <u>message!</u> </p>
           <p className="text-sm text-hsl-l70 dark:text-hsl-l30">Need a quick reply? Talk to Devbot in the bottom right corner for assistence</p>
         </div>
 
