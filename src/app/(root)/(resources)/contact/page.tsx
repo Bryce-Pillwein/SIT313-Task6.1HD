@@ -35,13 +35,15 @@ export default function ContactPage() {
   useEffect(() => {
     // Load the chatbot
     const script = document.createElement('script');
-    script.src = 'https://cdn.botpress.cloud/webchat/v1/inject.js';
+    // script.src = 'https://cdn.botpress.cloud/webchat/v1/inject.js';
+    script.src = 'https://cdn.botpress.cloud/webchat/v2.1/inject.js';
     document.body.appendChild(script);
 
     script.onload = () => {
       // Load second script after the first one
       const script2 = document.createElement('script');
-      script2.src = 'https://mediafiles.botpress.cloud/68557262-3f3f-46ee-a300-9d66a9ed2128/webchat/config.js';
+      // script2.src = 'https://mediafiles.botpress.cloud/68557262-3f3f-46ee-a300-9d66a9ed2128/webchat/config.js';
+      script2.src = 'https://mediafiles.botpress.cloud/68557262-3f3f-46ee-a300-9d66a9ed2128/webchat/v2.1/config.js';
       document.body.appendChild(script2);
     };
 

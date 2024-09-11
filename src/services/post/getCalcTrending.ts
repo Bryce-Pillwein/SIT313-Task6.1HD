@@ -70,7 +70,7 @@ export default async function getCalcTrending(): Promise<Post[]> {
     await Promise.all([processPostSnapshot(postsQuestionSnapshot), processPostSnapshot(postsArticleSnapshot)]);
 
     // Sort posts by score and return top 10 trending posts
-    return postsWithScores.sort((a, b) => b.score - a.score).slice(0, 9);
+    return postsWithScores.sort((a, b) => b.score - a.score).slice(0, 6);
   } catch (error) {
     throw error;
   }
