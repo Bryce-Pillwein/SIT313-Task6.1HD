@@ -147,21 +147,21 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
                 <h2 className="text-center text-2xl font-semibold">{profile.firstName} {profile.lastName}</h2>
 
                 <div className="flex gap-x-8 justify-center mt-2 flex-wrap">
-                  {profile.jobTitle.length > 0 && (
+                  {profile.jobTitle?.length > 0 && (
                     <div className="flex gap-x-2 items-center">
                       <IconGeneral type="job" className="fill-hsl-l50" />
                       <p className="text-sm text-hsl-l50">{profile.jobTitle}</p>
                     </div>
                   )}
 
-                  {profile.company.length > 0 && (
+                  {profile.company?.length > 0 && (
                     <div className="flex gap-x-2 items-center">
                       <IconGeneral type="workplace" className="fill-hsl-l50" />
                       <p className="text-sm text-hsl-l50">{profile.company}</p>
                     </div>
                   )}
 
-                  {(profile.location.campus.length > 0 || profile.location.city.length > 0 || profile.location.country.length > 0) && (
+                  {(profile.location?.campus?.length > 0 || profile.location?.city?.length > 0 || profile.location?.country?.length > 0) && (
                     <div className="flex gap-x-2 items-center">
                       <IconGeneral type="location" className="fill-hsl-l50" />
                       <p className="text-sm text-hsl-l50">
@@ -220,19 +220,21 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 
             <div className="col-span-1 flex flex-col gap-y-4">
               {/* Socials */}
-              {(profile?.socials && (profile?.socials.website.length > 0 || profile?.socials.github.length > 0)) && (
-                <div className=" bg-white dark:bg-hsl-l15 rounded-md shadow-sm border border-hsl-l95 dark:border-hsl-l20">
-                  <h3 className="font-medium px-4 py-2">Socials</h3>
-                  <div className="w-full h-[1px] border-b border-hsl-l95 dark:border-hsl-l20"></div>
-                  <div className="px-4 py-2">
-                    {profile.socials.website.length > 0 && (
-                      <Link href={profile.socials.website} className="text-hsl-l30 dark:text-hsl-l70 hover:underline">Website</Link>
-                    )}
-                    {profile.socials.github.length > 0 && (
-                      <Link href={profile.socials.github} className="text-hsl-l30 dark:text-hsl-l70 hover:underline">GitHub</Link>
-                    )}
+              {(profile?.socials && (
+                (profile.socials.website?.length > 0 || profile.socials.github?.length > 0)) && (
+                  <div className=" bg-white dark:bg-hsl-l15 rounded-md shadow-sm border border-hsl-l95 dark:border-hsl-l20">
+                    <h3 className="font-medium px-4 py-2">Socials</h3>
+                    <div className="w-full h-[1px] border-b border-hsl-l95 dark:border-hsl-l20"></div>
+                    <div className="px-4 py-2">
+                      {profile.socials.website?.length > 0 && (
+                        <Link href={profile.socials.website} className="text-hsl-l30 dark:text-hsl-l70 hover:underline">Website</Link>
+                      )}
+                      {profile.socials.github?.length > 0 && (
+                        <Link href={profile.socials.github} className="text-hsl-l30 dark:text-hsl-l70 hover:underline">GitHub</Link>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )
               )}
 
               {/* Skills */}
@@ -251,7 +253,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
                 <h3 className="font-medium px-4 py-2">Units</h3>
                 <div className="w-full h-[1px] border-b border-hsl-l95 dark:border-hsl-l20"></div>
                 <div className="px-4 py-2">
-                  {profile?.units && profile.units.length > 0 && (
+                  {profile?.units && profile.units?.length > 0 && (
                     profile.units.map((unit, idx) => (
                       <p key={idx} className="text-sm text-hsl-l30 dark:text-hsl-l70 my-2">{unit}</p>
                     ))

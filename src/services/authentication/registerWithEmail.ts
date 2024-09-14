@@ -58,7 +58,7 @@ async function createEmailUserInDatabase(userID: string, firstName: string, last
         skills: '',
         badges: [],
         bannerColor: 'Pink',
-        location: { city: '', country: '' },
+        location: { campus: '', city: '', country: '' },
         socials: { website: '', github: '' },
         units: [],
       }

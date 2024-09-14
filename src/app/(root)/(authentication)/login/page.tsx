@@ -72,7 +72,7 @@ export default function Login() {
           className="inputField w-full rounded-lg py-4"
           value={email} onChange={(e) => setEmail(e.target.value)} />
 
-        <input type="password" name="password" id="password" placeholder="password" required
+        <input type="password" name="password" id="password" placeholder="Password" required
           className="inputField w-full rounded-lg py-4 mt-3"
           value={password} onChange={(e) => setPassword(e.target.value)} />
 
