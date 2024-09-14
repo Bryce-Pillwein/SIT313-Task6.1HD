@@ -11,11 +11,13 @@ export interface Profile {
   bannerColor: string;
   badges: string[];
   location: {
+    campus: string,
     city: string,
     country: string
   };
   socials: {
     website: string;
     github: string;
-  }
+  };
+  units: string[]
 }

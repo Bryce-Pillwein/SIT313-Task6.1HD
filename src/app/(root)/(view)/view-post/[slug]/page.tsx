@@ -9,7 +9,6 @@ import { useNotification } from "@/components/providers/NotificationProvider";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import LayoutDefault from "@/components/layout/LayoutDefault";
-import IconInteraction from "@/components/icons/IconInteraction";
 import getPost from "@/services/post/getPost";
 import PostCommentSection from "@/components/post/PostCommentSection";
 import ProfilePicture from "@/components/ui/ProfilePicture";
@@ -30,8 +29,6 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
   const [post, setPost] = useState<Post | null>(null);
   const [isFetchingPostContent, setIsFetchingPostContent] = useState<boolean>(true);
   const [contentComponents, setContentComponents] = useState<EditorComponent[]>([]);
-
-  const [commentsTotal, setCommentsTotal] = useState<number>(0);
 
   /**
    * Fecth the Post Data at Page Mounting
@@ -93,11 +90,6 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
     }
   }, [post]);
 
-
-  const updateCommentTotal = (commentsTotalNumber: number) => {
-    setCommentsTotal(commentsTotalNumber);
-  };
-
   return (
     <LayoutDefault>
       <main className="pb-8">
@@ -154,8 +146,7 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
 
               {/* Comment Section */}
               <div className="px-4 py-4 border-t border-hsl-l90 dark:border-hsl-l25">
-                <PostCommentSection postId={slug} dbPath={postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE'}
-                  updateCommentTotal={updateCommentTotal} />
+                <PostCommentSection postId={slug} dbPath={postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE'} />
               </div>
             </section>
 

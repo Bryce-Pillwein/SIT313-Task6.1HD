@@ -10,7 +10,7 @@ import { Profile } from "@/types/Profile";
 export default async function updateUserProfile(uid: string, profile: Profile) {
   try {
     const userDocRef = doc(db, `USERS/${uid}`);
-    const { firstName, lastName, jobTitle, company, bio, skills, socials, location, bannerColor } = profile;
+    const { firstName, lastName, jobTitle, company, bio, skills, socials, location, units, bannerColor } = profile;
     const fullName = `${firstName.trim().toLowerCase()}${lastName.trim().toLowerCase()}`;
 
     // Update Profile Doc
@@ -26,13 +26,15 @@ export default async function updateUserProfile(uid: string, profile: Profile) {
         skills: skills.trim(),
         bannerColor: bannerColor,
         location: {
+          campus: location.campus.trim(),
           city: location.city.trim(),
           country: location.country.trim(),
         },
         socials: {
           website: socials.website,
           github: socials.github
-        }
+        },
+        units: units
       },
     });
 

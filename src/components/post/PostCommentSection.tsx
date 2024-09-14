@@ -11,10 +11,9 @@ import { useAuth } from "../providers/AuthProvider";
 interface PostCommentSectionProps {
   postId: string;
   dbPath: string;
-  updateCommentTotal: (commentNumber: number) => void;
 }
 
-const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId, dbPath, updateCommentTotal }) => {
+const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId, dbPath }) => {
   const { user, loading } = useAuth();
   const { addNotification } = useNotification();
   const [comments, setComments] = useState<PostComment[]>([]);
@@ -30,11 +29,10 @@ const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId, dbPath,
       const fetchCommentData = async () => {
         const commentSection = await getPostComments(postId, dbPath);
         setComments(commentSection);
-        updateCommentTotal(commentSection.length);
       }
       fetchCommentData();
     }
-  }, [postId, dbPath, updateCommentTotal])
+  }, [postId, dbPath])
 
   /**
     * Handle Click Outside Dropdown

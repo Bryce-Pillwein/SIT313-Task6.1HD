@@ -14,10 +14,12 @@ import { useEffect, useState } from "react";
 const initProfileData = {
   firstName: '', lastName: '', jobTitle: '', company: '',
   bio: '', skills: '', badges: [], bannerColor: '',
-  location: { city: '', country: '' }, socials: { website: '', github: '' }
+  location: { campus: '', city: '', country: '' },
+  socials: { website: '', github: '' },
+  units: []
 }
 
-const bannerColors: any = {
+const bannerColors: { [key: string]: string } = {
   'Pink': '#FF3EB5',
   'Yellow': '#FFE900',
   'Red': '#F14548',
@@ -31,7 +33,9 @@ export default function EditProfilePage() {
   const { user, loading } = useAuth();
   const { addNotification } = useNotification()
   const [profile, setProfile] = useState<Profile>(initProfileData)
+  const [membership, setMembership] = useState<string>('free');
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const [inputUnit, setInputUnit] = useState<string>('');
 
 
   /**
@@ -42,16 +46,20 @@ export default function EditProfilePage() {
       if (!user?.uid) return;
       try {
         // Fetch all the required profile data
-        const [firstName, lastName, profileData] = await Promise.all([
+        const [firstName, lastName, membership, profileData] = await Promise.all([
           getUserValue(user.uid, 'firstName'),
           getUserValue(user.uid, 'lastName'),
+          getUserValue(user.uid, 'membership'),
           getUserValue(user.uid, 'profile')
         ]);
+
+        setMembership(membership);
 
         const fullProfile: Profile = {
           firstName,
           lastName,
-          ...profileData
+          ...profileData,
+          units: profileData?.units ?? []
         };
 
         setProfile(fullProfile);
@@ -133,6 +141,45 @@ export default function EditProfilePage() {
     }));
   };
 
+  /**
+   * Handle Add Unit
+   * @returns 
+   */
+  const handleAddUnit = () => {
+    if (!inputUnit || inputUnit.trim().length <= 0) return;
+
+    setProfile(prevProfile => ({
+      ...prevProfile,
+      units: [...prevProfile.units, inputUnit.trim()],
+    }));
+    setInputUnit('');
+  };
+
+  /**
+   * Handle Delete Unit
+   * @param idx 
+   */
+  const handleDeleteUnit = (idx: number) => {
+    setProfile(prevProfile => ({
+      ...prevProfile,
+      units: prevProfile.units.filter((_, unitIdx) => unitIdx !== idx),
+    }));
+  };
+
+  const handleChangeBaner = (colorKey: string) => {
+    if (membership === 'free') {
+      addNotification('Customising Banner required paid membership');
+      return;
+    }
+
+    setProfile(prevProfile => ({
+      ...prevProfile,
+      bannerColor: colorKey,
+    }));
+
+  };
+
+
   return (
     <LayoutDefault>
       <main className="bg-hsl-l100 dark:bg-hsl-l15 w-full md:w-[80%] rounded-lg shadow-md mx-auto px-4 py-8">
@@ -193,7 +240,12 @@ export default function EditProfilePage() {
               <div className="h-[1px] w-full border-b border-b-hsl-l80 dark:border-b-hsl-l30"></div>
             </div>
 
-            <div className="flex gap-x-4 flex-wrap w-full">
+            <div className="flex gap-x-4 gap-y-2 flex-wrap w-full">
+              <div className="flex flex-col flex-grow">
+                <label htmlFor="campus" className="text-sm text-hsl-l50">Campus</label>
+                <input id="campus" name="campus" type="text" className="df-input" autoComplete="off"
+                  value={profile.location.campus} onChange={handleLocationChange} />
+              </div>
               <div className="flex flex-col flex-grow">
                 <label htmlFor="city" className="text-sm text-hsl-l50">City</label>
                 <input id="city" name="city" type="text" className="df-input" autoComplete="off"
@@ -205,6 +257,37 @@ export default function EditProfilePage() {
                   value={profile.location.country} onChange={handleLocationChange} />
               </div>
             </div>
+
+            {/* Units */}
+            <div className="flex items-center mt-12 mb-4 gap-x-2">
+              <IconGeneral type="units" size={24} className="fill-hsl-l80 dark:!fill-hsl-l30" />
+              <p className="text-sm text-hsl-l80 dark:text-hsl-l30 text-nowrap">Units</p>
+              <div className="h-[1px] w-full border-b border-b-hsl-l80 dark:border-b-hsl-l30"></div>
+            </div>
+
+            <label htmlFor="units" className="text-sm text-hsl-l50">Current Units</label>
+            <div className="flex gap-x-8 items-center justify-between">
+              <div className="flex flex-col flex-grow ">
+                <input id="units" name="units" type="text" className="df-input" autoComplete="off"
+                  placeholder="SIT313 Full Stack Development: Secure Frontend Applications"
+                  value={inputUnit} onChange={(e) => setInputUnit(e.target.value)} />
+              </div>
+              <button type="button" onClick={handleAddUnit}
+                className="px-2 py-1 bg-hsl-l90 dark:bg-hsl-l20 hover:bg-hsl-l95 dark:hover:bg-hsl-l25 rounded-md">Add</button>
+            </div>
+
+            {profile.units && profile.units.length > 0 && (
+              profile.units.map((unit, idx) => (
+                <div key={idx} className="flex gap-x-8 justify-between items-center my-1">
+                  <p>{unit}</p>
+                  <button type="button" onClick={() => handleDeleteUnit(idx)}
+                    className="px-2 py-1 bg-hsl-l90 dark:bg-hsl-l20 hover:bg-hsl-l95 dark:hover:bg-hsl-l25 rounded-md">
+                    <IconGeneral type="delete" size={20} className="fill-red-700 dark:fill-red-700" />
+                  </button>
+                </div>
+              ))
+            )}
+
 
             {/* Socials */}
             <div className="flex items-center mt-12 mb-4 gap-x-2">
@@ -256,7 +339,7 @@ export default function EditProfilePage() {
               {Object.keys(bannerColors).map((colorKey) => {
                 const colorValue = bannerColors[colorKey as any];
                 return (
-                  <div key={colorKey} onClick={() => setProfile({ ...profile, bannerColor: colorKey })}
+                  <div key={colorKey} onClick={() => handleChangeBaner(colorKey)}
                     className={`flex flex-col m-2 rounded-md p-1 ${colorKey === profile.bannerColor ? 'border border-hsl-l50' : ''}`}>
                     <div className="w-[40px] h-[40px] rounded-full" style={{ backgroundColor: colorValue }}></div>
                   </div>

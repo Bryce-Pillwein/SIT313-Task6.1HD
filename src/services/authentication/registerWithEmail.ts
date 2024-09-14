@@ -47,7 +47,7 @@ async function createEmailUserInDatabase(userID: string, firstName: string, last
       firstName: firstName,
       lastName: lastName,
       fullName: fullName,
-      membership: 'none',
+      membership: 'free',
       email: email,
       photoURL: null,
       emailVerified: null,
@@ -59,7 +59,8 @@ async function createEmailUserInDatabase(userID: string, firstName: string, last
         badges: [],
         bannerColor: 'Pink',
         location: { city: '', country: '' },
-        socials: { website: '', github: '' }
+        socials: { website: '', github: '' },
+        units: [],
       }
     });
   } catch (error: any) {

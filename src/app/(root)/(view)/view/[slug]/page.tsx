@@ -82,6 +82,7 @@ export default function ViewPage({ params }: { params: { slug: string } }) {
    * @param searchType Search Type
    */
   const handleSearch = (searchTerm: string, searchType: string) => {
+    setSearchResults(null);
     if (!posts) return;
 
     if (searchTerm.length <= 0) {
@@ -107,10 +108,14 @@ export default function ViewPage({ params }: { params: { slug: string } }) {
           return false;
       }
     });
-
+    console.log(filteredPosts);
     setSearchResults(filteredPosts);
+    console.log(searchResults);
   };
 
+  /**
+   * Handle Unhide
+   */
   const handleUnhide = () => {
     setTrendingVisible(posts);
     setLatestVisible(posts);
@@ -124,24 +129,26 @@ export default function ViewPage({ params }: { params: { slug: string } }) {
         <ToolBar isGridView={isGridView} onSearch={handleSearch} unhide={handleUnhide} toggleView={() => setIsGridView(!isGridView)} />
 
         {/* Search Result  */}
-        <AnimatePresence>
-          {searchResults && (searchResults.length >= 1) && (
-            <motion.div initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.3 }}
-              className="transition-opacity duration-500 ease-in opacity-100">
-              <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Search Results</h1>
-              <div className="flex flex-col gap-y-4">
+        {searchResults && (searchResults.length >= 1) && (
+          <motion.div className="transition-opacity duration-500 ease-in opacity-100"
+            initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.3 }}
+          >
+            <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Search Results</h1>
+            <div className="flex flex-col gap-y-4">
+              {searchResults.map((post) => (
                 <AnimatePresence>
-                  {searchResults.map((post, idx) => (
-                    <motion.div key={idx} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} >
-                      <PostSearchBanner pd={post} />
-                    </motion.div>
-                  ))}
+                  <motion.div key={post.postId}
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
+                  >
+                    <PostSearchBanner pd={post} />
+                  </motion.div>
                 </AnimatePresence>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              ))}
+            </div>
+          </motion.div>
+        )}
 
         {/* Trending Post */}
         {trendingVisible && (trendingVisible.length > 0) && (

@@ -55,7 +55,8 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
         const fullProfile: Profile = {
           firstName,
           lastName,
-          ...profileData
+          ...profileData,
+          units: profileData?.units ?? []
         };
 
         setProfile(fullProfile);
@@ -160,10 +161,12 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
                     </div>
                   )}
 
-                  {(profile.location.city.length > 0 || profile.location.country.length > 0) && (
+                  {(profile.location.campus.length > 0 || profile.location.city.length > 0 || profile.location.country.length > 0) && (
                     <div className="flex gap-x-2 items-center">
                       <IconGeneral type="location" className="fill-hsl-l50" />
-                      <p className="text-sm text-hsl-l50">{profile.location.city}, {profile.location.country}</p>
+                      <p className="text-sm text-hsl-l50">
+                        {profile.location.campus ? profile.location.campus : ''}, {profile.location.city ? profile.location.city : ''}, {profile.location.country ? profile.location.country : ''}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -241,6 +244,19 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
                 ) : (
                   <p className="text-hsl-l50 px-4 py-2">None</p>
                 )}
+              </div>
+
+              {/* Units */}
+              <div className=" bg-white dark:bg-hsl-l15 rounded-md shadow-sm border border-hsl-l95 dark:border-hsl-l20">
+                <h3 className="font-medium px-4 py-2">Units</h3>
+                <div className="w-full h-[1px] border-b border-hsl-l95 dark:border-hsl-l20"></div>
+                <div className="px-4 py-2">
+                  {profile?.units && profile.units.length > 0 && (
+                    profile.units.map((unit, idx) => (
+                      <p key={idx} className="text-sm text-hsl-l30 dark:text-hsl-l70 my-2">{unit}</p>
+                    ))
+                  )}
+                </div>
               </div>
 
               {/* Contributions */}
