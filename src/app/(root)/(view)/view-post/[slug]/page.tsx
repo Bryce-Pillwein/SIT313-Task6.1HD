@@ -15,6 +15,7 @@ import ProfilePicture from "@/components/ui/ProfilePicture";
 import Link from "next/link";
 import PostAutherMoreContent from "@/components/post/PostAuthorMoreContent";
 import PostInteractions from "@/components/post/PostInteractions";
+import PostTrendingMoreContent from "@/components/post/PostTrendingMoreContent";
 
 const DynDisplayMarkdown = dynamic(() => import('../../../../../components/postDisplays/DisplayMarkdown'), { loading: () => null })
 const DynDisplayCodeMirror = dynamic(() => import('../../../../../components/postDisplays/DisplayCodeMirror'), { loading: () => null })
@@ -87,8 +88,9 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
       };
 
       fetchPostContent();
-    }
+    };
   }, [post]);
+
 
   return (
     <LayoutDefault>
@@ -150,10 +152,14 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
               </div>
             </section>
 
-            {/* See More From The Author */}
             <section className="hidden md:block md:col-span-1">
+              {/* See More From The Author */}
               <PostAutherMoreContent postId={slug} postUserId={post.userId} dbPath={postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE'} />
+
+              {/* See More From Trending */}
+              <PostTrendingMoreContent />
             </section>
+
           </div>
         )}
 

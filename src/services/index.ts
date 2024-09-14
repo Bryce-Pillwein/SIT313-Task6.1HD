@@ -20,6 +20,7 @@ export { default as getUserPostForProfilePage } from '@/services/post/getUserPos
 export { default as getPostByAuthorId } from '@/services/post/getPostByAuthorId';
 export { default as getCalcTrending } from '@/services/post/getCalcTrending';
 export { default as setTrendingPostIds } from '@/services/post/setTrendingPostIds';
+export { default as getTrending } from '@/services/post/getTrending';
 
 // Post Comments
 export { default as setPostComment } from '@/services/postInteractions/setPostComment';

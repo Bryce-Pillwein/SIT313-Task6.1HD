@@ -36,7 +36,7 @@ export default function HomePage() {
     };
 
     getTrendingPost();
-  }, []);
+  }, [addNotification]);
 
 
   return (

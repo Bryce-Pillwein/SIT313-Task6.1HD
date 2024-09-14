@@ -136,16 +136,16 @@ export default function ViewPage({ params }: { params: { slug: string } }) {
           >
             <h1 className="font-semibold text-3xl mb-4 mt-8 ml-4">Search Results</h1>
             <div className="flex flex-col gap-y-4">
-              {searchResults.map((post) => (
-                <AnimatePresence>
+              <AnimatePresence>
+                {searchResults.map((post) => (
                   <motion.div key={post.postId}
                     initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
                   >
                     <PostSearchBanner pd={post} />
                   </motion.div>
-                </AnimatePresence>
-              ))}
+                ))}
+              </AnimatePresence>
             </div>
           </motion.div>
         )}

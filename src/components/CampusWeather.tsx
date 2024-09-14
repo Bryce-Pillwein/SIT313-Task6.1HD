@@ -49,7 +49,7 @@ const CampusWeather = () => {
     };
 
     getCampusWeather();
-  }, []);
+  }, [addNotification]);
 
   /**
    * Handle Location Change

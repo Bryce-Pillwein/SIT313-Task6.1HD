@@ -36,7 +36,7 @@ const PostInteractions: React.FC<PostInteractionsProps> = ({ layout, postId, pos
       }
       getReactions();
     }
-  }, [user]);
+  }, [user, postId, postType]);
 
   /**
    * Handle Reaction
@@ -64,6 +64,9 @@ const PostInteractions: React.FC<PostInteractionsProps> = ({ layout, postId, pos
     }
   };
 
+  /**
+   * Handle Flag
+   */
   const handleFlag = () => {
     addNotification('Post flagged for review');
   }
