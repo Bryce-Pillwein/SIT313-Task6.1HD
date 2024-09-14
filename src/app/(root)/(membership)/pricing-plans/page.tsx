@@ -16,10 +16,8 @@ const Tick: React.FC = () => {
   const [fill, setFill] = useState('hsl(0 0% 20%)');
 
   useEffect(() => {
-    if (isDarkTheme)
-      setFill('hsl(0 0% 80%)');
-    else
-      setFill('hsl(0 0% 20%)');
+    if (isDarkTheme) setFill('hsl(0 0% 80%)');
+    else setFill('hsl(0 0% 20%)');
   }, [isDarkTheme]);
 
   return (

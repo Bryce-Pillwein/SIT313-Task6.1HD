@@ -1,12 +1,14 @@
 "use client";
 
 import { getStripe } from '@/services';
+import { useAuth } from '../providers/AuthProvider';
 
 interface MembershipPlanProps {
   priceId: string;
 };
 
 const MembershipPlan: React.FC<MembershipPlanProps> = ({ priceId }) => {
+  const { user, loading } = useAuth();
 
   /**
    * Handle Submit
@@ -14,7 +16,15 @@ const MembershipPlan: React.FC<MembershipPlanProps> = ({ priceId }) => {
    */
   const handleSubmit = async () => {
     const stripe = await getStripe();
-    if (!stripe) return;
+    if (!stripe) {
+      console.log("Stripe not mounted");
+      return
+    };
+
+    if (!user) {
+      console.log("User not authenticated");
+      return;
+    }
 
     try {
       const response = await fetch('/api/stripeCheckout', {
@@ -22,7 +32,7 @@ const MembershipPlan: React.FC<MembershipPlanProps> = ({ priceId }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ priceId: priceId }),
+        body: JSON.stringify({ priceId: priceId, uid: user.uid }),
       });
 
       if (!response.ok) {

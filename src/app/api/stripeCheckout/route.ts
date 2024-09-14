@@ -1,22 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { getAuth } from 'firebase/auth';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
-
 export async function POST(request: NextRequest) {
-  console.log("RUNNING CHECKOUT POST")
   try {
-    // const uid = getAuth().currentUser?.uid
-    // console.log("UID", uid)
-
-    // if (!uid) {
-    //   return;
-    // }
 
     const data = await request.json();
     const priceId = data.priceId;
+    const uid = data.uid;
 
     const checkoutSession: Stripe.Checkout.Session =
       await stripe.checkout.sessions.create({
@@ -31,7 +23,7 @@ export async function POST(request: NextRequest) {
         success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment-success`,
         cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
         metadata: {
-          userId: 'nullID', //uid,
+          userId: uid,
           priceId
         }
       });
