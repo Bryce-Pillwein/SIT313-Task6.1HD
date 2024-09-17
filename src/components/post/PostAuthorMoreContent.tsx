@@ -11,17 +11,16 @@ import { useEffect, useState } from "react";
 interface PostAutherMoreContentProps {
   postId: string;
   postUserId: string;
-  dbPath: string;
 }
 
-const PostAutherMoreContent: React.FC<PostAutherMoreContentProps> = ({ postId, postUserId, dbPath }) => {
+const PostAutherMoreContent: React.FC<PostAutherMoreContentProps> = ({ postId, postUserId }) => {
   const [authorPost, setAuthorPost] = useState<Post[]>([]);
   const [post, setPost] = useState<Post | null>(null);
 
   useEffect(() => {
     const getAuthorPosts = async () => {
       try {
-        const posts = await getPostByAuthorId(postUserId, dbPath);
+        const posts = await getPostByAuthorId(postUserId);
         // Filter out the post where the postId equals itself
         const filteredPosts = posts.filter((p: Post) => p.postId !== postId);
         setAuthorPost(filteredPosts);
@@ -31,7 +30,7 @@ const PostAutherMoreContent: React.FC<PostAutherMoreContentProps> = ({ postId, p
       }
     }
     getAuthorPosts();
-  }, [postUserId, dbPath])
+  }, [postUserId])
 
   if (!authorPost || authorPost.length <= 0 || !post) return;
 

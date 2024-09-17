@@ -38,8 +38,7 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
     if (slug && postType) {
       const fetchPost = async () => {
         try {
-          const path = postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE';
-          const response = await getPost(slug, path);
+          const response = await getPost(slug);
 
           if ('success' in response && !response.success) {
             addNotification(response.message || 'Error fetching post');

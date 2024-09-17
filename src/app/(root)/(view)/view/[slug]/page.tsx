@@ -33,9 +33,9 @@ export default function ViewPage({ params }: { params: { slug: string } }) {
     try {
       let response;
       if (slug === "questions") {
-        response = await getPostAll('POST_QUESTION');
+        response = await getPostAll('question');
       } else if (slug === "articles") {
-        response = await getPostAll('POST_ARTICLE');
+        response = await getPostAll('article');
       }
 
       if (!response) return;

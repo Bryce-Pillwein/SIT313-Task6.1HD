@@ -37,7 +37,7 @@ const languageOptions: Record<string, LanguageOption> = {
  * @param dbPath 
  * @returns Status
  */
-export default async function setPost(postContent: PostUpload, dbPath: string): Promise<Status> {
+export default async function setPost(postContent: PostUpload): Promise<Status> {
   try {
     // Enforce authenticated user
     if (!auth.currentUser) {
@@ -66,7 +66,7 @@ export default async function setPost(postContent: PostUpload, dbPath: string): 
     };
 
     // Add the post document to the collection
-    const postRef = await addDoc(collection(db, dbPath), post);
+    const postRef = await addDoc(collection(db, 'POST'), post);
 
     // Upload Image
     const storageRef = ref(storage, `images/${postRef.id}`);
@@ -80,7 +80,7 @@ export default async function setPost(postContent: PostUpload, dbPath: string): 
         const fileType = language.mimeType;
         const fileExtension = language.extension;
         const blob = new Blob([component.content], { type: fileType });
-        const fileRef = ref(storage, `${dbPath}/${postRef.id}/${postRef.id}_${index}.${fileExtension}`);
+        const fileRef = ref(storage, `POST/${postRef.id}/${postRef.id}_${index}.${fileExtension}`);
         await uploadBytes(fileRef, blob);
         const downloadURL = await getDownloadURL(fileRef);
 
@@ -93,7 +93,7 @@ export default async function setPost(postContent: PostUpload, dbPath: string): 
     );
 
     // Update the post document with the generated postId, Image & Component URLs
-    await setDoc(doc(db, dbPath, postRef.id), {
+    await setDoc(doc(db, 'POST', postRef.id), {
       ...post,
       imageURL: imageUrl,
       contentURLs: componentUrls,
@@ -101,7 +101,7 @@ export default async function setPost(postContent: PostUpload, dbPath: string): 
     });
 
     // Check if the user's posts document exists
-    const userPostsRef = doc(db, `USERS_${dbPath}/${userId}`);
+    const userPostsRef = doc(db, `USERS_POST/${userId}`);
     const userPostsDoc = await getDoc(userPostsRef);
 
     // Update UserPost/ID Array

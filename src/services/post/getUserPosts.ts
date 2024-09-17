@@ -7,14 +7,10 @@ import getPost from "./getPost";
 
 /**
  * Get User Posts
- * @param type post type
  * @returns 
  */
-export default async function getUserPosts(type: string): Promise<Post[] | Status> {
+export default async function getUserPosts(): Promise<Post[] | Status> {
   try {
-    const userPostRef = type === 'question' ? 'USERS_POST_QUESTION' : 'USERS_POST_ARTICLE'
-    const postRef = type === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE'
-
     // Check user authentication
     if (!auth.currentUser) {
       return { success: false, message: 'No user detected. Login to post' };
@@ -22,7 +18,7 @@ export default async function getUserPosts(type: string): Promise<Post[] | Statu
     const uid = auth.currentUser.uid;
 
     // Get the document reference
-    const docRef = doc(db, userPostRef, uid);
+    const docRef = doc(db, 'USERS_POST', uid);
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
@@ -35,7 +31,7 @@ export default async function getUserPosts(type: string): Promise<Post[] | Statu
     // Retrieve each post using the post IDs
     const posts: Post[] = [];
     for (const id of postIds) {
-      const response = await getPost(id, postRef);
+      const response = await getPost(id);
       if ('postId' in response) {
         posts.push(response as Post);
       } else {

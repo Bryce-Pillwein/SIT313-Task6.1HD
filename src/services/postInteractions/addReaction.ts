@@ -3,16 +3,20 @@ import { db, auth } from "@/firebaseConfig";
 
 type ReactionType = 'like' | 'dislike' | 'heart';
 
-export default async function addReaction(postId: string, postType: string, reactionType: ReactionType) {
+/**
+ * Add Reaction
+ * @param postId 
+ * @param reactionType 
+ * @returns 
+ */
+export default async function addReaction(postId: string, reactionType: ReactionType) {
   try {
     // Enforce authenticated user
-    if (!auth.currentUser) {
-      return false;
-    }
+    if (!auth.currentUser) return false;
+
 
     const userId = auth.currentUser.uid;
-    const postPath = postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE';
-    const reactionRef = doc(db, postPath, postId, 'reactions', reactionType);
+    const reactionRef = doc(db, 'POST', postId, 'reactions', reactionType);
     const reactionDoc = await getDoc(reactionRef);
 
     if (reactionDoc.exists()) {

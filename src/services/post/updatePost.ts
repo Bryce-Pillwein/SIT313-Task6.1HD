@@ -29,7 +29,7 @@ const languageOptions: Record<string, LanguageOption> = {
   vue: { mimeType: 'text/x-vue', extension: 'vue' },
 };
 
-export default async function updatePost(postContent: PostUpload, dbPath: string): Promise<Status> {
+export default async function updatePost(postContent: PostUpload): Promise<Status> {
   try {
     // Enforce authenticated user
     if (!auth.currentUser) {
@@ -49,7 +49,7 @@ export default async function updatePost(postContent: PostUpload, dbPath: string
     };
 
     // Get existing post and delete old components
-    const postDocRef = doc(db, dbPath, postContent.postId);
+    const postDocRef = doc(db, 'POST', postContent.postId);
     const postDoc = await getDoc(postDocRef);
 
     if (postDoc.exists()) {
@@ -72,7 +72,7 @@ export default async function updatePost(postContent: PostUpload, dbPath: string
           const fileType = language.mimeType;
           const fileExtension = language.extension;
           const blob = new Blob([component.content], { type: fileType });
-          const fileRef = ref(storage, `${dbPath}/${postContent.postId}/${postContent.postId}_${index}.${fileExtension}`);
+          const fileRef = ref(storage, `POST/${postContent.postId}/${postContent.postId}_${index}.${fileExtension}`);
           await uploadBytes(fileRef, blob);
           const downloadURL = await getDownloadURL(fileRef);
 

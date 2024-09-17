@@ -10,10 +10,9 @@ import { useAuth } from "../providers/AuthProvider";
 
 interface PostCommentSectionProps {
   postId: string;
-  dbPath: string;
 }
 
-const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId, dbPath }) => {
+const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId }) => {
   const { user, loading } = useAuth();
   const { addNotification } = useNotification();
   const [comments, setComments] = useState<PostComment[]>([]);
@@ -25,14 +24,14 @@ const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId, dbPath 
    * Load Existing Comments
    */
   useEffect(() => {
-    if (postId && dbPath) {
+    if (postId) {
       const fetchCommentData = async () => {
-        const commentSection = await getPostComments(postId, dbPath);
+        const commentSection = await getPostComments(postId);
         setComments(commentSection);
       }
       fetchCommentData();
     }
-  }, [postId, dbPath])
+  }, [postId])
 
   /**
     * Handle Click Outside Dropdown
@@ -60,7 +59,7 @@ const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId, dbPath 
     }
 
     try {
-      const status = await setPostComment(postId, dbPath, inputValue);
+      const status = await setPostComment(postId, inputValue);
       if (!status.success) {
         addNotification(status.message!);
         return;
@@ -70,7 +69,7 @@ const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId, dbPath 
       /*  For our small web app, re-fetching data is not as issue.
           However, we could instead just update the DOM (append our post to array) instead
           of re-qeurying the databse */
-      const commentSection = await getPostComments(postId, dbPath);
+      const commentSection = await getPostComments(postId);
       setComments(commentSection);
       setInput('');
     } catch (error) {
@@ -93,7 +92,7 @@ const PostCommentSection: React.FC<PostCommentSectionProps> = ({ postId, dbPath 
    */
   const handleDeleteComment = async (commentId: string) => {
     try {
-      await deletePostComment(postId, dbPath, commentId);
+      await deletePostComment(postId, commentId);
       // Remove deleted comment from the state
       setComments(comments.filter(comment => comment.commentId !== commentId));
       addNotification('Deleted Comment');

@@ -9,7 +9,13 @@ interface UserReactions {
   heart: boolean;
 }
 
-export default async function getUserReactionsToPost(postId: string, postType: string, userId: string): Promise<UserReactions> {
+/**
+ * Get User Reaction To Post
+ * @param postId 
+ * @param userId 
+ * @returns 
+ */
+export default async function getUserReactionsToPost(postId: string, userId: string): Promise<UserReactions> {
   try {
     // Initialize the reaction object with default values
     const userReactions: UserReactions = {
@@ -21,12 +27,9 @@ export default async function getUserReactionsToPost(postId: string, postType: s
     // Define the reaction types to check
     const reactionTypes: ReactionType[] = ['like', 'dislike', 'heart'];
 
-    const postPath = postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE';
-
-
     // Iterate over each reaction type and check if the user ID is present
     for (const type of reactionTypes) {
-      const reactionRef = doc(db, postPath, postId, 'reactions', type);
+      const reactionRef = doc(db, 'POST', postId, 'reactions', type);
       const reactionDoc = await getDoc(reactionRef);
 
       if (reactionDoc.exists()) {

@@ -23,7 +23,6 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({ uid, onClose }) => {
   const linksProfile = [
     { href: `/profile/${uid}`, type: "profile", label: "Your Profile" },
     { href: "/edit-post", type: "book-post", label: "Your Post" },
-    { href: "/settings", type: "settings", label: "Settings" }
   ]
 
   /**

@@ -139,8 +139,7 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
       };
 
       // Determine post path in db and init setPost
-      const dbPath = content.postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE';
-      const status = await setPost(postData, dbPath);
+      const status = await setPost(postData);
 
       // Set Message if exists
       if (!status.success) {
@@ -171,7 +170,7 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
 
       // Determine post path in db and init setPost
       const dbPath = content.postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE';
-      const status = await updatePost(postData, dbPath);
+      const status = await updatePost(postData);
 
       // Set Message if exists
       if (!status.success) {

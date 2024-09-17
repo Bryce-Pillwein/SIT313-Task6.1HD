@@ -26,7 +26,7 @@ function EditPostPage() {
   const [postsQ, setPostsQ] = useState<Post[]>([]);
   const [postsA, setPostsA] = useState<Post[]>([]);
   const [postsVisible, setPostVisible] = useState<Post[]>([]);
-  const { content, setContent, updateContentTags, setComponents, components, handleTitleChange, updatePostContent } = usePostContext();
+  const { content, setContent, updateContentTags, setComponents, handleTitleChange, updatePostContent } = usePostContext();
 
 
 
@@ -37,7 +37,7 @@ function EditPostPage() {
     if (user) {
       const getAllPosts = async () => {
         try {
-          const responseQ = await getUserPosts('question');
+          const responseQ = await getUserPosts();
           if ('success' in responseQ) {
             if (!responseQ.success) {
               addNotification(responseQ.message || 'Error fetching posts');
@@ -45,7 +45,7 @@ function EditPostPage() {
             return;
           }
 
-          const responseA = await getUserPosts('article');
+          const responseA = await getUserPosts();
           if ('success' in responseA) {
             if (!responseA.success) {
               addNotification(responseA.message || 'Error fetching posts');
@@ -53,9 +53,9 @@ function EditPostPage() {
             return;
           }
 
-          setPostsQ(responseQ);
-          setPostVisible(responseQ);
-          setPostsA(responseA)
+          setPostsQ(responseQ.filter((post) => post.postType === 'question'));
+          setPostVisible(responseQ.filter((post) => post.postType === 'question'));
+          setPostsA(responseA.filter((post) => post.postType === 'article'));
         } catch (error) {
           console.error(error);
           addNotification('Error fetching question. Reload')
@@ -178,7 +178,7 @@ function EditPostPage() {
             {/* USERS POSTS LISTS */}
             <div className="col-span-2 bg-hsl-l100 dark:bg-hsl-l15 rounded-lg shadow-sm w-full py-4 px-4">
               {isFetchingPosts ? (
-                <p className="text-center text-hsl-l50 font-medium">Fetching Question...</p>
+                <p className="text-center text-hsl-l50 font-medium">Fetching Posts...</p>
               ) : (
                 <>
                   <div className="flex justify-around items-center mt-2">

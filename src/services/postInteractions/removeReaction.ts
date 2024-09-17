@@ -3,16 +3,13 @@ import { db, auth } from "@/firebaseConfig";
 
 type ReactionType = 'like' | 'dislike' | 'heart';
 
-export default async function removeReaction(postId: string, postType: string, reactionType: ReactionType) {
+export default async function removeReaction(postId: string, reactionType: ReactionType) {
   try {
     // Enforce authenticated user
-    if (!auth.currentUser || postType) {
-      return false;
-    }
+    if (!auth.currentUser) return false;
 
     const userId = auth.currentUser.uid;
-    const postPath = postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE';
-    const reactionRef = doc(db, postPath, postId, 'reactions');
+    const reactionRef = doc(db, 'POST', postId, 'reactions');
     await updateDoc(reactionRef, {
       userIds: arrayRemove(userId)
     });

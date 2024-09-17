@@ -12,10 +12,9 @@ import { useNotification } from "../providers/NotificationProvider";
 interface PostInteractionsProps {
   layout: string;
   postId: string;
-  postType: string;
 }
 
-const PostInteractions: React.FC<PostInteractionsProps> = ({ layout, postId, postType }) => {
+const PostInteractions: React.FC<PostInteractionsProps> = ({ layout, postId }) => {
   const { user, loading } = useAuth();
   const { addNotification } = useNotification();
   const [reactions, setReactions] = useState({ like: false, dislike: false, heart: false })
@@ -28,7 +27,7 @@ const PostInteractions: React.FC<PostInteractionsProps> = ({ layout, postId, pos
     if (user?.uid) {
       const getReactions = async () => {
         try {
-          const reacts = await getUserReactionsToPost(postId, postType, user.uid);
+          const reacts = await getUserReactionsToPost(postId, user.uid);
           setReactions(reacts);
         } catch (error) {
           console.error(error);
@@ -36,7 +35,7 @@ const PostInteractions: React.FC<PostInteractionsProps> = ({ layout, postId, pos
       }
       getReactions();
     }
-  }, [user, postId, postType]);
+  }, [user, postId]);
 
   /**
    * Handle Reaction
@@ -46,14 +45,14 @@ const PostInteractions: React.FC<PostInteractionsProps> = ({ layout, postId, pos
     try {
       if (reactions[reaction]) {
         // If the reaction is already active, remove it
-        await removeReaction(postId, postType, reaction);
+        await removeReaction(postId, reaction);
         setReactions(prevReactions => ({
           ...prevReactions,
           [reaction]: false
         }));
       } else {
         // If the reaction is not active, add it
-        await addReaction(postId, postType, reaction);
+        await addReaction(postId, reaction);
         setReactions(prevReactions => ({
           ...prevReactions,
           [reaction]: true

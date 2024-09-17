@@ -5,7 +5,14 @@ import formatFSDate from "../util/formatFSDate";
 import { Status } from "@/types/Status";
 import { PostComment } from "@/types/PostComment";
 
-export default async function setPostComment(postId: string, dbPath: string, commentValue: string): Promise<Status> {
+
+/**
+ * Set Post Comment
+ * @param postId 
+ * @param commentValue 
+ * @returns 
+ */
+export default async function setPostComment(postId: string, commentValue: string): Promise<Status> {
   try {
     // Enforce authenticated user
     if (!auth.currentUser) {
@@ -29,14 +36,14 @@ export default async function setPostComment(postId: string, dbPath: string, com
     }
 
     // Check if the post exists
-    const postRef = doc(db, dbPath, postId);
+    const postRef = doc(db, 'POST', postId);
     const postDoc = await getDoc(postRef);
     if (!postDoc.exists()) {
       return { success: false, message: 'Unable to find post' };
     }
 
     // Add comment to the sub-collection
-    const commentsCollectionRef = collection(db, `${dbPath}/${postId}/comments`);
+    const commentsCollectionRef = collection(db, `POST/${postId}/comments`);
     const commentRef = await addDoc(commentsCollectionRef, comment);
 
     // Update comment with its ID

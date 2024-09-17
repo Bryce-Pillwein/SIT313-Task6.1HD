@@ -5,12 +5,11 @@ import { PostComment } from "@/types/PostComment";
 /**
  * Get Post Comments
  * @param postId post ID
- * @param dbPath firestore path 'POST_QUESTION' | 'POST_ARTICLE'
  * @returns 
  */
-export default async function getPostComments(postId: string, dbPath: string): Promise<PostComment[]> {
+export default async function getPostComments(postId: string): Promise<PostComment[]> {
   try {
-    const commentsCollectionRef = collection(db, `${dbPath}/${postId}/comments`);
+    const commentsCollectionRef = collection(db, `POST/${postId}/comments`);
     const commentsQuery = query(commentsCollectionRef, orderBy('createdAt', 'asc'));
     const querySnapshot = await getDocs(commentsQuery);
 

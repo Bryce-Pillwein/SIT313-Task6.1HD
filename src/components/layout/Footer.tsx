@@ -21,8 +21,7 @@ const Footer = () => {
 
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 gap-x-2 sm:app-container px-4 sm:px-0">
-
-          <div className="">
+          <div>
             <h3 className="text-6xl font-sdisplay text-hsl-l98 tracking-tight">Follow Along!</h3>
             <SubscribeBanner />
 
@@ -35,11 +34,11 @@ const Footer = () => {
               <h3 className="text-3xl font-sdisplay text-hsl-l80">Explore</h3>
               <ul className="footer-list-links">
                 <li><Link href="/" >HOME</Link></li>
-                <li><Link href="/questions" >QUESTIONS</Link></li>
-                <li><Link href="/articles" >ARTICLES</Link></li>
-                <li><Link href="/post" >MAKE A POST</Link></li>
-                <li><Link href="/" >EDIT A POST</Link></li>
-                <li><Link href="/" >MEMBERSHIP</Link></li>
+                <li><Link href="/view/questions" >QUESTIONS</Link></li>
+                <li><Link href="/view/articles" >ARTICLES</Link></li>
+                <li><Link href="/create-post" >MAKE A POST</Link></li>
+                <li><Link href="/edit-post" >EDIT A POST</Link></li>
+                <li><Link href="/pricing-plans" >MEMBERSHIP</Link></li>
               </ul>
 
               <h3 className="text-3xl font-sdisplay text-hsl-l80 mt-16">Contact Us</h3>
@@ -55,7 +54,7 @@ const Footer = () => {
                 <li><Link href="/" className="font-mono">FAQs</Link></li>
                 <li><a rel="noopener noreferrer" target="_blank" href="https://www.deakin.edu.au/help-hub"
                   className="font-mono">HELP HUB</a></li>
-                <li><Link href="/" className="font-mono">MEMBERSHIP PAYMENTS</Link></li>
+                <li><Link href="/manage-billing" className="font-mono">MEMBERSHIP PAYMENTS</Link></li>
               </ul>
 
               <h3 className="text-3xl font-sdisplay text-hsl-l80 mt-16">Legal</h3>

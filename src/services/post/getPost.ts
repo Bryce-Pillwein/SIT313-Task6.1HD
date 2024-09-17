@@ -7,19 +7,18 @@ import { Status } from "@/types/Status";
 /**
  * Get Post
  * @param postId 
- * @param postPath 
  * @returns 
  */
-export default async function getPost(postId: string, postPath: string): Promise<Post | Status> {
+export default async function getPost(postId: string): Promise<Post | Status> {
   try {
-    const postRef = doc(collection(db, postPath), postId);
+    const postRef = doc(collection(db, 'POST'), postId);
     const postDoc = await getDoc(postRef);
 
     if (!postDoc.exists()) {
       return { success: false, message: 'Unable To Find Post' };
     }
 
-    return postDoc.data() as Post; // Return the post data
+    return postDoc.data() as Post;
   } catch (error) {
     throw error;
   }
