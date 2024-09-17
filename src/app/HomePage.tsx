@@ -19,7 +19,21 @@ export default function HomePage() {
   const { addNotification } = useNotification();
   const [trending, setTrending] = useState<Post[]>([]);
   const [isGridView, setIsGridView] = useState<boolean>(true);
+  const [backgroundImage, setBackgroundImage] = useState('');
+  const images = ['/deakin-cover-1.jpg', '/deakin-cover-2.jpg'];
 
+
+  /**
+   * Set Hero Image
+   */
+  useEffect(() => {
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    setBackgroundImage(randomImage);
+  }, []);
+
+  /**
+   * Get Trending Posts
+   */
   useEffect(() => {
     const getTrendingPost = async () => {
       try {
@@ -47,9 +61,9 @@ export default function HomePage() {
       <div className="relative w-full min-h-[75vw] sm:min-h-[50vw] md:min-h-[20vw] overflow-hidden flex items-center">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/deakin-cover-1.jpg)' }}
+          style={{ backgroundImage: `url(${backgroundImage})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-hsl-l98 to-transparent pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-hsl-l98 to-transparent dark:from-hsl-l5 pointer-events-none"></div>
       </div>
 
 

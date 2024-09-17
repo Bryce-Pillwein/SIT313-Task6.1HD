@@ -17,7 +17,6 @@ export const linksMembership = [
 
 export const linksResource = [
   { href: "/guide", type: "guide", label: "Guides" },
-  { href: "/support", type: "support", label: "Support" },
   { href: "/contact", type: "mail", label: "Contact" },
   { href: "/faq", type: "faq", label: "FAQs" },
   { href: "/report", type: "report", label: "Report" },

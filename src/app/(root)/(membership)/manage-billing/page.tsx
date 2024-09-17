@@ -48,7 +48,7 @@ export default function ManageBillingPage() {
         </div>
 
 
-        <div className="grid grid-cols-2 gap-x-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16">
           <div>
             <h1 className="text-4xl font-sdisplay font-medium mt-24">Billing Details</h1>
             <p className="text-hsl-l30 dark:text-hsl-l70 text-sm mt-1">
@@ -59,7 +59,7 @@ export default function ManageBillingPage() {
               For any inquiries or disputes regarding billing, please refer to Stripe&#39;s support.
             </p>
           </div>
-          <div className="flex flex-col justify-center items-center w-[80%]">
+          <div className="flex flex-col justify-center items-center w-[80%] mx-auto">
             <h1 className="text-2xl font-sdisplay font-medium mt-24">Something Wrong?</h1>
             <p className="text-hsl-l30 dark:text-hsl-l70 text-sm mt-1 mb-4 text-center">
               If you encounter any issues with your subscription, billing, or the services provided, please contact us immediately.
