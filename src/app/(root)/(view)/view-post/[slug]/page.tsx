@@ -98,7 +98,7 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
           <div className="relative grid grid-cols-3 gap-4">
             {/* Sticky Interactions for large Screen*/}
             <div className="hidden md:block absolute left-0 transform translate-x-[-120%] top-0 h-full">
-              <PostInteractions layout="vert" postId={slug} postType={postType!} />
+              <PostInteractions layout="vert" postId={slug} />
             </div>
 
             {/* Post Area */}
@@ -142,18 +142,18 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
 
               {/* Small Screen Interactions / Reactions */}
               <div className="block md:hidden px-4 py-8 border-t border-hsl-l90 dark:border-hsl-l25">
-                <PostInteractions layout="horiz" postId={slug} postType={postType!} />
+                <PostInteractions layout="horiz" postId={slug} />
               </div>
 
               {/* Comment Section */}
               <div className="px-4 py-4 border-t border-hsl-l90 dark:border-hsl-l25">
-                <PostCommentSection postId={slug} dbPath={postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE'} />
+                <PostCommentSection postId={slug} />
               </div>
             </section>
 
             <section className="hidden md:block md:col-span-1">
               {/* See More From The Author */}
-              <PostAutherMoreContent postId={slug} postUserId={post.userId} dbPath={postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE'} />
+              <PostAutherMoreContent postId={slug} postUserId={post.userId} />
 
               {/* See More From Trending */}
               <PostTrendingMoreContent />
