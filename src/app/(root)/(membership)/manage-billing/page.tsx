@@ -55,8 +55,8 @@ export default function ManageBillingPage() {
               All billing and subscription payments are securely processed and managed through Stripe,
               a trusted third-party payment provider. Please review and manage your billing details directly
               in your <Link href="/" className="underline">Stripe account</Link>. We do not store or handle any sensitive payment
-              information on our servers, and we are not liable for any issues arising from Stripe's services.
-              For any inquiries or disputes regarding billing, please refer to Stripe's support.
+              information on our servers, and we are not liable for any issues arising from Stripe&#39;s services.
+              For any inquiries or disputes regarding billing, please refer to Stripe&#39;s support.
             </p>
           </div>
           <div className="flex flex-col justify-center items-center w-[80%]">
