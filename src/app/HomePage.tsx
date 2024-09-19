@@ -29,7 +29,7 @@ export default function HomePage() {
   useEffect(() => {
     const randomImage = images[Math.floor(Math.random() * images.length)];
     setBackgroundImage(randomImage);
-  }, []);
+  }, [images]);
 
   /**
    * Get Trending Posts

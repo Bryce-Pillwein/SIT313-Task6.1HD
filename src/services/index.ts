@@ -12,7 +12,7 @@ export { default as signOutUser } from '@/services/authentication/signOutUser';
 export { default as setPost } from '@/services/post/setPost';
 export { default as getPost } from '@/services/post/getPost';
 export { default as getPostAll } from '@/services/post/getPostAll';
-// export { default as updatePost } from '@/services/post/updatePost';
+export { default as updatePost } from '@/services/post/updatePost';
 export { default as getUserPosts } from '@/services/post/getUserPosts';
 export { default as getUserPostForProfilePage } from '@/services/post/getUserPostForProfilePage';
 export { default as getPostByAuthorId } from '@/services/post/getPostByAuthorId';

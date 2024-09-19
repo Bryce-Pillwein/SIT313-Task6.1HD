@@ -30,7 +30,7 @@ const PostAutherMoreContent: React.FC<PostAutherMoreContentProps> = ({ postId, p
       }
     }
     getAuthorPosts();
-  }, [postUserId])
+  }, [postId, postUserId])
 
   if (!authorPost || authorPost.length <= 0 || !post) return;
 
