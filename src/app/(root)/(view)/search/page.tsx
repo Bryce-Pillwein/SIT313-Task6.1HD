@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { useNotification } from "@/components/providers/NotificationProvider";
@@ -14,11 +14,9 @@ import dynamic from "next/dynamic";
 
 const DynPostCard = dynamic(() => import('../../../../components/post/PostCard'), { loading: () => null })
 
-export default function SearchPage() {
+function SearchPage() {
   const { addNotification } = useNotification();
   const searchParams = useSearchParams();
-  const searchTerm = searchParams.get('searchTerm')?.trim() || null;
-  const searchType = searchParams.get('searchType')?.trim() || null;
   const [searchResults, setSearchResults] = useState<Post[] | null>(null);
   const [visiblePost, setVisiblePost] = useState<Post[] | null>(null);
   const [isGridView, setIsGridView] = useState<boolean>(true);
@@ -49,6 +47,9 @@ export default function SearchPage() {
    * Handle Search if via redirect
    */
   useEffect(() => {
+    const searchTerm = searchParams.get('searchTerm')?.trim() || null;
+    const searchType = searchParams.get('searchType')?.trim() || null;
+
     if (searchTerm && searchType && handleSearch) {
       handleSearch(searchTerm, searchType)
     }
@@ -105,5 +106,14 @@ export default function SearchPage() {
 
       </main>
     </LayoutDefault >
+  );
+}
+
+
+export default function SearchPageSuspense() {
+  return (
+    <Suspense>
+      <SearchPage />
+    </Suspense>
   );
 }
