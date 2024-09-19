@@ -123,9 +123,14 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
                   </p>
 
                   <div className="flex flex-wrap items-center gap-1">
-                    {post.tags?.map((tag, idx) => (
-                      <p key={idx} className="bg-hsl-l95 dark:bg-hsl-l20 px-2 py text-hsl-l50 text-xxs rounded-lg">{tag}</p>
-                    ))}
+                    {post.tags?.map((tag, idx) => {
+                      const searchTerm = encodeURIComponent(tag);
+                      return (
+                        <Link key={idx}
+                          href={`/search?searchTerm=${searchTerm}&searchType=Tag`}
+                          className="bg-hsl-l95 dark:bg-hsl-l20 px-2 py text-hsl-l50 text-xxs rounded-lg">{tag}</Link>
+                      );
+                    })}
                   </div>
                 </div>
 

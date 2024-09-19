@@ -43,7 +43,7 @@ const PostAutherMoreContent: React.FC<PostAutherMoreContentProps> = ({ postId, p
         <Link href={`/view-post/${post.postId}?type=${post.postType}`} key={idx} className="group grid grid-cols-3 mt-2 mb-4">
           <div className="col-span-2 flex flex-col justify-center">
             <h3 className="group-hover:text-mb-pink group-hover:dark:text-mb-yellow text-wrap font-medium text-sm">{post.title}</h3>
-            <p className="text-hsl-l70 dark:text-hsl-l30 text-xs text-balance mt-1">Tags: {post.tags.length > 0 ? post.tags.join(' • ') : 'None'}</p>
+            {/* <p className="text-hsl-l70 dark:text-hsl-l30 text-xs text-balance mt-1">{post.tags.length > 0 ? post.tags.join(' • ') : 'None'}</p> */}
           </div>
 
           <div className="relative pb-[56.25%]">

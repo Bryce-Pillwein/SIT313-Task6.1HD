@@ -7,7 +7,8 @@ export const linksPost = [
 
 export const linksView = [
   { href: "/view/questions", type: "view-questions", label: "Questions", desc: "See what others are asking" },
-  { href: "/view/articles", type: "view-articles", label: "Articles", desc: "Read up to date articles" }
+  { href: "/view/articles", type: "view-articles", label: "Articles", desc: "Read up to date articles" },
+  { href: "/search", type: "search", label: "Search", desc: "Search all posts" },
 ];
 
 export const linksMembership = [

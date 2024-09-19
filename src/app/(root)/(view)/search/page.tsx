@@ -2,27 +2,36 @@
 
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { useNotification } from "@/components/providers/NotificationProvider";
 import { Post } from "@/types/Post";
-import { getPostAll, getPostFromSearchQuery } from "@/services";
+import { getPostFromSearchQuery } from "@/services";
 import LayoutDefault from "@/components/layout/LayoutDefault";
 import ToolBar from "@/components/ToolBar";
-import PostCard from "@/components/post/PostCard";
-import PostSearchBanner from "@/components/post/PostSearchBanner";
-import IconGeneral from "@/components/icons/IconGeneral";
 import dynamic from "next/dynamic";
 
 const DynPostCard = dynamic(() => import('../../../../components/post/PostCard'), { loading: () => null })
 
-export default function SearchPage({ params }: { params: { slug: string } }) {
+export default function SearchPage() {
   const { addNotification } = useNotification();
-  const { slug } = params;
+  const searchParams = useSearchParams();
   const [searchResults, setSearchResults] = useState<Post[] | null>(null);
   const [visiblePost, setVisiblePost] = useState<Post[] | null>(null);
   const [isGridView, setIsGridView] = useState<boolean>(true);
+
+  /**
+   * Handle Search if via redirect
+   */
+  useEffect(() => {
+    const searchTerm = searchParams.get('searchTerm')?.trim() || null;
+    const searchType = searchParams.get('searchType')?.trim() || null;
+
+    if (searchTerm && searchType) {
+      handleSearch(searchTerm, searchType)
+    }
+  }, [searchParams])
 
   /**
    * Search and Filter Posts
@@ -94,8 +103,6 @@ export default function SearchPage({ params }: { params: { slug: string } }) {
             ))}
           </div>
         )}
-
-
 
       </main>
     </LayoutDefault >
