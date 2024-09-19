@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Post } from "@/types/Post";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,7 +19,7 @@ const PostCard: React.FC<PostCardProp> = ({ pd, hideQuestion, isGridView }) => {
 
   if (isGridView) {
     return (
-      <div className="group bg-hsl-l100 dark:bg-hsl-l15 rounded-lg shadow-md overflow-hidden w-full max-w-full mx-auto relative">
+      <div className="group bg-hsl-l100 dark:bg-hsl-l15 rounded-lg shadow-md overflow-hidden w-full max-w-full h-full mx-auto relative">
         <Link href={`/view-post/${pd.postId}?type=${pd.postType}`}>
 
           {/* IMAGE */}

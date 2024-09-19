@@ -12,13 +12,14 @@ export { default as signOutUser } from '@/services/authentication/signOutUser';
 export { default as setPost } from '@/services/post/setPost';
 export { default as getPost } from '@/services/post/getPost';
 export { default as getPostAll } from '@/services/post/getPostAll';
-export { default as updatePost } from '@/services/post/updatePost';
+// export { default as updatePost } from '@/services/post/updatePost';
 export { default as getUserPosts } from '@/services/post/getUserPosts';
 export { default as getUserPostForProfilePage } from '@/services/post/getUserPostForProfilePage';
 export { default as getPostByAuthorId } from '@/services/post/getPostByAuthorId';
 export { default as getCalcTrending } from '@/services/post/getCalcTrending';
 export { default as setTrendingPostIds } from '@/services/post/setTrendingPostIds';
 export { default as getTrending } from '@/services/post/getTrending';
+export { default as getPostFromSearchQuery } from '@/services/post/getPostFromSearchQuery';
 
 // Post Comments
 export { default as setPostComment } from '@/services/postInteractions/setPostComment';

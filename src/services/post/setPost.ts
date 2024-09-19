@@ -62,7 +62,14 @@ export default async function setPost(postContent: PostUpload): Promise<Status> 
       imageURL: 'NullPlaceHolder',
       contentURLs: [],
       tags: postContent.tags,
-      postType: postContent.postType
+      postType: postContent.postType,
+      searchFields: {
+        title_lowercase: postContent.title.toLowerCase(),
+        authorFirstName_lowercase: userFN.toLowerCase(),
+        authorLastName_lowercase: userLN.toLowerCase(),
+        tags_lowercase: postContent.tags.map(tag => tag.toLowerCase()),
+        date_lowercase: formatFSDate(new Date()).toLowerCase()
+      }
     };
 
     // Add the post document to the collection

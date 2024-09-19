@@ -36,7 +36,7 @@ const PostAutherMoreContent: React.FC<PostAutherMoreContentProps> = ({ postId, p
 
 
   return (
-    <div className="max-h-[60vh] overflow-y-scroll custom-scrollbar">
+    <div className="max-h-[70vh] overflow-y-scroll custom-scrollbar">
       <p className="text-hsl-l70 dark:text-hsl-l30 text-sm text-center">More Questions From This User</p>
 
       {authorPost.map((post, idx) => (

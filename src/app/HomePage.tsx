@@ -54,7 +54,6 @@ export default function HomePage() {
 
 
 
-
   return (
     <main>
       <Header />
@@ -70,7 +69,7 @@ export default function HomePage() {
       <div className="app-container my-16">
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-          <div> </div>
+          <div></div>
           <div className="bg-[length:200%_200%] animate-gradientShift bg-gradient-to-tr from-cyan-400 via-purple-400 to-red-500 px-4 py-8 rounded-lg shadow-md flex flex-col justify-center">
             <h3 className="text-3xl text-white font-semibold">Take a Study Break</h3>
             <h3 className="text-3xl text-white font-semibold">Take a Survey</h3>
