@@ -17,21 +17,11 @@ const DynPostCard = dynamic(() => import('../../../../components/post/PostCard')
 export default function SearchPage() {
   const { addNotification } = useNotification();
   const searchParams = useSearchParams();
+  const searchTerm = searchParams.get('searchTerm')?.trim() || null;
+  const searchType = searchParams.get('searchType')?.trim() || null;
   const [searchResults, setSearchResults] = useState<Post[] | null>(null);
   const [visiblePost, setVisiblePost] = useState<Post[] | null>(null);
   const [isGridView, setIsGridView] = useState<boolean>(true);
-
-  /**
-   * Handle Search if via redirect
-   */
-  useEffect(() => {
-    const searchTerm = searchParams.get('searchTerm')?.trim() || null;
-    const searchType = searchParams.get('searchType')?.trim() || null;
-
-    if (searchTerm && searchType) {
-      handleSearch(searchTerm, searchType)
-    }
-  }, [searchParams])
 
   /**
    * Search and Filter Posts
@@ -54,6 +44,15 @@ export default function SearchPage() {
       addNotification('Search Failed');
     }
   };
+
+  /**
+   * Handle Search if via redirect
+   */
+  useEffect(() => {
+    if (searchTerm && searchType && handleSearch) {
+      handleSearch(searchTerm, searchType)
+    }
+  }, [searchParams, handleSearch])
 
   /**
    * Handle Unhide

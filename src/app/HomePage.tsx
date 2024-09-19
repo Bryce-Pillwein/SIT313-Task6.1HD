@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Post } from "@/types/Post";
 import { useNotification } from "@/components/providers/NotificationProvider";
 import PostCard from "@/components/post/PostCard";
@@ -20,8 +20,9 @@ export default function HomePage() {
   const [trending, setTrending] = useState<Post[]>([]);
   const [isGridView, setIsGridView] = useState<boolean>(true);
   const [backgroundImage, setBackgroundImage] = useState('');
-  const images = ['/deakin-cover-1.jpg', '/deakin-cover-2.jpg'];
 
+  // Memoize the images array
+  const images = useMemo(() => ['/deakin-cover-1.jpg', '/deakin-cover-2.jpg'], []);
 
   /**
    * Set Hero Image
