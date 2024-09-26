@@ -108,9 +108,7 @@ export default function ViewPage({ params }: { params: { slug: string } }) {
           return false;
       }
     });
-    console.log(filteredPosts);
     setSearchResults(filteredPosts);
-    console.log(searchResults);
   };
 
   /**

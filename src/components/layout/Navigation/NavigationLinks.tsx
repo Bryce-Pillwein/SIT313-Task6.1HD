@@ -3,6 +3,7 @@
 export const linksPost = [
   { href: "/create-post", type: "create-post", label: "Create", desc: "Create a new post" },
   { href: "/edit-post", type: "edit", label: "Edit", desc: "Edit an existing post" },
+  { href: "/create-guide", type: "upload-guide", label: "Upload Guide", desc: "Upload a guide video" },
 ]
 
 export const linksView = [
@@ -17,7 +18,7 @@ export const linksMembership = [
 ];
 
 export const linksResource = [
-  { href: "/guide", type: "guide", label: "Guides" },
+  { href: "/view-guides", type: "guide", label: "Guides" },
   { href: "/contact", type: "mail", label: "Contact" },
   { href: "/faq", type: "faq", label: "FAQs" },
   { href: "/report", type: "report", label: "Report" },

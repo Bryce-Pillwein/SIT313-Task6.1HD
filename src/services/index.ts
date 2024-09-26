@@ -32,6 +32,10 @@ export { default as addReaction } from '@/services/postInteractions/addReaction'
 export { default as removeReaction } from '@/services/postInteractions/removeReaction';
 export { default as getUserReactionsToPost } from '@/services/postInteractions/getUserReactionToPost';
 
+// Guides
+export { default as setGuide } from '@/services/guide/setGuide';
+export { default as getAllGuides } from '@/services/guide/getAllGuides';
+
 // User
 export { default as getUserValue } from '@/services/user/getUserValue';
 export { default as updateUserProfile } from '@/services/user/updateUserProfile';
