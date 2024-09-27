@@ -11,6 +11,7 @@ export default interface Guide {
   date: string;
   descriptionURL: string;
   videoURL: string;
+  viewsCount?: number;
   searchFields?: {
     authorFirstName_lowercase: string;
     authorLastName_lowercase: string;

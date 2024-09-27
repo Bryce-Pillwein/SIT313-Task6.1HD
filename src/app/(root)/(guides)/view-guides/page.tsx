@@ -63,9 +63,13 @@ export default function ViewGuiesPage() {
                   <video src={guide.videoURL} className=" rounded-tr-lg rounded-tl-lg"></video>
                   <div className="p-4 flex flex-col">
                     <h2 className="text-lg font-bold truncate">{guide.title}</h2>
+                    <p className="text-sm text-hsl-l50">{guide.authorFirstName} {guide.authorLastName}</p>
                     <div className="flex justify-between items-center">
-                      <p className="text-sm text-hsl-l50">{guide.authorFirstName} {guide.authorLastName}</p>
-                      <p className="text-sm text-hsl-l50">{guide.date}</p>
+                      <p className="text-xs text-hsl-l50">{guide.date}</p>
+                      <div className="flex gap-x-2 items-center">
+                        <IconGeneral type="visible" className="fill-hsl-l50 dark:fill-hsl-l50" size={18} />
+                        <p className="text-xs text-hsl-l50">{guide.viewsCount} {guide.viewsCount === 1 ? 'View' : 'Views'}</p>
+                      </div>
                     </div>
                   </div>
                 </Link>

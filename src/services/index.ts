@@ -34,13 +34,18 @@ export { default as getUserReactionsToPost } from '@/services/postInteractions/g
 
 // Guides
 export { default as setGuide } from '@/services/guide/setGuide';
+export { default as getGuideByPostId } from '@/services/guide/getGuideByPostId';
 export { default as getAllGuides } from '@/services/guide/getAllGuides';
+export { default as getViewsCount } from '@/services/guide/getViewCount';
+export { default as addViewToGuide } from '@/services/guide/addViewToGuide';
+
 
 // User
 export { default as getUserValue } from '@/services/user/getUserValue';
 export { default as updateUserProfile } from '@/services/user/updateUserProfile';
 export { default as setSubscriber } from '@/services/user/setSubscriber';
 export { default as getContributions } from '@/services/user/getContributions';
+export { default as deleteUserData } from '@/services/user/deleteUserData';
 
 // Chats
 export { default as getSearchedUserResults } from '@/services/chats/getSearchedUserResults'

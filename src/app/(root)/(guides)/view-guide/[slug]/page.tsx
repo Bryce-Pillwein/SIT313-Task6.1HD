@@ -1,29 +1,27 @@
-// View Guide Single - Page tsx
+// View Guide Video Playback Page tsx
 
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { useNotification } from "@/components/providers/NotificationProvider";
-import Image from "next/image";
 import LayoutDefault from "@/components/layout/LayoutDefault";
-import getPost from "@/services/post/getPost";
-import PostCommentSection from "@/components/post/PostCommentSection";
 import ProfilePicture from "@/components/ui/ProfilePicture";
 import Link from "next/link";
 import Guide from "@/types/Guide";
 import dynamic from "next/dynamic";
-import PostInteractions from "@/components/post/PostInteractions";
+import { addViewToGuide, getGuideByPostId } from "@/services";
+import IconGeneral from "@/components/icons/IconGeneral";
+import { useAuth } from "@/components/providers/AuthProvider";
 
 const DynDisplayMarkdown = dynamic(() => import('../../../../../components/postDisplays/DisplayMarkdown'), { loading: () => null })
 
-export default function ViewPostPage({ params }: { params: { slug: string } }) {
+export default function ViewGuideVideoPlaybackPage({ params }: { params: { slug: string } }) {
+  const { user, loading } = useAuth();
   const { addNotification } = useNotification();
   const { slug } = params;
-  const [isFetchingPost, setIsFetchingPost] = useState<boolean>(true);
   const [guide, setGuide] = useState<Guide | null>(null);
   const [description, setDescription] = useState<string>('');
-  const [isFetchingPostContent, setIsFetchingPostContent] = useState<boolean>(true);
+  const [isFetchingPost, setIsFetchingPost] = useState<boolean>(true);
 
   /**
    * Fecth the Post Data at Page Mounting
@@ -32,14 +30,14 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
     if (slug) {
       const fetchGuide = async () => {
         try {
-          const response = await getPost(slug);
+          const response = await getGuideByPostId(slug);
 
           if ('success' in response && !response.success) {
-            addNotification(response.message || 'Error fetching post');
+            addNotification(response.message || 'Error fetching guide');
             return;
           }
 
-          // setGuide(response as Guide);
+          setGuide(response as Guide);
         } catch (error) {
           console.error(error);
           addNotification('Error fetching post. Please reload.');
@@ -53,76 +51,77 @@ export default function ViewPostPage({ params }: { params: { slug: string } }) {
   }, [slug, addNotification]);
 
   /**
-   * Fetch Post Content
+   * Fetch Guide Description Content
    */
   useEffect(() => {
     if (guide?.descriptionURL) {
       const fetchGuideContent = async () => {
         try {
-
           const response = await fetch(guide.descriptionURL);
           const content = await response.text();
-
           setDescription(content);
         } catch (error) {
           console.error('Error fetching post content:', error);
-        } finally {
-          setIsFetchingPostContent(false);
         }
       };
-
       fetchGuideContent();
     };
   }, [guide]);
+
+  /**
+   * Add View Count
+   */
+  useEffect(() => {
+    if (user) {
+      const addView = async () => {
+        try {
+          await addViewToGuide(slug, user.uid);
+        } catch (error) {
+          console.error('Error adding view: ', error);
+        }
+      }
+      addView();
+    }
+  }, [user])
 
 
   return (
     <LayoutDefault>
       <main className="pb-8">
         {guide && (
-          <div className="relative grid grid-cols-3 gap-4">
-            {/* Sticky Interactions for large Screen*/}
-            <div className="hidden md:block absolute left-0 transform translate-x-[-120%] top-0 h-full">
-              <PostInteractions layout="vert" postId={slug} />
-            </div>
+          <div className="grid grid-cols-3 gap-4">
+            <section className="col-span-3 md:col-span-2 ">
 
-            {/* Post Area */}
-            <section className="relative col-span-3 md:col-span-2 border border-hsl-l90 dark:border-hsl-l25 bg-hsl-l100 dark:bg-hsl-l15 rounded-xl">
-              {/* Banner Image */}
-              <div className="relative pb-[56.25%] border-b border-hsl-l90 dark:border-hsl-l25">
-                <p>image</p>
+              {/* Guide Video */}
+              <video className="w-full rounded-md" controls src={guide.videoURL} >
+                Your browser does not support the video tag.
+              </video>
+
+              {/* User Profile */}
+              <div className="flex items-center gap-x-2 mt-4 px-4" >
+                <ProfilePicture size="30" />
+                <Link href={`/profile/${guide.userId}`} className="font-medium text-hsl-l30 dark:text-hsl-l70 hover:text-mb-pink hover:dark:text-mb-yellow hover:underline">
+                  {guide.authorFirstName} {guide.authorLastName}
+                </Link>
               </div>
 
-              {/* Content Markdown & Code */}
-              <div className="px-4">
-                <h2 className="text-2xl font-semibold mt-8 mb-2">{guide.title}</h2>
-                <div className="flex items-center gap-4  mb-8">
-                  <ProfilePicture size="30" />
-                  <p className="text-hsl-l50 ">
-                    <Link href={`/profile/${guide.userId}`}
-                      className="hover:text-mb-pink hover:dark:text-mb-yellow hover:underline">
-                      {guide.authorFirstName} {guide.authorLastName}
-                    </Link> &#x2022; {guide.date}
-                  </p>
-
+              {/* View Count and Date */}
+              <div className="flex gap-x-4 my-2 items-center px-4">
+                <div className="flex items-center gap-x-2">
+                  <IconGeneral type="visible" className="fill-hsl-l50 dark:fill-hsl-l50" />
+                  <p className="font-medium text-sm text-hsl-l50">{guide.viewsCount} {guide.viewsCount === 1 ? 'View' : 'Views'}</p>
                 </div>
 
+                <p className="font-medium text-sm text-hsl-l50">{guide.date}</p>
+              </div>
+
+              {/* Title and Description */}
+              <div className="mt-4 px-4 py-4 border border-hsl-l90 dark:border-hsl-l25 bg-hsl-l100 dark:bg-hsl-l15 rounded-md">
+                <h2 className="text-2xl font-semibold">{guide.title}</h2>
+
                 <DynDisplayMarkdown id={'001X'} markdown={description} />
-
-              </div>
-
-              {/* Small Screen Interactions / Reactions */}
-              <div className="block md:hidden px-4 py-8 border-t border-hsl-l90 dark:border-hsl-l25">
-                <PostInteractions layout="horiz" postId={slug} />
-              </div>
-
-              {/* Comment Section */}
-              <div className="px-4 py-4 border-t border-hsl-l90 dark:border-hsl-l25">
-                <PostCommentSection postId={slug} />
               </div>
             </section>
-
-
           </div>
         )}
 

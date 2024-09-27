@@ -48,7 +48,7 @@ const ChatNavMenu: React.FC<ChatNavMenuProps> = ({ uid = '' }) => {
           <IconGeneral type="profile" className="fill-hsl-l30 dark:fill-hsl-l70" />
         </Link>
 
-        <Link href="/" className="hover:bg-hsl-l90 hover:dark:bg-hsl-l15 p-3 rounded-lg" title="Settings">
+        <Link href="/settings" className="hover:bg-hsl-l90 hover:dark:bg-hsl-l15 p-3 rounded-lg" title="Settings">
           <IconGeneral type="settings" className="fill-hsl-l30 dark:fill-hsl-l70" />
         </Link>
       </div>
