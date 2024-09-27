@@ -129,14 +129,9 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({ uid, onClose }) => {
         <p className="font-medium text-hsl-l30 dark:text-hsl-l70">Support Services</p>
       </a>
 
-      <Link href="/" className=" hover:bg-hsl-l90 hover:dark:bg-hsl-l20 px-2 py-1 my-1 flex items-center gap-2 rounded-md">
+      <Link href="/report" className=" hover:bg-hsl-l90 hover:dark:bg-hsl-l20 px-2 py-1 my-1 flex items-center gap-2 rounded-md">
         <IconGeneral type="report" className="fill-hsl-l30 dark:fill-hsl-l70" />
         <p className="font-medium text-hsl-l30 dark:text-hsl-l70">Report an Issue</p>
-      </Link>
-
-      <Link href="/" className=" hover:bg-hsl-l90 hover:dark:bg-hsl-l20 px-2 py-1 my-1 flex items-center gap-2 rounded-md">
-        <IconGeneral type="feedback" className="fill-hsl-l30 dark:fill-hsl-l70" />
-        <p className="font-medium text-hsl-l30 dark:text-hsl-l70">Provide Feedback</p>
       </Link>
 
       <div className="border-b border-hsl-l50 my-4"></div>

@@ -168,8 +168,6 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
         components,
       };
 
-      // Determine post path in db and init setPost
-      const dbPath = content.postType === 'question' ? 'POST_QUESTION' : 'POST_ARTICLE';
       const status = await updatePost(postData);
 
       // Set Message if exists

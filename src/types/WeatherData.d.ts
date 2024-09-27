@@ -8,7 +8,6 @@ export interface WeatherData {
     min: number;
     max: number;
   };
-  uvIndex: number;
   precipitation: {
     sum: number;
     probabilityMax: number;

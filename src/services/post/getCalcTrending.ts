@@ -30,14 +30,9 @@ const getReactionCount = async (postRef: any, reactionType: string): Promise<num
  */
 export default async function getCalcTrending(): Promise<Post[]> {
   try {
-    // Fetch posts from POST_QUESTION and POST_ARTICLE collections
-    const postsQuestionQuery = query(collection(db, 'POST_QUESTION'), orderBy('createdAt', 'desc'), limit(100));
-    const postsArticleQuery = query(collection(db, 'POST_ARTICLE'), orderBy('createdAt', 'desc'), limit(100));
-
-    const [postsQuestionSnapshot, postsArticleSnapshot] = await Promise.all([
-      getDocs(postsQuestionQuery),
-      getDocs(postsArticleQuery),
-    ]);
+    // Fetch the latest 100 posts from the POST collection
+    const postsQuery = query(collection(db, 'POST'), orderBy('createdAt', 'desc'), limit(100));
+    const postsSnapshot = await getDocs(postsQuery);
 
     const postsWithScores: Array<any> = [];
 
@@ -66,10 +61,10 @@ export default async function getCalcTrending(): Promise<Post[]> {
       }
     };
 
-    // Process posts from both question and article snapshots
-    await Promise.all([processPostSnapshot(postsQuestionSnapshot), processPostSnapshot(postsArticleSnapshot)]);
+    // Process posts from the snapshot
+    await processPostSnapshot(postsSnapshot);
 
-    // Sort posts by score and return top 10 trending posts
+    // Sort posts by score and return top 6 trending posts
     return postsWithScores.sort((a, b) => b.score - a.score).slice(0, 6);
   } catch (error) {
     throw error;

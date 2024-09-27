@@ -7,7 +7,7 @@ import { Location } from "@/types/Location";
  * @param loc 
  */
 export default async function getWeather(loc: Location): Promise<WeatherData> {
-  const apiKey = "a49d613c0b19a514ef915fb34b6f24de";
+  const apiKey = "a49d613c0b19a514ef915fb34b6f24de"; // I know this is exposed but it is free so it doesnt bother me!
   const { lat, lon } = loc;
   const baseUrl = "https://api.openweathermap.org/data/2.5/forecast";
 
@@ -40,7 +40,6 @@ export default async function getWeather(loc: Location): Promise<WeatherData> {
         min: closestForecast.main.temp_min,
         max: closestForecast.main.temp_max,
       },
-      uvIndex: closestForecast.uvi || 0,
       precipitation: {
         sum: closestForecast.rain?.['1h'] || 0,
         probabilityMax: closestForecast.pop || 0,

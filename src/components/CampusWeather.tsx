@@ -70,12 +70,10 @@ const CampusWeather = () => {
           </div>
           <div className="grid grid-cols-2 grid-rows-1">
             <div className="flex flex-col justify-end">
-              <p className="text-xs text-hsl-l50">UV Index:</p>
               <p className="text-xs text-hsl-l50">Precipitation: </p>
               <p className="text-xs text-hsl-l50">Wind Speed:</p>
             </div>
             <div className="flex flex-col justify-end">
-              <p className="text-xs text-hsl-l50">{weatherData[selectedLocation].uvIndex}</p>
               <p className="text-xs text-hsl-l50">{weatherData[selectedLocation].precipitation.sum} mm</p>
               <p className="text-xs text-hsl-l50">{weatherData[selectedLocation].windSpeed} m/s</p>
             </div>
