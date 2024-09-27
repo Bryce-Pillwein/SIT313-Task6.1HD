@@ -15,6 +15,11 @@ export default function Register() {
   const [error, setError] = useState("");
   const router = useRouter();
 
+  /**
+   * Handle Submit
+   * @param event 
+   * @returns 
+   */
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setError("");
