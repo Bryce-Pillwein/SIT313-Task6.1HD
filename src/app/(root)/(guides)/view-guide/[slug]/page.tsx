@@ -82,7 +82,7 @@ export default function ViewGuideVideoPlaybackPage({ params }: { params: { slug:
       }
       addView();
     }
-  }, [user])
+  }, [user, slug])
 
 
   return (

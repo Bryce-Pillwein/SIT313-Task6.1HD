@@ -15,13 +15,13 @@ export default function FAQPage() {
             <p className="text-hsl-l50 text-sm">Devs @ Deakin is a student portal designed to help users create and share articles, post questions, upload videos, and engage with the community. It also offers profile customisation and paid subscription options for additional features.</p>
 
             <h1 className="font-medium mt-6 text-lg">How do I create an article or post a question?</h1>
-            <p className="text-hsl-l50 text-sm">To create an article or post a question, simply log in to your account, navigate to the “Create” section, and choose between writing an article or asking a question. Fill in the required details, and hit "Submit" to share it with the community.</p>
+            <p className="text-hsl-l50 text-sm">To create an article or post a question, simply log in to your account, navigate to the &#34;Create&#34; section, and choose between writing an article or asking a question. Fill in the required details, and hit &#34;Submit&#34; to share it with the community.</p>
 
             <h1 className="font-medium mt-6 text-lg">Can I upload videos?</h1>
-            <p className="text-hsl-l50 text-sm">Yes, you you can upload videos in guides. Go to Post and "Upload Guide".</p>
+            <p className="text-hsl-l50 text-sm">Yes, you you can upload videos in guides. Go to Post and &#34;Upload Guide&#34;.</p>
 
             <h1>How can I customise my profile?</h1>
-            <p className="text-hsl-l50 text-sm">To customise your profile, go to the “Profile” section after logging in. You can update your profile picture, bio, contact information, and other personal details to reflect your personality and interests.</p>
+            <p className="text-hsl-l50 text-sm">To customise your profile, go to the &#34;Profile&#34; section after logging in. You can update your profile picture, bio, contact information, and other personal details to reflect your personality and interests.</p>
 
             <h1 className="font-medium mt-6 text-lg">What are the benefits of a paid subscription?</h1>
             <p className="text-hsl-l50 text-sm">A paid subscription unlocks additional features such as profile customisation and extra code blocks when creating posts.</p>
@@ -36,10 +36,10 @@ export default function FAQPage() {
             <p className="text-hsl-l50 text-sm">Yes, you can edit or delete your articles and question posts. Navigate to your posts, find the post you want to edit or delete, and click on the respective button to make the changes.</p>
 
             <h1 className="font-medium mt-6 text-lg">What should I do if I encounter inappropriate content?</h1>
-            <p className="text-hsl-l50 text-sm">If you encounter inappropriate content, click on the “Report” button available on the post or comment. Our moderation team will review the content and take appropriate action.</p>
+            <p className="text-hsl-l50 text-sm">If you encounter inappropriate content, click on the &#34;Report&#34; button available on the post or comment. Our moderation team will review the content and take appropriate action.</p>
 
             <h1 className="font-medium mt-6 text-lg">Can I link my Devs @ Deakin profile to my social media accounts?</h1>
-            <p className="text-hsl-l50 text-sm">Yes, you can link your profile to your social media accounts in the "Profile" section. This allows you to share your content directly to platforms like LinkedIn, Twitter, and Facebook.</p>
+            <p className="text-hsl-l50 text-sm">Yes, you can link your profile to your social media accounts in the &#34;Profile&#34; section. This allows you to share your content directly to platforms like LinkedIn, Twitter, and Facebook.</p>
 
           </div>
         </div>
