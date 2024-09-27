@@ -9,7 +9,7 @@ import { addDoc, collection } from "firebase/firestore";
  * @param message message
  * @returns status of response
  */
-export default async function setEnquiry(name: string, email: string, message: string): Promise<Status> {
+export default async function setEnquiry(name: string, email: string, message: string, type?: string): Promise<Status> {
   try {
     // Check user authentication
     if (!auth.currentUser) {
@@ -21,7 +21,7 @@ export default async function setEnquiry(name: string, email: string, message: s
       name: name,
       email: email,
       message: message,
-      type: 'enquiry'
+      type: type || 'enquiry'
     }
 
     // Add the enquiry to the 'REPORTS' collection in Firestore
