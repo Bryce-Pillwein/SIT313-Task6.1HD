@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { useNotification } from "@/components/providers/NotificationProvider";
@@ -20,6 +20,8 @@ function SearchPage() {
   const [searchResults, setSearchResults] = useState<Post[] | null>(null);
   const [visiblePost, setVisiblePost] = useState<Post[] | null>(null);
   const [isGridView, setIsGridView] = useState<boolean>(true);
+  const [isSearchExecuted, setIsSearchExecuted] = useState(false);
+
 
   /**
    * Search and Filter Posts
@@ -29,6 +31,8 @@ function SearchPage() {
   const handleSearch = async (searchTerm: string, searchType: string) => {
     setSearchResults(null);
     setVisiblePost(null);
+
+    console.log(searchTerm, searchType);
 
     try {
       const validSTerm = searchTerm.trim();
@@ -46,14 +50,22 @@ function SearchPage() {
   /**
    * Handle Search if via redirect
    */
-  useEffect(() => {
+  /**
+   * Handle Search if via redirect
+   */
+  const memoizedSearch = useCallback(() => {
     const searchTerm = searchParams.get('searchTerm')?.trim() || null;
     const searchType = searchParams.get('searchType')?.trim() || null;
 
-    if (searchTerm && searchType && handleSearch) {
-      handleSearch(searchTerm, searchType)
+    if (searchTerm && searchType && handleSearch && !isSearchExecuted) {
+      handleSearch(searchTerm, searchType);
+      setIsSearchExecuted(true); // Mark search as executed
     }
-  }, [searchParams, handleSearch])
+  }, [searchParams, handleSearch, isSearchExecuted]);
+
+  useEffect(() => {
+    memoizedSearch();
+  }, [memoizedSearch]);
 
   /**
    * Handle Unhide
